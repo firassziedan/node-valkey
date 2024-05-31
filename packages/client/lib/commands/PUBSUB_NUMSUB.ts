@@ -1,11 +1,11 @@
 import { pushVerdictArguments } from './generic-transformers';
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const IS_READ_ONLY = true;
 
 export function transformArguments(
-    channels?: Array<RedisCommandArgument> | RedisCommandArgument
-): RedisCommandArguments {
+    channels?: Array<ValkeyCommandArgument> | ValkeyCommandArgument
+): ValkeyCommandArguments {
     const args = ['PUBSUB', 'NUMSUB'];
 
     if (channels) return pushVerdictArguments(args, channels);

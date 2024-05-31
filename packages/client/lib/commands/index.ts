@@ -1,26 +1,26 @@
 import { ClientCommandOptions } from '../client';
 import { CommandOptions } from '../command-options';
-import { RedisScriptConfig, SHA1 } from '../lua-script';
+import { ValkeyScriptConfig, SHA1 } from '../lua-script';
 
-export type RedisCommandRawReply = string | number | Buffer | null | undefined | Array<RedisCommandRawReply>;
+export type ValkeyCommandRawReply = string | number | Buffer | null | undefined | Array<ValkeyCommandRawReply>;
 
-export type RedisCommandArgument = string | Buffer;
+export type ValkeyCommandArgument = string | Buffer;
 
-export type RedisCommandArguments = Array<RedisCommandArgument> & { preserve?: unknown };
+export type ValkeyCommandArguments = Array<ValkeyCommandArgument> & { preserve?: unknown };
 
-export interface RedisCommand {
-    FIRST_KEY_INDEX?: number | ((...args: Array<any>) => RedisCommandArgument | undefined);
+export interface ValkeyCommand {
+    FIRST_KEY_INDEX?: number | ((...args: Array<any>) => ValkeyCommandArgument | undefined);
     IS_READ_ONLY?: boolean;
     TRANSFORM_LEGACY_REPLY?: boolean;
-    transformArguments(this: void, ...args: Array<any>): RedisCommandArguments;
+    transformArguments(this: void, ...args: Array<any>): ValkeyCommandArguments;
     transformReply?(this: void, reply: any, preserved?: any): any;
 }
 
-export type RedisCommandReply<C extends RedisCommand> =
-    C['transformReply'] extends (...args: any) => infer T ? T : RedisCommandRawReply;
+export type ValkeyCommandReply<C extends ValkeyCommand> =
+    C['transformReply'] extends (...args: any) => infer T ? T : ValkeyCommandRawReply;
 
 export type ConvertArgumentType<Type, ToType> =
-    Type extends RedisCommandArgument ? (
+    Type extends ValkeyCommandArgument ? (
         Type extends (string & ToType) ? Type : ToType
     ) : (
         Type extends Set<infer Member> ? Set<ConvertArgumentType<Member, ToType>> : (
@@ -36,52 +36,52 @@ export type ConvertArgumentType<Type, ToType> =
         )
     );
 
-export type RedisCommandSignature<
-    Command extends RedisCommand,
+export type ValkeyCommandSignature<
+    Command extends ValkeyCommand,
     Params extends Array<unknown> = Parameters<Command['transformArguments']>
 > = <Options extends CommandOptions<ClientCommandOptions>>(
     ...args: Params | [options: Options, ...rest: Params]
 ) => Promise<
     ConvertArgumentType<
-        RedisCommandReply<Command>,
+        ValkeyCommandReply<Command>,
         Options['returnBuffers'] extends true ? Buffer : string
     >
 >;
 
-export interface RedisCommands {
-    [command: string]: RedisCommand;
+export interface ValkeyCommands {
+    [command: string]: ValkeyCommand;
 }
 
-export interface RedisModule {
-    [command: string]: RedisCommand;
+export interface ValkeyModule {
+    [command: string]: ValkeyCommand;
 }
 
-export interface RedisModules {
-    [module: string]: RedisModule;
+export interface ValkeyModules {
+    [module: string]: ValkeyModule;
 }
 
-export interface RedisFunction extends RedisCommand {
+export interface ValkeyFunction extends ValkeyCommand {
     NUMBER_OF_KEYS?: number;
 }
 
-export interface RedisFunctionLibrary {
-    [fn: string]: RedisFunction;
+export interface ValkeyFunctionLibrary {
+    [fn: string]: ValkeyFunction;
 }
 
-export interface RedisFunctions {
-    [library: string]: RedisFunctionLibrary;
+export interface ValkeyFunctions {
+    [library: string]: ValkeyFunctionLibrary;
 }
 
-export type RedisScript = RedisScriptConfig & SHA1;
+export type ValkeyScript = ValkeyScriptConfig & SHA1;
 
-export interface RedisScripts {
-    [script: string]: RedisScript;
+export interface ValkeyScripts {
+    [script: string]: ValkeyScript;
 }
 
-export interface RedisExtensions<
-    M extends RedisModules = RedisModules,
-    F extends RedisFunctions = RedisFunctions,
-    S extends RedisScripts = RedisScripts
+export interface ValkeyExtensions<
+    M extends ValkeyModules = ValkeyModules,
+    F extends ValkeyFunctions = ValkeyFunctions,
+    S extends ValkeyScripts = ValkeyScripts
 > {
     modules?: M;
     functions?: F;

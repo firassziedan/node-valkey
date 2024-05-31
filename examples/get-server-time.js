@@ -1,6 +1,6 @@
-// Get the time from the Redis Server.
+// Get the time from the Valkey Server.
 
-import { createClient } from 'redis';
+import { createClient } from 'valkey';
 
 const client = createClient();
 await client.connect();

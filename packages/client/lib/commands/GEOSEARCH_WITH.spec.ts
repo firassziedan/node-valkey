@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert';
 import testUtils, { GLOBAL } from '../test-utils';
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 import { GeoReplyWith } from './generic-transformers';
 import { transformArguments } from './GEOSEARCH_WITH';
 
@@ -8,7 +8,7 @@ describe('GEOSEARCH WITH', () => {
     testUtils.isVersionGreaterThanHook([6, 2]);
 
     it('transformArguments', () => {
-        const expectedReply: RedisCommandArguments = ['GEOSEARCH', 'key', 'FROMMEMBER', 'member', 'BYRADIUS', '1', 'm', 'WITHDIST'];
+        const expectedReply: ValkeyCommandArguments = ['GEOSEARCH', 'key', 'FROMMEMBER', 'member', 'BYRADIUS', '1', 'm', 'WITHDIST'];
         expectedReply.preserve = ['WITHDIST'];
 
         assert.deepEqual(

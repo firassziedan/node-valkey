@@ -1,6 +1,6 @@
 // A sample stream producer using XADD.
-// https://redis.io/commands/xadd/
-import { createClient } from 'redis';
+// https://valkey.io/commands/xadd/
+import { createClient } from 'valkey';
 
 const client = createClient();
 
@@ -9,7 +9,7 @@ await client.connect();
 for (let i = 0; i < 10000; i++) {
   await client.xAdd(
     'mystream',
-    '*', // * = Let Redis generate a timestamp ID for this new entry.
+    '*', // * = Let Valkey generate a timestamp ID for this new entry.
     // Payload to add to the stream:
     {
       i: i.toString()
@@ -19,10 +19,10 @@ for (let i = 0; i < 10000; i++) {
 
   // Also add to a stream whose length we will cap at approximately
   // 1000 entries using the MAXLEN trimming strategy:
-  // https://redis.io/commands/xadd/
+  // https://valkey.io/commands/xadd/
 
   await client.xAdd(
-    'mytrimmedstream', 
+    'mytrimmedstream',
     '*',
     // Payload to add to the stream:
     {
@@ -41,7 +41,7 @@ for (let i = 0; i < 10000; i++) {
 }
 
 // Take a look at how many entries are in the streams...
-// https://redis.io/commands/xlen/
+// https://valkey.io/commands/xlen/
 // Should be 10000:
 console.log(`Length of mystream: ${await client.xLen('mystream')}.`);
 // Should be approximately 1000:

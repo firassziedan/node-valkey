@@ -1,12 +1,12 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformArguments as transformZPopMaxArguments } from './ZPOPMAX';
 
 export { FIRST_KEY_INDEX } from './ZPOPMAX';
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     count: number
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return [
         ...transformZPopMaxArguments(key),
         count.toString()

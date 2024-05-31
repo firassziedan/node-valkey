@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -10,11 +10,11 @@ interface RestoreOptions {
 }
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     ttl: number,
-    serializedValue: RedisCommandArgument,
+    serializedValue: ValkeyCommandArgument,
     options?: RestoreOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args =  ['RESTORE', key, ttl.toString(), serializedValue];
 
     if (options?.REPLACE) {

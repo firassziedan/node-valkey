@@ -1,6 +1,6 @@
 // This example demonstrates the use of the DUMP and RESTORE commands
 
-import { commandOptions, createClient } from 'redis';
+import { commandOptions, createClient } from 'valkey';
 
 const client = createClient();
 await client.connect();

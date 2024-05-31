@@ -1,6 +1,6 @@
 import * as LinkedList from 'yallist';
 import { AbortError, ErrorReply } from '../errors';
-import { RedisCommandArguments, RedisCommandRawReply } from '../commands';
+import { ValkeyCommandArguments, ValkeyCommandRawReply } from '../commands';
 import RESP2Decoder from './RESP2/decoder';
 import encodeCommand from './RESP2/encoder';
 import { ChannelListeners, PubSub, PubSubCommand, PubSubListener, PubSubType, PubSubTypeListeners } from './pub-sub';
@@ -13,7 +13,7 @@ export interface QueueCommandOptions {
 }
 
 export interface CommandWaitingToBeSent extends CommandWaitingForReply {
-    args: RedisCommandArguments;
+    args: ValkeyCommandArguments;
     chainId?: symbol;
     abort?: {
         signal: AbortSignal;
@@ -32,7 +32,7 @@ const PONG = Buffer.from('pong');
 
 export type OnShardedChannelMoved = (channel: string, listeners: ChannelListeners) => void;
 
-export default class RedisCommandsQueue {
+export default class ValkeyCommandsQueue {
     static #flushQueue<T extends CommandWaitingForReply>(queue: LinkedList<T>, err: Error): void {
         while (queue.length) {
             queue.shift()!.reject(err);
@@ -104,7 +104,7 @@ export default class RedisCommandsQueue {
         this.#onShardedChannelMoved = onShardedChannelMoved;
     }
 
-    addCommand<T = RedisCommandRawReply>(args: RedisCommandArguments, options?: QueueCommandOptions): Promise<T> {
+    addCommand<T = ValkeyCommandRawReply>(args: ValkeyCommandArguments, options?: QueueCommandOptions): Promise<T> {
         if (this.#maxLength && this.#waitingToBeSent.length + this.#waitingForReply.length >= this.#maxLength) {
             return Promise.reject(new Error('The queue is full'));
         } else if (options?.signal?.aborted) {
@@ -214,11 +214,11 @@ export default class RedisCommandsQueue {
         });
     }
 
-    getCommandToSend(): RedisCommandArguments | undefined {
+    getCommandToSend(): ValkeyCommandArguments | undefined {
         const toSend = this.#waitingToBeSent.shift();
         if (!toSend) return;
 
-        let encoded: RedisCommandArguments;
+        let encoded: ValkeyCommandArguments;
         try {
             encoded = encodeCommand(toSend.args);
         } catch (err) {
@@ -243,7 +243,7 @@ export default class RedisCommandsQueue {
     flushWaitingForReply(err: Error): void {
         this.#decoder.reset();
         this.#pubSub.reset();
-        RedisCommandsQueue.#flushQueue(this.#waitingForReply, err);
+        ValkeyCommandsQueue.#flushQueue(this.#waitingForReply, err);
 
         if (!this.#chainInExecution) return;
 
@@ -257,7 +257,7 @@ export default class RedisCommandsQueue {
     flushAll(err: Error): void {
         this.#decoder.reset();
         this.#pubSub.reset();
-        RedisCommandsQueue.#flushQueue(this.#waitingForReply, err);
-        RedisCommandsQueue.#flushQueue(this.#waitingToBeSent, err);
+        ValkeyCommandsQueue.#flushQueue(this.#waitingForReply, err);
+        ValkeyCommandsQueue.#flushQueue(this.#waitingToBeSent, err);
     }
 }

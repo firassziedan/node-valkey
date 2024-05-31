@@ -1,20 +1,20 @@
 
 import { ClientCommandOptions } from './client';
 import { CommandOptions, isCommandOptions } from './command-options';
-import { RedisCommand, RedisCommandArgument, RedisCommandArguments, RedisCommandReply, RedisFunction, RedisFunctions, RedisModules, RedisScript, RedisScripts } from './commands';
+import { ValkeyCommand, ValkeyCommandArgument, ValkeyCommandArguments, ValkeyCommandReply, ValkeyFunction, ValkeyFunctions, ValkeyModules, ValkeyScript, ValkeyScripts } from './commands';
 
 type Instantiable<T = any> = new (...args: Array<any>) => T;
 
-type CommandsExecutor<C extends RedisCommand = RedisCommand> =
+type CommandsExecutor<C extends ValkeyCommand = ValkeyCommand> =
     (command: C, args: Array<unknown>, name: string) => unknown;
 
-interface AttachCommandsConfig<C extends RedisCommand> {
+interface AttachCommandsConfig<C extends ValkeyCommand> {
     BaseClass: Instantiable;
     commands: Record<string, C>;
     executor: CommandsExecutor<C>;
 }
 
-export function attachCommands<C extends RedisCommand>({
+export function attachCommands<C extends ValkeyCommand>({
     BaseClass,
     commands,
     executor
@@ -29,11 +29,11 @@ export function attachCommands<C extends RedisCommand>({
 interface AttachExtensionsConfig<T extends Instantiable = Instantiable> {
     BaseClass: T;
     modulesExecutor: CommandsExecutor;
-    modules?: RedisModules;
-    functionsExecutor: CommandsExecutor<RedisFunction>;
-    functions?: RedisFunctions;
-    scriptsExecutor: CommandsExecutor<RedisScript>;
-    scripts?: RedisScripts;
+    modules?: ValkeyModules;
+    functionsExecutor: CommandsExecutor<ValkeyFunction>;
+    functions?: ValkeyFunctions;
+    scriptsExecutor: CommandsExecutor<ValkeyScript>;
+    scripts?: ValkeyScripts;
 }
 
 export function attachExtensions(config: AttachExtensionsConfig): any {
@@ -67,13 +67,13 @@ export function attachExtensions(config: AttachExtensionsConfig): any {
     return Commander ?? config.BaseClass;
 }
 
-interface AttachWithNamespacesConfig<C extends RedisCommand> {
+interface AttachWithNamespacesConfig<C extends ValkeyCommand> {
     BaseClass: Instantiable;
     namespaces: Record<string, Record<string, C>>;
     executor: CommandsExecutor<C>;
 }
 
-function attachWithNamespaces<C extends RedisCommand>({
+function attachWithNamespaces<C extends ValkeyCommand>({
     BaseClass,
     namespaces,
     executor
@@ -105,11 +105,11 @@ function attachWithNamespaces<C extends RedisCommand>({
 }
 
 export function transformCommandArguments<T = ClientCommandOptions>(
-    command: RedisCommand,
+    command: ValkeyCommand,
     args: Array<unknown>
 ): {
     jsArgs: Array<unknown>;
-    args: RedisCommandArguments;
+    args: ValkeyCommandArguments;
     options: CommandOptions<T> | undefined;
 } {
     let options;
@@ -133,24 +133,24 @@ export function transformLegacyCommandArguments(args: Array<any>): Array<any> {
     });
 }
 
-export function transformCommandReply<C extends RedisCommand>(
+export function transformCommandReply<C extends ValkeyCommand>(
     command: C,
     rawReply: unknown,
     preserved: unknown
-): RedisCommandReply<C> {
+): ValkeyCommandReply<C> {
     if (!command.transformReply) {
-        return rawReply as RedisCommandReply<C>;
+        return rawReply as ValkeyCommandReply<C>;
     }
 
     return command.transformReply(rawReply, preserved);
 }
 
 export function fCallArguments(
-    name: RedisCommandArgument,
-    fn: RedisFunction,
-    args: RedisCommandArguments
-): RedisCommandArguments {
-    const actualArgs: RedisCommandArguments = [
+    name: ValkeyCommandArgument,
+    fn: ValkeyFunction,
+    args: ValkeyCommandArguments
+): ValkeyCommandArguments {
+    const actualArgs: ValkeyCommandArguments = [
         fn.IS_READ_ONLY ? 'FCALL_RO' : 'FCALL',
         name
     ];

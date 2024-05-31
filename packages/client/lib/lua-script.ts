@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
-import { RedisCommand } from './commands';
+import { ValkeyCommand } from './commands';
 
-export interface RedisScriptConfig extends RedisCommand {
+export interface ValkeyScriptConfig extends ValkeyCommand {
     SCRIPT: string;
     NUMBER_OF_KEYS?: number;
 }
@@ -10,7 +10,7 @@ export interface SHA1 {
     SHA1: string;
 }
 
-export function defineScript<S extends RedisScriptConfig>(script: S): S & SHA1 {
+export function defineScript<S extends ValkeyScriptConfig>(script: S): S & SHA1 {
     return {
         ...script,
         SHA1: scriptSha1(script.SCRIPT)

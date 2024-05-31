@@ -1,13 +1,13 @@
 import { strict as assert } from 'assert';
 import testUtils, { GLOBAL, waitTillBeenCalled } from '../test-utils';
-import RedisCluster from '.';
+import ValkeyCluster from '.';
 import { ClusterSlotStates } from '../commands/CLUSTER_SETSLOT';
 import { commandOptions } from '../command-options';
 import { SQUARE_SCRIPT } from '../client/index.spec';
 import { RootNodesUnavailableError } from '../errors';
 import { spy } from 'sinon';
 import { promiseTimeout } from '../utils';
-import RedisClient from '../client';
+import ValkeyClient from '../client';
 
 describe('Cluster', () => {
     testUtils.testWithCluster('sendCommand', async cluster => {
@@ -53,7 +53,7 @@ describe('Cluster', () => {
     });
 
     it('should throw RootNodesUnavailableError', async () => {
-        const cluster = RedisCluster.create({
+        const cluster = ValkeyCluster.create({
             rootNodes: []
         });
 
@@ -155,7 +155,7 @@ describe('Cluster', () => {
         assert.ok(Array.isArray(masters));
         for (const master of masters) {
             assert.equal(typeof master.id, 'string');
-            assert.ok(master.client instanceof RedisClient);
+            assert.ok(master.client instanceof ValkeyClient);
         }
     }, {
         ...GLOBAL.CLUSTERS.OPEN,
@@ -167,7 +167,7 @@ describe('Cluster', () => {
     testUtils.testWithCluster('getSlotMaster should be backwards competiable (without `minimizeConnections`)', async cluster => {
         const master = cluster.getSlotMaster(0);
         assert.equal(typeof master.id, 'string');
-        assert.ok(master.client instanceof RedisClient);
+        assert.ok(master.client instanceof ValkeyClient);
     }, {
         ...GLOBAL.CLUSTERS.OPEN,
         clusterConfiguration: {
@@ -197,7 +197,7 @@ describe('Cluster', () => {
     describe('minimizeConnections', () => {
         testUtils.testWithCluster('false', async cluster => {
             for (const master of cluster.masters) {
-                assert.ok(master.client instanceof RedisClient);
+                assert.ok(master.client instanceof ValkeyClient);
             }
         }, {
             ...GLOBAL.CLUSTERS.OPEN,

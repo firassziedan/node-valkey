@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -11,9 +11,9 @@ interface BitCountRange {
 }
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     range?: BitCountRange
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['BITCOUNT', key];
 
     if (range) {

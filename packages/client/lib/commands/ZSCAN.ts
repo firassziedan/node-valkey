@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { ScanOptions, transformNumberInfinityReply, pushScanArguments, ZMember } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -6,17 +6,17 @@ export const FIRST_KEY_INDEX = 1;
 export const IS_READ_ONLY = true;
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     cursor: number,
     options?: ScanOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return pushScanArguments([
         'ZSCAN',
         key
     ], cursor, options);
 }
 
-type ZScanRawReply = [RedisCommandArgument, Array<RedisCommandArgument>];
+type ZScanRawReply = [ValkeyCommandArgument, Array<ValkeyCommandArgument>];
 
 interface ZScanReply {
     cursor: number;

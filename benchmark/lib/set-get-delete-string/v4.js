@@ -1,4 +1,4 @@
-import { createClient } from '@redis/client';
+import { createClient } from 'valkey-client';
 
 export default async (host, { randomString }) => {
     const client = createClient({

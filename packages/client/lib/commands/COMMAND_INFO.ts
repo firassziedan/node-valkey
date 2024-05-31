@@ -1,9 +1,9 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 import { CommandRawReply, CommandReply, transformCommandReply } from './generic-transformers';
 
 export const IS_READ_ONLY = true;
 
-export function transformArguments(commands: Array<string>): RedisCommandArguments {
+export function transformArguments(commands: Array<string>): ValkeyCommandArguments {
     return ['COMMAND', 'INFO', ...commands];
 }
 

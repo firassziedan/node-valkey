@@ -4,7 +4,7 @@ import BufferComposer from './composers/buffer';
 import StringComposer from './composers/string';
 
 // RESP2 specification
-// https://redis.io/topics/protocol
+// https://valkey.io/topics/protocol
 
 enum Types {
     SIMPLE_STRING = 43, // +

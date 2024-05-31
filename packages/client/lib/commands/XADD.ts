@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -13,11 +13,11 @@ interface XAddOptions {
 }
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    id: RedisCommandArgument,
-    message: Record<string, RedisCommandArgument>,
+    key: ValkeyCommandArgument,
+    id: ValkeyCommandArgument,
+    message: Record<string, ValkeyCommandArgument>,
     options?: XAddOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['XADD', key];
 
     if (options?.NOMKSTREAM) {

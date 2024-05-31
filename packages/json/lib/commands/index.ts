@@ -70,25 +70,25 @@ export default {
 
 // https://github.com/Microsoft/TypeScript/issues/3496#issuecomment-128553540
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface RedisJSONArray extends Array<RedisJSON> {}
-interface RedisJSONObject {
-    [key: string]: RedisJSON;
-    [key: number]: RedisJSON;
+interface ValkeyJSONArray extends Array<ValkeyJSON> {}
+interface ValkeyJSONObject {
+    [key: string]: ValkeyJSON;
+    [key: number]: ValkeyJSON;
 }
-export type RedisJSON = null | boolean | number | string | Date | RedisJSONArray | RedisJSONObject;
+export type ValkeyJSON = null | boolean | number | string | Date | ValkeyJSONArray | ValkeyJSONObject;
 
-export function transformRedisJsonArgument(json: RedisJSON): string {
+export function transformValkeyJsonArgument(json: ValkeyJSON): string {
     return JSON.stringify(json);
 }
 
-export function transformRedisJsonReply(json: string): RedisJSON {
+export function transformValkeyJsonReply(json: string): ValkeyJSON {
     return JSON.parse(json);
 }
 
-export function transformRedisJsonNullReply(json: string | null): RedisJSON | null {
+export function transformValkeyJsonNullReply(json: string | null): ValkeyJSON | null {
     if (json === null) return null;
 
-    return transformRedisJsonReply(json);
+    return transformValkeyJsonReply(json);
 }
 
 export function transformNumbersReply(reply: string): number | Array<number> {

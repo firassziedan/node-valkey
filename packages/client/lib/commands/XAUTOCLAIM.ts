@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { StreamMessagesNullReply, transformStreamMessagesNullReply } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -8,13 +8,13 @@ export interface XAutoClaimOptions {
 }
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    group: RedisCommandArgument,
-    consumer: RedisCommandArgument,
+    key: ValkeyCommandArgument,
+    group: ValkeyCommandArgument,
+    consumer: ValkeyCommandArgument,
     minIdleTime: number,
     start: string,
     options?: XAutoClaimOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['XAUTOCLAIM', key, group, consumer, minIdleTime.toString(), start];
 
     if (options?.COUNT) {
@@ -24,10 +24,10 @@ export function transformArguments(
     return args;
 }
 
-type XAutoClaimRawReply = [RedisCommandArgument, Array<any>];
+type XAutoClaimRawReply = [ValkeyCommandArgument, Array<any>];
 
 interface XAutoClaimReply {
-    nextId: RedisCommandArgument;
+    nextId: ValkeyCommandArgument;
     messages: StreamMessagesNullReply;
 }
 

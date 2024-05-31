@@ -1,7 +1,7 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
-export function transformArguments(message?: RedisCommandArgument): RedisCommandArguments {
-    const args: RedisCommandArguments = ['PING'];
+export function transformArguments(message?: ValkeyCommandArgument): ValkeyCommandArguments {
+    const args: ValkeyCommandArguments = ['PING'];
     if (message) {
         args.push(message);
     }
@@ -9,4 +9,4 @@ export function transformArguments(message?: RedisCommandArgument): RedisCommand
     return args;
 }
 
-export declare function transformReply(): RedisCommandArgument;
+export declare function transformReply(): ValkeyCommandArgument;

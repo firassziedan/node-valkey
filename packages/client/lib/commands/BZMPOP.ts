@@ -1,14 +1,14 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { SortedSetSide, transformZMPopArguments, ZMPopOptions } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 3;
 
 export function transformArguments(
     timeout: number,
-    keys: RedisCommandArgument | Array<RedisCommandArgument>,
+    keys: ValkeyCommandArgument | Array<ValkeyCommandArgument>,
     side: SortedSetSide,
     options?: ZMPopOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return transformZMPopArguments(
         ['BZMPOP', timeout.toString()],
         keys,

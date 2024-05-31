@@ -1,24 +1,24 @@
-# @redis/json
+# valkey-json
 
-This package provides support for the [RedisJSON](https://redis.io/docs/stack/json/) module, which adds JSON as a native data type to Redis.  It extends the [Node Redis client](https://github.com/redis/node-redis) to include functions for each of the RedisJSON commands.
+This package provides support for the [ValkeyJSON](https://valkey.io/docs/stack/json/) module, which adds JSON as a native data type to Valkey.  It extends the [Node Valkey client](https://github.com/valkey/node-valkey) to include functions for each of the ValkeyJSON commands.
 
-To use these extra commands, your Redis server must have the RedisJSON module installed.
+To use these extra commands, your Valkey server must have the ValkeyJSON module installed.
 
 ## Usage
 
-For a complete example, see [`managing-json.js`](https://github.com/redis/node-redis/blob/master/examples/managing-json.js) in the Node Redis examples folder.
+For a complete example, see [`managing-json.js`](https://github.com/valkey/node-valkey/blob/master/examples/managing-json.js) in the Node Valkey examples folder.
 
-### Storing JSON Documents in Redis
+### Storing JSON Documents in Valkey
 
-The [`JSON.SET`](https://redis.io/commands/json.set/) command stores a JSON value at a given JSON Path in a Redis key.
+The [`JSON.SET`](https://valkey.io/commands/json.set/) command stores a JSON value at a given JSON Path in a Valkey key.
 
-Here, we'll store a JSON document in the root of the Redis key "`mydoc`":
+Here, we'll store a JSON document in the root of the Valkey key "`mydoc`":
 
 ```javascript
-import { createClient } from 'redis';
+import { createClient } from 'valkey';
 
 ...
-await client.json.set('noderedis:jsondata', '$', {
+await client.json.set('nodevalkey:jsondata', '$', {
   name: 'Roberta McDonald',
   pets: [
     {
@@ -37,14 +37,14 @@ await client.json.set('noderedis:jsondata', '$', {
 });
 ```
 
-For more information about RedisJSON's path syntax, [check out the documentation](https://redis.io/docs/stack/json/path/).
+For more information about ValkeyJSON's path syntax, [check out the documentation](https://valkey.io/docs/stack/json/path/).
 
-### Retrieving JSON Documents from Redis
+### Retrieving JSON Documents from Valkey
 
-With RedisJSON, we can retrieve all or part(s) of a JSON document using the [`JSON.GET`](https://redis.io/commands/json.get/) command and one or more JSON Paths.  Let's get the name and age of one of the pets:
+With ValkeyJSON, we can retrieve all or part(s) of a JSON document using the [`JSON.GET`](https://valkey.io/commands/json.get/) command and one or more JSON Paths.  Let's get the name and age of one of the pets:
 
 ```javascript
-const results = await client.json.get('noderedis:jsondata', {
+const results = await client.json.get('nodevalkey:jsondata', {
   path: [
     '.pets[1].name',
     '.pets[1].age'
@@ -58,20 +58,20 @@ const results = await client.json.get('noderedis:jsondata', {
  { '.pets[1].name': 'Goldie', '.pets[1].age': 2 }
 ```
 
-### Performing Atomic Updates on JSON Documents Stored in Redis
+### Performing Atomic Updates on JSON Documents Stored in Valkey
 
-RedisJSON includes commands that can atomically update values in a JSON document, in place in Redis without having to first retrieve the entire document.
+ValkeyJSON includes commands that can atomically update values in a JSON document, in place in Valkey without having to first retrieve the entire document.
 
-Using the [`JSON.NUMINCRBY`](https://redis.io/commands/json.numincrby/) command, we can update the age of one of the pets like this:
+Using the [`JSON.NUMINCRBY`](https://valkey.io/commands/json.numincrby/) command, we can update the age of one of the pets like this:
 
 ```javascript
-await client.json.numIncrBy('noderedis:jsondata', '.pets[1].age', 1);
+await client.json.numIncrBy('nodevalkey:jsondata', '.pets[1].age', 1);
 ```
 
-And we can add a new object to the pets array with the [`JSON.ARRAPPEND`](https://redis.io/commands/json.arrappend/) command:
+And we can add a new object to the pets array with the [`JSON.ARRAPPEND`](https://valkey.io/commands/json.arrappend/) command:
 
 ```javascript
-await client.json.arrAppend('noderedis:jsondata', '.pets', {
+await client.json.arrAppend('nodevalkey:jsondata', '.pets', {
   name: 'Robin',
   species: 'bird',
   age: 1,

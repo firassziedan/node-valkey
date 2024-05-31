@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export function transformBooleanReply(reply: number): boolean {
     return reply === 1;
@@ -16,10 +16,10 @@ export interface ScanOptions {
 }
 
 export function pushScanArguments(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     cursor: number,
     options?: ScanOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     args.push(cursor.toString());
 
     if (options?.MATCH) {
@@ -33,7 +33,7 @@ export function pushScanArguments(
     return args;
 }
 
-export function transformNumberInfinityReply(reply: RedisCommandArgument): number {
+export function transformNumberInfinityReply(reply: ValkeyCommandArgument): number {
     switch (reply.toString()) {
         case '+inf':
             return Infinity;
@@ -46,13 +46,13 @@ export function transformNumberInfinityReply(reply: RedisCommandArgument): numbe
     }
 }
 
-export function transformNumberInfinityNullReply(reply: RedisCommandArgument | null): number | null {
+export function transformNumberInfinityNullReply(reply: ValkeyCommandArgument | null): number | null {
     if (reply === null) return null;
 
     return transformNumberInfinityReply(reply);
 }
 
-export function transformNumberInfinityNullArrayReply(reply: Array<RedisCommandArgument | null>): Array<number | null> {
+export function transformNumberInfinityNullArrayReply(reply: Array<ValkeyCommandArgument | null>): Array<number | null> {
     return reply.map(transformNumberInfinityNullReply);
 }
 
@@ -69,15 +69,15 @@ export function transformNumberInfinityArgument(num: number): string {
     }
 }
 
-export function transformStringNumberInfinityArgument(num: RedisCommandArgument | number): RedisCommandArgument {
+export function transformStringNumberInfinityArgument(num: ValkeyCommandArgument | number): ValkeyCommandArgument {
     if (typeof num !== 'number') return num;
 
     return transformNumberInfinityArgument(num);
 }
 
 export function transformTuplesReply(
-    reply: Array<RedisCommandArgument>
-): Record<string, RedisCommandArgument> {
+    reply: Array<ValkeyCommandArgument>
+): Record<string, ValkeyCommandArgument> {
     const message = Object.create(null);
 
     for (let i = 0; i < reply.length; i += 2) {
@@ -88,8 +88,8 @@ export function transformTuplesReply(
 }
 
 export interface StreamMessageReply {
-    id: RedisCommandArgument;
-    message: Record<string, RedisCommandArgument>;
+    id: ValkeyCommandArgument;
+    message: Record<string, ValkeyCommandArgument>;
 }
 
 export function transformStreamMessageReply([id, message]: Array<any>): StreamMessageReply {
@@ -116,7 +116,7 @@ export function transformStreamMessagesNullReply(reply: Array<any>): StreamMessa
 }
 
 export type StreamsMessagesReply = Array<{
-    name: RedisCommandArgument;
+    name: ValkeyCommandArgument;
     messages: StreamMessagesReply;
 }> | null;
 
@@ -131,11 +131,11 @@ export function transformStreamsMessagesReply(reply: Array<any> | null): Streams
 
 export interface ZMember {
     score: number;
-    value: RedisCommandArgument;
+    value: ValkeyCommandArgument;
 }
 
 export function transformSortedSetMemberNullReply(
-    reply: [RedisCommandArgument, RedisCommandArgument] | []
+    reply: [ValkeyCommandArgument, ValkeyCommandArgument] | []
 ): ZMember | null {
     if (!reply.length) return null;
 
@@ -143,7 +143,7 @@ export function transformSortedSetMemberNullReply(
 }
 
 export function transformSortedSetMemberReply(
-    reply: [RedisCommandArgument, RedisCommandArgument]
+    reply: [ValkeyCommandArgument, ValkeyCommandArgument]
 ): ZMember {
     return {
         value: reply[0],
@@ -151,7 +151,7 @@ export function transformSortedSetMemberReply(
     };
 }
 
-export function transformSortedSetWithScoresReply(reply: Array<RedisCommandArgument>): Array<ZMember> {
+export function transformSortedSetWithScoresReply(reply: Array<ValkeyCommandArgument>): Array<ZMember> {
     const members = [];
 
     for (let i = 0; i < reply.length; i += 2) {
@@ -171,11 +171,11 @@ export interface ZMPopOptions {
 }
 
 export function transformZMPopArguments(
-    args: RedisCommandArguments,
-    keys: RedisCommandArgument | Array<RedisCommandArgument>,
+    args: ValkeyCommandArguments,
+    keys: ValkeyCommandArgument | Array<ValkeyCommandArgument>,
     side: SortedSetSide,
     options?: ZMPopOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     pushVerdictArgument(args, keys);
 
     args.push(side);
@@ -194,11 +194,11 @@ export interface LMPopOptions {
 }
 
 export function transformLMPopArguments(
-    args: RedisCommandArguments,
-    keys: RedisCommandArgument | Array<RedisCommandArgument>,
+    args: ValkeyCommandArguments,
+    keys: ValkeyCommandArgument | Array<ValkeyCommandArgument>,
     side: ListSide,
     options?: LMPopOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     pushVerdictArgument(args, keys);
 
     args.push(side);
@@ -216,9 +216,9 @@ type GeoCountArgument = number | {
 };
 
 export function pushGeoCountArgument(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     count: GeoCountArgument | undefined
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     if (typeof count === 'number') {
         args.push('COUNT', count.toString());
     } else if (count) {
@@ -262,12 +262,12 @@ export interface GeoSearchOptions {
 }
 
 export function pushGeoSearchArguments(
-    args: RedisCommandArguments,
-    key: RedisCommandArgument,
+    args: ValkeyCommandArguments,
+    key: ValkeyCommandArgument,
     from: GeoSearchFrom,
     by: GeoSearchBy,
     options?: GeoSearchOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     args.push(key);
 
     if (typeof from === 'string') {
@@ -294,13 +294,13 @@ export function pushGeoSearchArguments(
 }
 
 export function pushGeoRadiusArguments(
-    args: RedisCommandArguments,
-    key: RedisCommandArgument,
+    args: ValkeyCommandArguments,
+    key: ValkeyCommandArgument,
     from: GeoSearchFrom,
     radius: number,
     unit: GeoUnits,
     options?: GeoSearchOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     args.push(key);
 
     if (typeof from === 'string') {
@@ -331,14 +331,14 @@ export interface GeoRadiusStoreOptions extends GeoSearchOptions {
 }
 
 export function pushGeoRadiusStoreArguments(
-    args: RedisCommandArguments,
-    key: RedisCommandArgument,
+    args: ValkeyCommandArguments,
+    key: ValkeyCommandArgument,
     from: GeoSearchFrom,
     radius: number,
     unit: GeoUnits,
-    destination: RedisCommandArgument,
+    destination: ValkeyCommandArgument,
     options?: GeoRadiusStoreOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     pushGeoRadiusArguments(args, key, from, radius, unit, options);
 
     if (options?.STOREDIST) {
@@ -433,9 +433,9 @@ export function pushEvalArguments(args: Array<string>, options?: EvalOptions): A
     return args;
 }
 
-export function pushVerdictArguments(args: RedisCommandArguments, value: RedisCommandArgument | Array<RedisCommandArgument>): RedisCommandArguments  {
+export function pushVerdictArguments(args: ValkeyCommandArguments, value: ValkeyCommandArgument | Array<ValkeyCommandArgument>): ValkeyCommandArguments  {
     if (Array.isArray(value)) {
-        // https://github.com/redis/node-redis/pull/2160
+        // https://github.com/valkey/node-valkey/pull/2160
         args = args.concat(value);
     } else {
         args.push(value);
@@ -445,9 +445,9 @@ export function pushVerdictArguments(args: RedisCommandArguments, value: RedisCo
 }
 
 export function pushVerdictNumberArguments(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     value: number | Array<number>
-): RedisCommandArguments  {
+): ValkeyCommandArguments  {
     if (Array.isArray(value)) {
         for (const item of value) {
             args.push(item.toString());
@@ -460,9 +460,9 @@ export function pushVerdictNumberArguments(
 }
 
 export function pushVerdictArgument(
-    args: RedisCommandArguments,
-    value: RedisCommandArgument | Array<RedisCommandArgument>
-): RedisCommandArguments {
+    args: ValkeyCommandArguments,
+    value: ValkeyCommandArgument | Array<ValkeyCommandArgument>
+): ValkeyCommandArguments {
     if (Array.isArray(value)) {
         args.push(value.length.toString(), ...value);
     } else {
@@ -473,10 +473,10 @@ export function pushVerdictArgument(
 }
 
 export function pushOptionalVerdictArgument(
-    args: RedisCommandArguments,
-    name: RedisCommandArgument,
-    value: undefined | RedisCommandArgument | Array<RedisCommandArgument>
-): RedisCommandArguments {
+    args: ValkeyCommandArguments,
+    name: ValkeyCommandArgument,
+    value: undefined | ValkeyCommandArgument | Array<ValkeyCommandArgument>
+): ValkeyCommandArguments {
     if (value === undefined) return args;
 
     args.push(name);
@@ -560,7 +560,7 @@ export function transformCommandReply(
     };
 }
 
-export enum RedisFunctionFlags {
+export enum ValkeyFunctionFlags {
     NO_WRITES = 'no-writes',
     ALLOW_OOM = 'allow-oom',
     ALLOW_STALE = 'allow-stale',
@@ -579,7 +579,7 @@ export type FunctionListRawItemReply = [
         'description',
         string | null,
         'flags',
-        Array<RedisFunctionFlags>
+        Array<ValkeyFunctionFlags>
     ]>
 ];
 
@@ -589,7 +589,7 @@ export interface FunctionListItemReply {
     functions: Array<{
         name: string;
         description: string | null;
-        flags: Array<RedisFunctionFlags>;
+        flags: Array<ValkeyFunctionFlags>;
     }>;
 }
 
@@ -617,9 +617,9 @@ export interface SortOptions {
 }
 
 export function pushSortArguments(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     options?: SortOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     if (options?.BY) {
         args.push('BY', options.BY);
     }
@@ -655,7 +655,7 @@ export interface SlotRange {
 }
 
 function pushSlotRangeArguments(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     range: SlotRange
 ): void {
     args.push(
@@ -665,9 +665,9 @@ function pushSlotRangeArguments(
 }
 
 export function pushSlotRangesArguments(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     ranges: SlotRange | Array<SlotRange>
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     if (Array.isArray(ranges)) {
         for (const range of ranges) {
             pushSlotRangeArguments(args, range);

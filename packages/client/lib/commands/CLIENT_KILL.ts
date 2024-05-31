@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 
 export enum ClientKillFilters {
     ADDRESS = 'ADDR',
@@ -39,7 +39,7 @@ type KillSkipMe = ClientKillFilters.SKIP_ME | (KillFilter<ClientKillFilters.SKIP
 
 type KillFilters = KillAddress | KillLocalAddress | KillId | KillType | KillUser | KillSkipMe;
 
-export function transformArguments(filters: KillFilters | Array<KillFilters>): RedisCommandArguments {
+export function transformArguments(filters: KillFilters | Array<KillFilters>): ValkeyCommandArguments {
     const args = ['CLIENT', 'KILL'];
 
     if (Array.isArray(filters)) {
@@ -53,7 +53,7 @@ export function transformArguments(filters: KillFilters | Array<KillFilters>): R
     return args;
 }
 
-function pushFilter(args: RedisCommandArguments, filter: KillFilters): void {
+function pushFilter(args: ValkeyCommandArguments, filter: KillFilters): void {
     if (filter === ClientKillFilters.SKIP_ME) {
         args.push('SKIPME');
         return;

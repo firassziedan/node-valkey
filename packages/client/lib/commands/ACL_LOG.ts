@@ -1,6 +1,6 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
-export function transformArguments(count?: number): RedisCommandArguments {
+export function transformArguments(count?: number): ValkeyCommandArguments {
     const args = ['ACL', 'LOG'];
 
     if (count) {
@@ -11,30 +11,30 @@ export function transformArguments(count?: number): RedisCommandArguments {
 }
 
 type AclLogRawReply = [
-    _: RedisCommandArgument,
+    _: ValkeyCommandArgument,
     count: number,
-    _: RedisCommandArgument,
-    reason: RedisCommandArgument,
-    _: RedisCommandArgument,
-    context: RedisCommandArgument,
-    _: RedisCommandArgument,
-    object: RedisCommandArgument,
-    _: RedisCommandArgument,
-    username: RedisCommandArgument,
-    _: RedisCommandArgument,
-    ageSeconds: RedisCommandArgument,
-    _: RedisCommandArgument,
-    clientInfo: RedisCommandArgument
+    _: ValkeyCommandArgument,
+    reason: ValkeyCommandArgument,
+    _: ValkeyCommandArgument,
+    context: ValkeyCommandArgument,
+    _: ValkeyCommandArgument,
+    object: ValkeyCommandArgument,
+    _: ValkeyCommandArgument,
+    username: ValkeyCommandArgument,
+    _: ValkeyCommandArgument,
+    ageSeconds: ValkeyCommandArgument,
+    _: ValkeyCommandArgument,
+    clientInfo: ValkeyCommandArgument
 ];
 
 interface AclLog {
     count: number;
-    reason: RedisCommandArgument;
-    context: RedisCommandArgument;
-    object: RedisCommandArgument;
-    username: RedisCommandArgument;
+    reason: ValkeyCommandArgument;
+    context: ValkeyCommandArgument;
+    object: ValkeyCommandArgument;
+    username: ValkeyCommandArgument;
     ageSeconds: number;
-    clientInfo: RedisCommandArgument;
+    clientInfo: ValkeyCommandArgument;
 }
 
 export function transformReply(reply: Array<AclLogRawReply>): Array<AclLog> {

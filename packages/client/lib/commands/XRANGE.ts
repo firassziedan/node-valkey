@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -9,11 +9,11 @@ interface XRangeOptions {
 }
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    start: RedisCommandArgument,
-    end: RedisCommandArgument,
+    key: ValkeyCommandArgument,
+    start: ValkeyCommandArgument,
+    end: ValkeyCommandArgument,
     options?: XRangeOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['XRANGE', key, start, end];
 
     if (options?.COUNT) {

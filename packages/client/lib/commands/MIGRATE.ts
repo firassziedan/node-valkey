@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { AuthOptions } from './AUTH';
 
 interface MigrateOptions {
@@ -8,13 +8,13 @@ interface MigrateOptions {
 }
 
 export function transformArguments(
-    host: RedisCommandArgument,
+    host: ValkeyCommandArgument,
     port: number,
-    key: RedisCommandArgument | Array<RedisCommandArgument>,
+    key: ValkeyCommandArgument | Array<ValkeyCommandArgument>,
     destinationDb: number,
     timeout: number,
     options?: MigrateOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['MIGRATE', host, port.toString()],
         isKeyArray = Array.isArray(key);
 

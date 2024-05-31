@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { pushVerdictArgument } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 2;
@@ -11,9 +11,9 @@ interface ZUnionOptions {
 }
 
 export function transformArguments(
-    keys: Array<RedisCommandArgument> | RedisCommandArgument,
+    keys: Array<ValkeyCommandArgument> | ValkeyCommandArgument,
     options?: ZUnionOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = pushVerdictArgument(['ZUNION'], keys);
 
     if (options?.WEIGHTS) {
@@ -27,4 +27,4 @@ export function transformArguments(
     return args;
 }
 
-export declare function transformReply(): Array<RedisCommandArgument>;
+export declare function transformReply(): Array<ValkeyCommandArgument>;

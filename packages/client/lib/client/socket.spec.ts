@@ -1,11 +1,11 @@
 import { strict as assert } from 'assert';
 import { spy } from 'sinon';
 import { once } from 'events';
-import RedisSocket, { RedisSocketOptions } from './socket';
+import ValkeySocket, { ValkeySocketOptions } from './socket';
 
 describe('Socket', () => {
-    function createSocket(options: RedisSocketOptions): RedisSocket {
-        const socket = new RedisSocket(
+    function createSocket(options: ValkeySocketOptions): ValkeySocket {
+        const socket = new ValkeySocket(
             () => Promise.resolve(),
             options
         );

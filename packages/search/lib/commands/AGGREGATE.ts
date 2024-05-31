@@ -1,5 +1,5 @@
-import { RedisCommandArgument, RedisCommandArguments } from '@redis/client/dist/lib/commands';
-import { pushVerdictArgument, transformTuplesReply } from '@redis/client/dist/lib/commands/generic-transformers';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
+import { pushVerdictArgument, transformTuplesReply } from 'valkey-client/dist/lib/commands/generic-transformers';
 import { Params, PropertyName, pushArgumentsWithLength, pushParamsArgs, pushSortByArguments, SortByProperty } from '.';
 
 export enum AggregateSteps {
@@ -135,7 +135,7 @@ export function transformArguments(
     index: string,
     query: string,
     options?: AggregateOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return pushAggregatehOptions(
         ['FT.AGGREGATE', index, query],
         options
@@ -143,9 +143,9 @@ export function transformArguments(
 }
 
 export function pushAggregatehOptions(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     options?: AggregateOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     if (options?.VERBATIM) {
         args.push('VERBATIM');
     }
@@ -221,7 +221,7 @@ export function pushAggregatehOptions(
     return args;
 }
 
-function pushLoadField(args: RedisCommandArguments, toLoad: LoadField): void {
+function pushLoadField(args: ValkeyCommandArguments, toLoad: LoadField): void {
     if (typeof toLoad === 'string') {
         args.push(toLoad);
     } else {
@@ -233,7 +233,7 @@ function pushLoadField(args: RedisCommandArguments, toLoad: LoadField): void {
     }
 }
 
-function pushGroupByReducer(args: RedisCommandArguments, reducer: GroupByReducers): void {
+function pushGroupByReducer(args: ValkeyCommandArguments, reducer: GroupByReducers): void {
     args.push('REDUCE', reducer.type);
 
     switch (reducer.type) {
@@ -288,19 +288,19 @@ function pushGroupByReducer(args: RedisCommandArguments, reducer: GroupByReducer
 
 export type AggregateRawReply = [
     total: number,
-    ...results: Array<Array<RedisCommandArgument>>
+    ...results: Array<Array<ValkeyCommandArgument>>
 ];
 
 export interface AggregateReply {
     total: number;
-    results: Array<Record<string, RedisCommandArgument>>;
+    results: Array<Record<string, ValkeyCommandArgument>>;
 }
 
 export function transformReply(rawReply: AggregateRawReply): AggregateReply {
-    const results: Array<Record<string, RedisCommandArgument>> = [];
+    const results: Array<Record<string, ValkeyCommandArgument>> = [];
     for (let i = 1; i < rawReply.length; i++) {
         results.push(
-            transformTuplesReply(rawReply[i] as Array<RedisCommandArgument>)
+            transformTuplesReply(rawReply[i] as Array<ValkeyCommandArgument>)
         );
     }
 

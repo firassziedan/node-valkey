@@ -1,8 +1,8 @@
-import { RedisModules, RedisFunctions, RedisScripts } from '@redis/client/lib/commands';
-import RedisClient, { RedisClientOptions, RedisClientType } from '@redis/client/lib/client';
-import RedisCluster, { RedisClusterOptions, RedisClusterType } from '@redis/client/lib/cluster';
-import { RedisSocketCommonOptions } from '@redis/client/lib/client/socket';
-import { RedisServerDockerConfig, spawnRedisServer, spawnRedisCluster } from './dockers';
+import { ValkeyModules, ValkeyFunctions, ValkeyScripts } from 'valkey-client/lib/commands';
+import ValkeyClient, { ValkeyClientOptions, ValkeyClientType } from 'valkey-client/lib/client';
+import ValkeyCluster, { ValkeyClusterOptions, ValkeyClusterType } from 'valkey-client/lib/cluster';
+import { ValkeySocketCommonOptions } from 'valkey-client/lib/client/socket';
+import { ValkeyServerDockerConfig, spawnValkeyServer, spawnValkeyCluster } from './dockers';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
@@ -17,22 +17,22 @@ interface CommonTestOptions {
 }
 
 interface ClientTestOptions<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > extends CommonTestOptions {
     serverArguments: Array<string>;
-    clientOptions?: Partial<Omit<RedisClientOptions<M, F, S>, 'socket'> & { socket: RedisSocketCommonOptions }>;
+    clientOptions?: Partial<Omit<ValkeyClientOptions<M, F, S>, 'socket'> & { socket: ValkeySocketCommonOptions }>;
     disableClientSetup?: boolean;
 }
 
 interface ClusterTestOptions<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > extends CommonTestOptions {
     serverArguments: Array<string>;
-    clusterConfiguration?: Partial<RedisClusterOptions<M, F, S>>;
+    clusterConfiguration?: Partial<ValkeyClusterOptions<M, F, S>>;
     numberOfMasters?: number;
     numberOfReplicas?: number;
 }
@@ -52,7 +52,7 @@ export default class TestUtils {
             .map(x => {
                 const value = Number(x);
                 if (Number.isNaN(value)) {
-                    throw new TypeError(`${version} is not a valid redis version`);
+                    throw new TypeError(`${version} is not a valid valkey version`);
                 }
 
                 return value;
@@ -76,7 +76,7 @@ export default class TestUtils {
     }
 
     readonly #VERSION_NUMBERS: Array<number>;
-    readonly #DOCKER_IMAGE: RedisServerDockerConfig;
+    readonly #DOCKER_IMAGE: ValkeyServerDockerConfig;
 
     constructor(config: TestUtilsConfig) {
         const { string, numbers } = TestUtils.#getVersion(config.dockerImageVersionArgument, config.defaultDockerVersion);
@@ -112,21 +112,21 @@ export default class TestUtils {
     }
 
     testWithClient<
-        M extends RedisModules,
-        F extends RedisFunctions,
-        S extends RedisScripts
+        M extends ValkeyModules,
+        F extends ValkeyFunctions,
+        S extends ValkeyScripts
     >(
         title: string,
-        fn: (client: RedisClientType<M, F, S>) => unknown,
+        fn: (client: ValkeyClientType<M, F, S>) => unknown,
         options: ClientTestOptions<M, F, S>
     ): void {
-        let dockerPromise: ReturnType<typeof spawnRedisServer>;
+        let dockerPromise: ReturnType<typeof spawnValkeyServer>;
         if (this.isVersionGreaterThan(options.minimumDockerVersion)) {
             const dockerImage = this.#DOCKER_IMAGE;
             before(function () {
                 this.timeout(30000);
 
-                dockerPromise = spawnRedisServer(dockerImage, options.serverArguments);
+                dockerPromise = spawnValkeyServer(dockerImage, options.serverArguments);
                 return dockerPromise;
             });
         }
@@ -134,7 +134,7 @@ export default class TestUtils {
         it(title, async function() {
             if (!dockerPromise) return this.skip();
 
-            const client = RedisClient.create({
+            const client = ValkeyClient.create({
                 ...options?.clientOptions,
                 socket: {
                     ...options?.clientOptions?.socket,
@@ -161,10 +161,10 @@ export default class TestUtils {
     }
 
     static async #clusterFlushAll<
-        M extends RedisModules,
-        F extends RedisFunctions,
-        S extends RedisScripts
-    >(cluster: RedisClusterType<M, F, S>): Promise<unknown> {
+        M extends ValkeyModules,
+        F extends ValkeyFunctions,
+        S extends ValkeyScripts
+    >(cluster: ValkeyClusterType<M, F, S>): Promise<unknown> {
         return Promise.all(
             cluster.masters.map(async ({ client }) => {
                 if (client) {
@@ -175,24 +175,24 @@ export default class TestUtils {
     }
 
     testWithCluster<
-        M extends RedisModules,
-        F extends RedisFunctions,
-        S extends RedisScripts
+        M extends ValkeyModules,
+        F extends ValkeyFunctions,
+        S extends ValkeyScripts
     >(
         title: string,
-        fn: (cluster: RedisClusterType<M, F, S>) => unknown,
+        fn: (cluster: ValkeyClusterType<M, F, S>) => unknown,
         options: ClusterTestOptions<M, F, S>
     ): void {
-        let dockersPromise: ReturnType<typeof spawnRedisCluster>;
+        let dockersPromise: ReturnType<typeof spawnValkeyCluster>;
         if (this.isVersionGreaterThan(options.minimumDockerVersion)) {
             const dockerImage = this.#DOCKER_IMAGE;
             before(function () {
                 this.timeout(30000);
 
-                dockersPromise = spawnRedisCluster({
+                dockersPromise = spawnValkeyCluster({
                     ...dockerImage,
                     numberOfMasters: options?.numberOfMasters,
-                    numberOfReplicas: options?.numberOfReplicas 
+                    numberOfReplicas: options?.numberOfReplicas
                 }, options.serverArguments);
                 return dockersPromise;
             });
@@ -202,7 +202,7 @@ export default class TestUtils {
             if (!dockersPromise) return this.skip();
 
             const dockers = await dockersPromise,
-                cluster = RedisCluster.create({
+                cluster = ValkeyCluster.create({
                     rootNodes: dockers.map(({ port }) => ({
                         socket: {
                             port

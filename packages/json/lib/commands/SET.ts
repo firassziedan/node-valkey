@@ -1,4 +1,4 @@
-import { RedisJSON, transformRedisJsonArgument } from '.';
+import { ValkeyJSON, transformValkeyJsonArgument } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -10,8 +10,8 @@ interface XX {
     XX: true;
 }
 
-export function transformArguments(key: string, path: string, json: RedisJSON, options?: NX | XX): Array<string> {
-    const args = ['JSON.SET', key, path, transformRedisJsonArgument(json)];
+export function transformArguments(key: string, path: string, json: ValkeyJSON, options?: NX | XX): Array<string> {
+    const args = ['JSON.SET', key, path, transformValkeyJsonArgument(json)];
 
     if ((<NX>options)?.NX) {
         args.push('NX');

@@ -1,3 +1,3 @@
-# @redis/client
+# valkey-client
 
-The source code and documentation for this package are in the main [node-redis](https://github.com/redis/node-redis) repo.
+The source code and documentation for this package are in the main [node-valkey](https://github.com/valkey/node-valkey) repo.

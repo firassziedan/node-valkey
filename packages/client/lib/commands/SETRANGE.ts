@@ -1,12 +1,12 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     offset: number,
-    value: RedisCommandArgument
-): RedisCommandArguments {
+    value: ValkeyCommandArgument
+): ValkeyCommandArguments {
     return ['SETRANGE', key, offset.toString(), value];
 }
 

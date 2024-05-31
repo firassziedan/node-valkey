@@ -1,5 +1,5 @@
 import { strict as assert } from 'assert';
-import { RedisSearchLanguages, SchemaFieldTypes } from '.';
+import { ValkeySearchLanguages, SchemaFieldTypes } from '.';
 import testUtils, { GLOBAL } from '../test-utils';
 import { transformArguments } from './SEARCH';
 
@@ -176,8 +176,8 @@ describe('SEARCH', () => {
 
         it('with LANGUAGE', () => {
             assert.deepEqual(
-                transformArguments('index', 'query', { LANGUAGE: RedisSearchLanguages.ARABIC }),
-                ['FT.SEARCH', 'index', 'query', 'LANGUAGE', RedisSearchLanguages.ARABIC]
+                transformArguments('index', 'query', { LANGUAGE: ValkeySearchLanguages.ARABIC }),
+                ['FT.SEARCH', 'index', 'query', 'LANGUAGE', ValkeySearchLanguages.ARABIC]
             );
         });
 

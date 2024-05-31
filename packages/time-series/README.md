@@ -1,23 +1,23 @@
-# @redis/time-series
+# valkey-time-series
 
-This package provides support for the [RedisTimeSeries](https://redistimeseries.io) module, which adds a time series data structure to Redis. It extends the [Node Redis client](https://github.com/redis/node-redis) to include functions for each of the RedisTimeSeries commands.
+This package provides support for the [ValkeyTimeSeries](https://valkeytimeseries.io) module, which adds a time series data structure to Valkey. It extends the [Node Valkey client](https://github.com/valkey/node-valkey) to include functions for each of the ValkeyTimeSeries commands.
 
-To use these extra commands, your Redis server must have the RedisTimeSeries module installed.
+To use these extra commands, your Valkey server must have the ValkeyTimeSeries module installed.
 
 ## Usage
 
-For a complete example, see [`time-series.js`](https://github.com/redis/node-redis/blob/master/examples/time-series.js) in the Node Redis examples folder.
+For a complete example, see [`time-series.js`](https://github.com/valkey/node-valkey/blob/master/examples/time-series.js) in the Node Valkey examples folder.
 
-### Creating Time Series data structure in Redis
+### Creating Time Series data structure in Valkey
 
-The [`TS.CREATE`](https://oss.redis.com/redistimeseries/commands/#tscreate) command creates a new time series.
+The [`TS.CREATE`](https://oss.valkey.com/valkeytimeseries/commands/#tscreate) command creates a new time series.
 
 Here, we'll create a new time series "`temperature`":
 
 ```javascript
 
-import { createClient } from 'redis';
-import { TimeSeriesDuplicatePolicies, TimeSeriesEncoding, TimeSeriesAggregationType } from '@redis/time-series';
+import { createClient } from 'valkey';
+import { TimeSeriesDuplicatePolicies, TimeSeriesEncoding, TimeSeriesAggregationType } from 'valkey-time-series';
 
 ...
 
@@ -36,9 +36,9 @@ import { TimeSeriesDuplicatePolicies, TimeSeriesEncoding, TimeSeriesAggregationT
 
 ```
 
-### Adding new value to a Time Series data structure in Redis
+### Adding new value to a Time Series data structure in Valkey
 
-With RedisTimeSeries, we can add a single value to time series data structure using the [`TS.ADD`](https://redis.io/commands/ts.add/) command and if we would like to add multiple values we can use the [`TS.MADD`](https://redis.io/commands/ts.madd/) command.
+With ValkeyTimeSeries, we can add a single value to time series data structure using the [`TS.ADD`](https://valkey.io/commands/ts.add/) command and if we would like to add multiple values we can use the [`TS.MADD`](https://valkey.io/commands/ts.madd/) command.
 
 ```javascript
 
@@ -48,7 +48,7 @@ let value = Math.floor(Math.random() * 1000) + 1; // Random data point value
 
   while (num < 10000) {
     // Add a new value to the timeseries, providing our own timestamp:
-    // https://redis.io/commands/ts.add/
+    // https://valkey.io/commands/ts.add/
     await client.ts.add('temperature', currentTimestamp, value);
     console.log(`Added timestamp ${currentTimestamp}, value ${value}.`);
 
@@ -58,7 +58,7 @@ let value = Math.floor(Math.random() * 1000) + 1; // Random data point value
   }
 
   // Add multiple values to the timeseries in round trip to the server:
-  // https://redis.io/commands/ts.madd/
+  // https://valkey.io/commands/ts.madd/
   const response = await client.ts.mAdd([{
     key: 'temperature',
     timestamp: currentTimestamp + 60000,
@@ -72,14 +72,14 @@ let value = Math.floor(Math.random() * 1000) + 1; // Random data point value
 
 ```
 
-### Retrieving Time Series data from Redis
+### Retrieving Time Series data from Valkey
 
-With RedisTimeSeries, we can retrieve the time series data using the [`TS.RANGE`](https://redis.io/commands/ts.range/) command by passing the criteria as follows:
+With ValkeyTimeSeries, we can retrieve the time series data using the [`TS.RANGE`](https://valkey.io/commands/ts.range/) command by passing the criteria as follows:
 
 ```javascript
 
 // Query the timeseries with TS.RANGE:
-  // https://redis.io/commands/ts.range/
+  // https://valkey.io/commands/ts.range/
   const fromTimestamp = 1640995200000; // Jan 1 2022 00:00:00
   const toTimestamp = 1640995260000; // Jan 1 2022 00:01:00
   const rangeResponse = await client.ts.range('temperature', fromTimestamp, toTimestamp, {
@@ -104,31 +104,31 @@ With RedisTimeSeries, we can retrieve the time series data using the [`TS.RANGE`
 
 ```
 
-### Altering Time Series data Stored in Redis
+### Altering Time Series data Stored in Valkey
 
-RedisTimeSeries includes commands that can update values in a time series data structure.
+ValkeyTimeSeries includes commands that can update values in a time series data structure.
 
-Using the [`TS.ALTER`](https://redis.io/commands/ts.alter/) command, we can update time series retention like this:
+Using the [`TS.ALTER`](https://valkey.io/commands/ts.alter/) command, we can update time series retention like this:
 
 ```javascript
 
-  // https://redis.io/commands/ts.alter/
+  // https://valkey.io/commands/ts.alter/
   const alterResponse = await client.ts.alter('temperature', {
     RETENTION: 0 // Keep the entries forever
   });
 
 ```
 
-### Retrieving Information about the timeseries Stored in Redis
+### Retrieving Information about the timeseries Stored in Valkey
 
-RedisTimeSeries also includes commands that can help to view the information on the state of a time series.
+ValkeyTimeSeries also includes commands that can help to view the information on the state of a time series.
 
-Using the [`TS.INFO`](https://redis.io/commands/ts.info/) command, we can view timeseries information like this:
+Using the [`TS.INFO`](https://valkey.io/commands/ts.info/) command, we can view timeseries information like this:
 
 ```javascript
 
  // Get some information about the state of the timeseries.
-  // https://redis.io/commands/ts.info/
+  // https://valkey.io/commands/ts.info/
   const tsInfo = await client.ts.info('temperature');
 
   // tsInfo looks like this:

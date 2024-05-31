@@ -10,8 +10,8 @@ import * as INSERTNX from './INSERTNX';
 import * as LOADCHUNK from './LOADCHUNK';
 import * as RESERVE from './RESERVE';
 import * as SCANDUMP from './SCANDUMP';
-import { pushVerdictArguments } from '@redis/client/dist/lib/commands/generic-transformers';
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { pushVerdictArguments } from 'valkey-client/dist/lib/commands/generic-transformers';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 
 export default {
     ADD,
@@ -44,10 +44,10 @@ export interface InsertOptions {
 }
 
 export function pushInsertOptions(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     items: string | Array<string>,
     options?: InsertOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     if (options?.CAPACITY) {
         args.push('CAPACITY');
         args.push(options.CAPACITY.toString());

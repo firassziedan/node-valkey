@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { BitValue } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -6,12 +6,12 @@ export const FIRST_KEY_INDEX = 1;
 export const IS_READ_ONLY = true;
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     bit: BitValue,
     start?: number,
     end?: number,
     mode?: 'BYTE' | 'BIT'
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['BITPOS', key, bit.toString()];
 
     if (typeof start === 'number') {

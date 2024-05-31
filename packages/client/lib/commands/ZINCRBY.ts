@@ -1,13 +1,13 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformNumberInfinityArgument } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     increment: number,
-    member: RedisCommandArgument
-): RedisCommandArguments {
+    member: ValkeyCommandArgument
+): ValkeyCommandArguments {
     return [
         'ZINCRBY',
         key,

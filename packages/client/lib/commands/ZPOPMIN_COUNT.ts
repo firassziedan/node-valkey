@@ -1,12 +1,12 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformArguments as transformZPopMinArguments } from './ZPOPMIN';
 
 export { FIRST_KEY_INDEX } from './ZPOPMIN';
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     count: number
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return [
         ...transformZPopMinArguments(key),
         count.toString()

@@ -1,6 +1,6 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 
-export function transformArguments(mode?: 'ASYNC' | 'SYNC'): RedisCommandArguments {
+export function transformArguments(mode?: 'ASYNC' | 'SYNC'): ValkeyCommandArguments {
     const args = ['FUNCTION', 'FLUSH'];
 
     if (mode) {

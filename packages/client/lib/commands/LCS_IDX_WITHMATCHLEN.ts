@@ -1,13 +1,13 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { RangeReply, RawRangeReply, transformRangeReply } from './generic-transformers';
 import { transformArguments as transformLcsArguments } from './LCS';
 
 export { FIRST_KEY_INDEX, IS_READ_ONLY } from './LCS';
 
 export function transformArguments(
-    key1: RedisCommandArgument,
-    key2: RedisCommandArgument
-): RedisCommandArguments {
+    key1: ValkeyCommandArgument,
+    key2: ValkeyCommandArgument
+): ValkeyCommandArguments {
     const args = transformLcsArguments(key1, key2);
     args.push('IDX', 'WITHMATCHLEN');
     return args;

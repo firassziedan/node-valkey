@@ -62,7 +62,7 @@ describe('HELLO', () => {
 
     testUtils.testWithClient('client.hello', async client => {
         const reply = await client.hello();
-        assert.equal(reply.server, 'redis');
+        assert.equal(reply.server, 'valkey');
         assert.equal(typeof reply.version, 'string');
         assert.equal(reply.proto, 2);
         assert.equal(typeof reply.id, 'number');

@@ -1,15 +1,15 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
 type LInsertPosition = 'BEFORE' | 'AFTER';
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     position: LInsertPosition,
-    pivot: RedisCommandArgument,
-    element: RedisCommandArgument
-): RedisCommandArguments {
+    pivot: ValkeyCommandArgument,
+    element: ValkeyCommandArgument
+): ValkeyCommandArguments {
     return [
         'LINSERT',
         key,

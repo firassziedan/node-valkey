@@ -1,7 +1,7 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 import { FunctionListItemReply, FunctionListRawItemReply, transformFunctionListItemReply } from './generic-transformers';
 
-export function transformArguments(pattern?: string): RedisCommandArguments {
+export function transformArguments(pattern?: string): ValkeyCommandArguments {
     const args = ['FUNCTION', 'LIST'];
 
     if (pattern) {

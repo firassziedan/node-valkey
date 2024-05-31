@@ -2,7 +2,7 @@
 // Log license plates of each car scanned at each intersection and add to the intersections Hyperloglog.
 // Reference: https://www.youtube.com/watch?v=MunL8nnwscQ
 
-import { createClient } from 'redis';
+import { createClient } from 'valkey';
 
 const client = createClient();
 

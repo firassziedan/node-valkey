@@ -1,9 +1,9 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 import { pushSlotRangesArguments, SlotRange } from './generic-transformers';
 
 export function transformArguments(
     ranges: SlotRange | Array<SlotRange>
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return pushSlotRangesArguments(
         ['CLUSTER', 'DELSLOTSRANGE'],
         ranges

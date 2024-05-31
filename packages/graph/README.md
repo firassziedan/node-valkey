@@ -1,11 +1,11 @@
-# @redis/graph
+# valkey-graph
 
 Example usage:
 ```javascript
-import { createClient, Graph } from 'redis';
+import { createClient, Graph } from 'valkey';
 
 const client = createClient();
-client.on('error', (err) => console.log('Redis Client Error', err));
+client.on('error', (err) => console.log('Valkey Client Error', err));
 
 await client.connect();
 

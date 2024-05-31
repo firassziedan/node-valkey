@@ -1,11 +1,11 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     count?: number
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['SPOP', key];
 
     if (typeof count === 'number') {
@@ -15,4 +15,4 @@ export function transformArguments(
     return args;
 }
 
-export declare function transformReply(): Array<RedisCommandArgument>;
+export declare function transformReply(): Array<ValkeyCommandArgument>;

@@ -1,1 +1,1 @@
-redisbench_admin>=0.5.24
+valkeybench_admin>=0.5.24

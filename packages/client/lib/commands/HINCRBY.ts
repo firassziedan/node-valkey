@@ -1,12 +1,12 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    field: RedisCommandArgument,
+    key: ValkeyCommandArgument,
+    field: ValkeyCommandArgument,
     increment: number
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return ['HINCRBY', key, field, increment.toString()];
 }
 

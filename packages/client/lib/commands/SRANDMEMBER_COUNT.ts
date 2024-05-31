@@ -1,16 +1,16 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformArguments as transformSRandMemberArguments } from './SRANDMEMBER';
 
 export { FIRST_KEY_INDEX } from './SRANDMEMBER';
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     count: number
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return [
         ...transformSRandMemberArguments(key),
         count.toString()
     ];
 }
 
-export declare function transformReply(): Array<RedisCommandArgument>;
+export declare function transformReply(): Array<ValkeyCommandArgument>;

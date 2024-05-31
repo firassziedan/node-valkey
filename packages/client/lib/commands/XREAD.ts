@@ -1,14 +1,14 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
-export const FIRST_KEY_INDEX = (streams: Array<XReadStream> | XReadStream): RedisCommandArgument => {
+export const FIRST_KEY_INDEX = (streams: Array<XReadStream> | XReadStream): ValkeyCommandArgument => {
     return Array.isArray(streams) ? streams[0].key : streams.key;
 };
 
 export const IS_READ_ONLY = true;
 
 interface XReadStream {
-    key: RedisCommandArgument;
-    id: RedisCommandArgument;
+    key: ValkeyCommandArgument;
+    id: ValkeyCommandArgument;
 }
 
 interface XReadOptions {
@@ -19,8 +19,8 @@ interface XReadOptions {
 export function transformArguments(
     streams: Array<XReadStream> | XReadStream,
     options?: XReadOptions
-): RedisCommandArguments {
-    const args: RedisCommandArguments = ['XREAD'];
+): ValkeyCommandArguments {
+    const args: ValkeyCommandArguments = ['XREAD'];
 
     if (options?.COUNT) {
         args.push('COUNT', options.COUNT.toString());

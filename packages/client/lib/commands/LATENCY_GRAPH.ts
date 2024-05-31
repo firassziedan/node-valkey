@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 
 export type EventType =
     'active-defrag-cycle'
@@ -18,7 +18,7 @@ export type EventType =
     | 'fork'
     | 'rdb-unlink-temp-file';
 
-export function transformArguments(event: EventType): RedisCommandArguments {
+export function transformArguments(event: EventType): ValkeyCommandArguments {
     return ['LATENCY', 'GRAPH', event];
 }
 

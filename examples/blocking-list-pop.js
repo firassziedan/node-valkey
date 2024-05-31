@@ -4,7 +4,7 @@
 // The script will be blocked until the LPUSH command is executed.
 // After which we log the list and quit the client.
 
-import { createClient, commandOptions } from 'redis';
+import { createClient, commandOptions } from 'valkey';
 
 const client = createClient();
 

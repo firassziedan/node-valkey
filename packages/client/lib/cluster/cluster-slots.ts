@@ -1,6 +1,6 @@
-import RedisClient, { InstantiableRedisClient, RedisClientType } from '../client';
-import { RedisClusterClientOptions, RedisClusterOptions } from '.';
-import { RedisCommandArgument, RedisFunctions, RedisModules, RedisScripts } from '../commands';
+import ValkeyClient, { InstantiableValkeyClient, ValkeyClientType } from '../client';
+import { ValkeyClusterClientOptions, ValkeyClusterOptions } from '.';
+import { ValkeyCommandArgument, ValkeyFunctions, ValkeyModules, ValkeyScripts } from '../commands';
 import { RootNodesUnavailableError } from '../errors';
 import { ClusterSlotsNode } from '../commands/CLUSTER_SLOTS';
 import { types } from 'util';
@@ -24,24 +24,24 @@ export type NodeAddressMap = {
 type ValueOrPromise<T> = T | Promise<T>;
 
 type ClientOrPromise<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
-> = ValueOrPromise<RedisClientType<M, F, S>>;
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
+> = ValueOrPromise<ValkeyClientType<M, F, S>>;
 
 export interface Node<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > {
     address: string;
     client?: ClientOrPromise<M, F, S>;
 }
 
 export interface ShardNode<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > extends Node<M, F, S> {
     id: string;
     host: string;
@@ -50,17 +50,17 @@ export interface ShardNode<
 }
 
 export interface MasterNode<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > extends ShardNode<M, F, S> {
     pubSubClient?: ClientOrPromise<M, F, S>;
 }
 
 export interface Shard<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > {
     master: MasterNode<M, F, S>;
     replicas?: Array<ShardNode<M, F, S>>;
@@ -68,15 +68,15 @@ export interface Shard<
 }
 
 type ShardWithReplicas<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > = Shard<M, F, S> & Required<Pick<Shard<M, F, S>, 'replicas'>>;
 
 export type PubSubNode<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > = Required<Node<M, F, S>>;
 
 type PubSubToResubscribe = Record<
@@ -90,17 +90,17 @@ export type OnShardedChannelMovedError = (
     listeners?: ChannelListeners
 ) => void;
 
-export default class RedisClusterSlots<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+export default class ValkeyClusterSlots<
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > {
     static #SLOTS = 16384;
 
-    readonly #options: RedisClusterOptions<M, F, S>;
-    readonly #Client: InstantiableRedisClient<M, F, S>;
+    readonly #options: ValkeyClusterOptions<M, F, S>;
+    readonly #Client: InstantiableValkeyClient<M, F, S>;
     readonly #emit: EventEmitter['emit'];
-    slots = new Array<Shard<M, F, S>>(RedisClusterSlots.#SLOTS);
+    slots = new Array<Shard<M, F, S>>(ValkeyClusterSlots.#SLOTS);
     shards = new Array<Shard<M, F, S>>();
     masters = new Array<ShardNode<M, F, S>>();
     replicas = new Array<ShardNode<M, F, S>>();
@@ -114,11 +114,11 @@ export default class RedisClusterSlots<
     }
 
     constructor(
-        options: RedisClusterOptions<M, F, S>,
+        options: ValkeyClusterOptions<M, F, S>,
         emit: EventEmitter['emit']
     ) {
         this.#options = options;
-        this.#Client = RedisClient.extend(options);
+        this.#Client = ValkeyClient.extend(options);
         this.#emit = emit;
     }
 
@@ -150,14 +150,14 @@ export default class RedisClusterSlots<
     }
 
     #resetSlots() {
-        this.slots = new Array(RedisClusterSlots.#SLOTS);
+        this.slots = new Array(ValkeyClusterSlots.#SLOTS);
         this.shards = [];
         this.masters = [];
         this.replicas = [];
         this.#randomNodeIterator = undefined;
     }
 
-    async #discover(rootNode?: RedisClusterClientOptions) {
+    async #discover(rootNode?: ValkeyClusterClientOptions) {
         this.#resetSlots();
         const addressesInUse = new Set<string>();
 
@@ -234,7 +234,7 @@ export default class RedisClusterSlots<
         }
     }
 
-    async #getShards(rootNode?: RedisClusterClientOptions) {
+    async #getShards(rootNode?: ValkeyClusterClientOptions) {
         const client = new this.#Client(
             this.#clientOptionsDefaults(rootNode, true)
         );
@@ -262,10 +262,10 @@ export default class RedisClusterSlots<
     }
 
     #clientOptionsDefaults(
-        options?: RedisClusterClientOptions,
+        options?: ValkeyClusterClientOptions,
         disableReconnect?: boolean
-    ): RedisClusterClientOptions | undefined {
-        let result: RedisClusterClientOptions | undefined;
+    ): ValkeyClusterClientOptions | undefined {
+        let result: ValkeyClusterClientOptions | undefined;
         if (this.#options.defaults) {
             let socket;
             if (this.#options.defaults.socket) {
@@ -366,15 +366,15 @@ export default class RedisClusterSlots<
         return node.client ?? this.#createNodeClient(node);
     }
 
-    #runningRediscoverPromise?: Promise<void>;
+    #runningValkeycoverPromise?: Promise<void>;
 
-    async rediscover(startWith: RedisClientType<M, F, S>): Promise<void> {
-        this.#runningRediscoverPromise ??= this.#rediscover(startWith)
-            .finally(() => this.#runningRediscoverPromise = undefined);
-        return this.#runningRediscoverPromise;
+    async valkeycover(startWith: ValkeyClientType<M, F, S>): Promise<void> {
+        this.#runningValkeycoverPromise ??= this.#valkeycover(startWith)
+            .finally(() => this.#runningValkeycoverPromise = undefined);
+        return this.#runningValkeycoverPromise;
     }
 
-    async #rediscover(startWith: RedisClientType<M, F, S>): Promise<void> {
+    async #valkeycover(startWith: ValkeyClientType<M, F, S>): Promise<void> {
         if (await this.#discover(startWith.options)) return;
 
         return this.#discoverWithRootNodes();
@@ -388,7 +388,7 @@ export default class RedisClusterSlots<
         return this.#destroy(client => client.disconnect());
     }
 
-    async #destroy(fn: (client: RedisClientType<M, F, S>) => Promise<unknown>): Promise<void> {
+    async #destroy(fn: (client: ValkeyClientType<M, F, S>) => Promise<unknown>): Promise<void> {
         this.#isOpen = false;
 
         const promises = [];
@@ -429,7 +429,7 @@ export default class RedisClusterSlots<
 
     #execOnNodeClient(
         client: ClientOrPromise<M, F, S>,
-        fn: (client: RedisClientType<M, F, S>) => Promise<unknown>
+        fn: (client: ValkeyClientType<M, F, S>) => Promise<unknown>
     ) {
         return types.isPromise(client) ?
             client.then(fn) :
@@ -437,7 +437,7 @@ export default class RedisClusterSlots<
     }
 
     getClient(
-        firstKey: RedisCommandArgument | undefined,
+        firstKey: ValkeyCommandArgument | undefined,
         isReadonly: boolean | undefined
     ): ClientOrPromise<M, F, S> {
         if (!firstKey) {
@@ -553,11 +553,11 @@ export default class RedisClusterSlots<
                 })
         };
         
-        return this.pubSubNode.client as Promise<RedisClientType<M, F, S>>;
+        return this.pubSubNode.client as Promise<ValkeyClientType<M, F, S>>;
     }
 
     async executeUnsubscribeCommand(
-        unsubscribe: (client: RedisClientType<M, F, S>) => Promise<void>
+        unsubscribe: (client: ValkeyClientType<M, F, S>) => Promise<void>
     ): Promise<void> {
         const client = await this.getPubSubClient();
         await unsubscribe(client);
@@ -578,7 +578,7 @@ export default class RedisClusterSlots<
             .then(client => {
                 client.on('server-sunsubscribe', async (channel, listeners) => {
                     try {
-                        await this.rediscover(client);
+                        await this.valkeycover(client);
                         const redirectTo = await this.getShardedPubSubClient(channel);
                         redirectTo.extendPubSubChannelListeners(
                             PubSubType.SHARDED,
@@ -605,7 +605,7 @@ export default class RedisClusterSlots<
 
     async executeShardedUnsubscribeCommand(
         channel: string,
-        unsubscribe: (client: RedisClientType<M, F, S>) => Promise<void>
+        unsubscribe: (client: ValkeyClientType<M, F, S>) => Promise<void>
     ): Promise<void> {
         const { master } = this.slots[calculateSlot(channel)];
         if (!master.pubSubClient) return Promise.resolve();

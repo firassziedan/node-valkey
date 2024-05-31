@@ -1,6 +1,6 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 
-export function transformArguments(): RedisCommandArguments {
+export function transformArguments(): ValkeyCommandArguments {
     return ['CLIENT', 'TRACKINGINFO'];
 }
 

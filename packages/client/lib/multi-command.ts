@@ -1,29 +1,29 @@
 import { fCallArguments } from './commander';
-import { RedisCommand, RedisCommandArguments, RedisCommandRawReply, RedisFunction, RedisScript } from './commands';
+import { ValkeyCommand, ValkeyCommandArguments, ValkeyCommandRawReply, ValkeyFunction, ValkeyScript } from './commands';
 import { ErrorReply, MultiErrorReply, WatchError } from './errors';
 
-export interface RedisMultiQueuedCommand {
-    args: RedisCommandArguments;
-    transformReply?: RedisCommand['transformReply'];
+export interface ValkeyMultiQueuedCommand {
+    args: ValkeyCommandArguments;
+    transformReply?: ValkeyCommand['transformReply'];
 }
 
-export default class RedisMultiCommand {
+export default class ValkeyMultiCommand {
     static generateChainId(): symbol {
-        return Symbol('RedisMultiCommand Chain Id');
+        return Symbol('ValkeyMultiCommand Chain Id');
     }
 
-    readonly queue: Array<RedisMultiQueuedCommand> = [];
+    readonly queue: Array<ValkeyMultiQueuedCommand> = [];
 
     readonly scriptsInUse = new Set<string>();
 
-    addCommand(args: RedisCommandArguments, transformReply?: RedisCommand['transformReply']): void {
+    addCommand(args: ValkeyCommandArguments, transformReply?: ValkeyCommand['transformReply']): void {
         this.queue.push({
             args,
             transformReply
         });
     }
 
-    addFunction(name: string, fn: RedisFunction, args: Array<unknown>): RedisCommandArguments {
+    addFunction(name: string, fn: ValkeyFunction, args: Array<unknown>): ValkeyCommandArguments {
         const transformedArguments = fCallArguments(
             name,
             fn,
@@ -36,8 +36,8 @@ export default class RedisMultiCommand {
         return transformedArguments;
     }
 
-    addScript(script: RedisScript, args: Array<unknown>): RedisCommandArguments {
-        const transformedArguments: RedisCommandArguments = [];
+    addScript(script: ValkeyScript, args: Array<unknown>): ValkeyCommandArguments {
+        const transformedArguments: ValkeyCommandArguments = [];
         if (this.scriptsInUse.has(script.SHA1)) {
             transformedArguments.push(
                 'EVALSHA',
@@ -69,8 +69,8 @@ export default class RedisMultiCommand {
         return transformedArguments;
     }
 
-    handleExecReplies(rawReplies: Array<RedisCommandRawReply | ErrorReply>): Array<RedisCommandRawReply> {
-        const execReply = rawReplies[rawReplies.length - 1] as (null | Array<RedisCommandRawReply>);
+    handleExecReplies(rawReplies: Array<ValkeyCommandRawReply | ErrorReply>): Array<ValkeyCommandRawReply> {
+        const execReply = rawReplies[rawReplies.length - 1] as (null | Array<ValkeyCommandRawReply>);
         if (execReply === null) {
             throw new WatchError();
         }
@@ -78,7 +78,7 @@ export default class RedisMultiCommand {
         return this.transformReplies(execReply);
     }
 
-    transformReplies(rawReplies: Array<RedisCommandRawReply | ErrorReply>): Array<RedisCommandRawReply> {
+    transformReplies(rawReplies: Array<ValkeyCommandRawReply | ErrorReply>): Array<ValkeyCommandRawReply> {
         const errorIndexes: Array<number> = [],
             replies = rawReplies.map((reply, i) => {
                 if (reply instanceof ErrorReply) {

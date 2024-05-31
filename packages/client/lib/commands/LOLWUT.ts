@@ -1,4 +1,4 @@
-import { RedisCommandArgument } from '.';
+import { ValkeyCommandArgument } from '.';
 
 export const IS_READ_ONLY = true;
 
@@ -16,4 +16,4 @@ export function transformArguments(version?: number, ...optionalArguments: Array
     return args;
 }
 
-export declare function transformReply(): RedisCommandArgument;
+export declare function transformReply(): ValkeyCommandArgument;

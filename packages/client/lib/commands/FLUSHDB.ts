@@ -1,6 +1,6 @@
-import { RedisFlushModes } from './FLUSHALL';
+import { ValkeyFlushModes } from './FLUSHALL';
 
-export function transformArguments(mode?: RedisFlushModes): Array<string> {
+export function transformArguments(mode?: ValkeyFlushModes): Array<string> {
     const args = ['FLUSHDB'];
 
     if (mode) {

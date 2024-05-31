@@ -1,4 +1,4 @@
-import { createClient, WatchError } from 'redis';
+import { createClient, WatchError } from 'valkey';
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const client = createClient();

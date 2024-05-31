@@ -1,9 +1,9 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 
 export function transformArguments(
     timeout: number,
     mode?: 'WRITE' | 'ALL'
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = [
         'CLIENT',
         'PAUSE',

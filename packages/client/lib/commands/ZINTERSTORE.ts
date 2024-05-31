@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { pushVerdictArgument } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -9,10 +9,10 @@ interface ZInterStoreOptions {
 }
 
 export function transformArguments(
-    destination: RedisCommandArgument,
-    keys: Array<RedisCommandArgument> | RedisCommandArgument,
+    destination: ValkeyCommandArgument,
+    keys: Array<ValkeyCommandArgument> | ValkeyCommandArgument,
     options?: ZInterStoreOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = pushVerdictArgument(['ZINTERSTORE', destination], keys);
 
     if (options?.WEIGHTS) {

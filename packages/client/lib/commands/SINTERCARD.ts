@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { pushVerdictArgument } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 2;
@@ -6,9 +6,9 @@ export const FIRST_KEY_INDEX = 2;
 export const IS_READ_ONLY = true;
 
 export function transformArguments(
-    keys: Array<RedisCommandArgument> | RedisCommandArgument,
+    keys: Array<ValkeyCommandArgument> | ValkeyCommandArgument,
     limit?: number
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = pushVerdictArgument(['SINTERCARD'], keys);
 
     if (limit) {

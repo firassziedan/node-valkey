@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version: ['18', '20']
-        redis-version: ['5', '6.0', '6.2', '7.0', '7.2']
+        valkey-version: ['5', '6.0', '6.2', '7.0', '7.2']
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,7 +34,7 @@ jobs:
       - name: Build tests tools
         run: npm run build:tests-tools
       - name: Run Tests
-        run: npm run test -- -- --forbid-only --redis-version=${{ matrix.redis-version }}
+        run: npm run test -- -- --forbid-only --valkey-version=${{ matrix.valkey-version }}
       - name: Upload to Codecov
         run: |
           curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import

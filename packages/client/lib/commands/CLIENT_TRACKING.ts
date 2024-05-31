@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 interface CommonOptions {
     REDIRECT?: number;
@@ -7,7 +7,7 @@ interface CommonOptions {
 
 interface BroadcastOptions {
     BCAST?: boolean;
-    PREFIX?: RedisCommandArgument | Array<RedisCommandArgument>;
+    PREFIX?: ValkeyCommandArgument | Array<ValkeyCommandArgument>;
 }
 
 interface OptInOptions {
@@ -27,8 +27,8 @@ type ClientTrackingOptions = CommonOptions & (
 export function transformArguments<M extends boolean>(
     mode: M,
     options?: M extends true ? ClientTrackingOptions : undefined
-): RedisCommandArguments {
-    const args: RedisCommandArguments = [
+): ValkeyCommandArguments {
+    const args: ValkeyCommandArguments = [
         'CLIENT',
         'TRACKING',
         mode ? 'ON' : 'OFF'

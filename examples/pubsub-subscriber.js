@@ -1,11 +1,11 @@
 // A sample subscriber showing how the subscribe method and pSubscribe method work.
-// https://redis.io/commands/subscribe/
-// https://redis.io/commands/pSubscribe/
+// https://valkey.io/commands/subscribe/
+// https://valkey.io/commands/pSubscribe/
 // This consumes messages published by pubsub-publisher.js
 
-import { createClient} from 'redis';
+import { createClient} from 'valkey';
 
-// Create and connect client before executing any Redis commands.
+// Create and connect client before executing any Valkey commands.
 const client = createClient();
 await client.connect();
 

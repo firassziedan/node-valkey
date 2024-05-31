@@ -1,5 +1,5 @@
-import { RedisCommandArgument, RedisCommandArguments } from '@redis/client/dist/lib/commands';
-import { pushVerdictArgument } from '@redis/client/dist/lib/commands/generic-transformers';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
+import { pushVerdictArgument } from 'valkey-client/dist/lib/commands/generic-transformers';
 import { CompressionOption, pushCompressionArgument } from '.';
 
 export const FIRST_KEY_INDEX = 1;
@@ -9,10 +9,10 @@ interface MergeOptions extends CompressionOption {
 }
 
 export function transformArguments(
-    destKey: RedisCommandArgument,
-    srcKeys: RedisCommandArgument | Array<RedisCommandArgument>,
+    destKey: ValkeyCommandArgument,
+    srcKeys: ValkeyCommandArgument | Array<ValkeyCommandArgument>,
     options?: MergeOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = pushVerdictArgument(
         ['TDIGEST.MERGE', destKey],
         srcKeys

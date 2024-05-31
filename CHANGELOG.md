@@ -6,12 +6,12 @@
 
 - Fix v4 commands in legacy mode (#1820)
 - Fix `EXISTS` command reply (#1819)
-- Fix handler for "__redis__:invalidate" messages (#1798)
-- Fix "SEPARATOR" typo in RediSearch (#1823)
+- Fix handler for "__valkey__:invalidate" messages (#1798)
+- Fix "SEPARATOR" typo in ValkeySearch (#1823)
 
 ### Enhancements
 
-- First release of `@node-redis/bloom`
+- First release of `@node-valkey/bloom`
 - Add support for `Buffer`s
 - Enhance `ASK` and `MOVED` errors handler
 
@@ -24,13 +24,13 @@
 - Add an option to configurate `name` on a client (#1758)
 - Lowercase commands (`client.hset`) in `legacyMode`
 - Fix PubSub resubscribe (#1764)
-- Fix `RedisSocketOptions` type (#1741)
+- Fix `ValkeySocketOptions` type (#1741)
 
 ### Enhancements
 
 - Add support for `number`s and `Buffer`s in `HSET` (#1738 #1739)
-- Export `RedisClientType`, `RedisClusterType` and some more types (#1673)
-- First release of `@node-redis/time-series`
+- Export `ValkeyClientType`, `ValkeyClusterType` and some more types (#1673)
+- First release of `@node-valkey/time-series`
 
 ## v4.0.0 - 24 Nov, 2021
 
@@ -50,10 +50,10 @@ This version is a major change and refactor, adding modern JavaScript capabiliti
 - Added support for Promises
 - Added built-in TypeScript declaration files enabling code completion
 - Added support for [clustering](./README.md#cluster)
-- Added idiomatic arguments and responses to [Redis commands](./README.md#redis-commands)
+- Added idiomatic arguments and responses to [Valkey commands](./README.md#valkey-commands)
 - Added full support for [Lua Scripts](./README.md#lua-scripts)
 - Added support for [SCAN iterators](./README.md#scan-iterator)
-- Added the ability to extend Node Redis with Redis Module commands
+- Added the ability to extend Node Valkey with Valkey Module commands
 
 ## v3.1.2
 
@@ -75,8 +75,8 @@ This version is a major change and refactor, adding modern JavaScript capabiliti
 
 ### Enhancements
 
-- Upgrade node and dependencies and redis-commands to support Redis 6
-- Add support for Redis 6 `auth pass [user]`
+- Upgrade node and dependencies and valkey-commands to support Valkey 6
+- Add support for Valkey 6 `auth pass [user]`
 
 ## v3.0.0 - 09 Feb, 2020
 
@@ -86,7 +86,7 @@ a lot of old deprecated features and old internals in preparation for an upcomin
 ### Breaking Changes
 
 - Dropped support for Node.js < 6
-- Dropped support for `hiredis` (no longer required)
+- Dropped support for `hivalkey` (no longer required)
 - Removed previously deprecated `drain` event
 - Removed previously deprecated `idle` event
 - Removed previously deprecated `parser` option
@@ -101,19 +101,19 @@ a lot of old deprecated features and old internals in preparation for an upcomin
 
 ### Features
 
-- Upgraded to latest `redis-commands` package
-- Upgraded to latest `redis-parser` package, v3.0.0, which brings performance improvements
+- Upgraded to latest `valkey-commands` package
+- Upgraded to latest `valkey-parser` package, v3.0.0, which brings performance improvements
 - Replaced `double-ended-queue` with `denque`, which brings performance improvements
 - Add timestamps to debug traces
 - Add `socket_initial_delay` option for `socket.setKeepAlive` (#1396)
-- Add support for `rediss` protocol in url (#1282)
+- Add support for `valkeys` protocol in url (#1282)
 
 ## v2.8.0 - 31 Jul, 2017
 
 Features
 
 - Accept UPPER_CASE commands in send_command
-- Add arbitrary commands to the prototype by using `Redis.addCommand(name)`
+- Add arbitrary commands to the prototype by using `Valkey.addCommand(name)`
 
 Bugfixes
 
@@ -131,7 +131,7 @@ Bugfixes
 
 Features
 
-- All returned errors are from now a subclass of `RedisError`.
+- All returned errors are from now a subclass of `ValkeyError`.
 
 Bugfixes
 
@@ -142,7 +142,7 @@ Bugfixes
 
 Bugfixes
 
-- Fixed parser not being reset in case the redis connection closed ASAP for overcoming of output buffer limits
+- Fixed parser not being reset in case the valkey connection closed ASAP for overcoming of output buffer limits
 - Fixed parser reset if (p)message_buffer listener is attached
 
 ## v2.6.4 - 12 Jan, 2017
@@ -176,10 +176,10 @@ In addition to the pre-releases the following changes exist in v.2.6.0:
 
 Features
 
-- Updated [redis-parser](https://github.com/NodeRedis/node-redis-parser) dependency ([changelog](https://github.com/NodeRedis/node-redis-parser/releases/tag/v.2.0.0))
-- The JS parser is from now on the new default as it is a lot faster than the hiredis parser
-- This is no BC as there is no changed behavior for the user at all but just a performance improvement. Explicitly requireing the Hiredis parser is still possible.
-- Added name property to all Redis functions (Node.js >= 4.0)
+- Updated [valkey-parser](https://github.com/NodeValkey/node-valkey-parser) dependency ([changelog](https://github.com/NodeValkey/node-valkey-parser/releases/tag/v.2.0.0))
+- The JS parser is from now on the new default as it is a lot faster than the hivalkey parser
+- This is no BC as there is no changed behavior for the user at all but just a performance improvement. Explicitly requireing the Hivalkey parser is still possible.
+- Added name property to all Valkey functions (Node.js >= 4.0)
 - Improved stack traces in development and debug mode
 
 Bugfixes
@@ -188,15 +188,15 @@ Bugfixes
 
 Deprecations
 
-- The `parser` option is deprecated and should be removed. The built-in Javascript parser is a lot faster than the hiredis parser and has more features
+- The `parser` option is deprecated and should be removed. The built-in Javascript parser is a lot faster than the hivalkey parser and has more features
 
 ## v2.6.0-2 - 29 Apr, 2016
 
 Features
 
-- Added support for the new [CLIENT REPLY ON|OFF|SKIP](http://redis.io/commands/client-reply) command (Redis v.3.2)
+- Added support for the new [CLIENT REPLY ON|OFF|SKIP](http://valkey.io/commands/client-reply) command (Valkey v.3.2)
 - Added support for camelCase
-- The Node.js landscape default is to use camelCase. node_redis is a bit out of the box here
+- The Node.js landscape default is to use camelCase. node_valkey is a bit out of the box here
   but from now on it is possible to use both, just as you prefer!
 - If there's any documented variable missing as camelCased, please open a issue for it
 - Improve error handling significantly
@@ -204,16 +204,16 @@ Features
 - Improved unspecific error messages e.g. "Connection gone from end / close event"
 - Added `args` to command errors to improve identification of the error
 - Added origin to errors if there's e.g. a connection error
-- Added ReplyError class. All Redis errors are from now on going to be of that class
-- Added AbortError class. A subclass of AbortError. All unresolved and by node_redis rejected commands are from now on of that class
-- Added AggregateError class. If a unresolved and by node_redis rejected command has no callback and
+- Added ReplyError class. All Valkey errors are from now on going to be of that class
+- Added AbortError class. A subclass of AbortError. All unresolved and by node_valkey rejected commands are from now on of that class
+- Added AggregateError class. If a unresolved and by node_valkey rejected command has no callback and
   this applies to more than a single command, the errors for the commands without callback are aggregated
   to a single error that is emitted in debug_mode in that case.
 - Added `message_buffer` / `pmessage_buffer` events. That event is always going to emit a buffer
 - Listening to the `message` event at the same time is always going to return the same message as string
 - Added callback option to the duplicate function
 - Added support for `__proto__` and other reserved keywords as hgetall field
-- Updated [redis-commands](https://github.com/NodeRedis/redis-commands) dependency ([changelog](https://github.com/NodeRedis/redis-commands/releases/tag/v.1.2.0))
+- Updated [valkey-commands](https://github.com/NodeValkey/valkey-commands) dependency ([changelog](https://github.com/NodeValkey/valkey-commands/releases/tag/v.1.2.0))
 
 Bugfixes
 
@@ -279,7 +279,7 @@ Bugfixes
 
 Bugfixes
 
-- Fixed breaking changes against Redis 2.4 introduced in 2.5.0 / 2.5.1
+- Fixed breaking changes against Valkey 2.4 introduced in 2.5.0 / 2.5.1
 
 ## v2.5.1 - 15 Mar, 2016
 
@@ -301,23 +301,23 @@ This release is also going to deprecate a couple things to prepare for a future 
 
 Features
 
-- The parsers moved into the [redis-parser](https://github.com/NodeRedis/node-redis-parser) module and will be maintained in there from now on
+- The parsers moved into the [valkey-parser](https://github.com/NodeValkey/node-valkey-parser) module and will be maintained in there from now on
 - Improve js parser speed significantly for big SUNION/SINTER/LRANGE/ZRANGE
-- Improve redis-url parsing to also accept the database-number and options as query parameters as suggested in [IANA](http://www.iana.org/assignments/uri-schemes/prov/redis)
+- Improve valkey-url parsing to also accept the database-number and options as query parameters as suggested in [IANA](http://www.iana.org/assignments/uri-schemes/prov/valkey)
 - Added a `retry_unfulfilled_commands` option
 - Setting this to 'true' results in retrying all commands that were not fulfilled on a connection loss after the reconnect. Use with caution
-- Added a `db` option to select the database while connecting (this is [not recommended](https://groups.google.com/forum/#!topic/redis-db/vS5wX8X4Cjg))
+- Added a `db` option to select the database while connecting (this is [not recommended](https://groups.google.com/forum/#!topic/valkey-db/vS5wX8X4Cjg))
 - Added a `password` option as alias for auth_pass
 - The client.server_info is from now on updated while using the info command
-- Gracefuly handle redis protocol errors from now on
-- Added a `warning` emitter that receives node_redis warnings like auth not required and deprecation messages
+- Gracefuly handle valkey protocol errors from now on
+- Added a `warning` emitter that receives node_valkey warnings like auth not required and deprecation messages
 - Added a `retry_strategy` option that replaces all reconnect options
 - The reconnecting event from now on also receives:
 - The error message why the reconnect happened (params.error)
 - The amount of times the client was connected (params.times_connected)
 - The total reconnecting time since the last time connected (params.total_retry_time)
-- Always respect the command execution order no matter if the reply could be returned sync or not (former exceptions: [#937](https://github.com/NodeRedis/node_redis/issues/937#issuecomment-167525939))
-- redis.createClient is now checking input values stricter and detects more faulty input
+- Always respect the command execution order no matter if the reply could be returned sync or not (former exceptions: [#937](https://github.com/NodeValkey/node_valkey/issues/937#issuecomment-167525939))
+- valkey.createClient is now checking input values stricter and detects more faulty input
 - Started refactoring internals into individual modules
 - Pipelining speed improvements
 
@@ -328,7 +328,7 @@ Bugfixes
 - Fixed do not run toString on an array argument and throw a "invalid data" error instead
 - This is not considered as breaking change, as this is likely a error in your code and if you want to have such a behavior you should handle this beforehand
 - The same applies to Map / Set and individual Object types
-- Fixed redis url not accepting the protocol being omitted or protocols other than the redis protocol for convenience
+- Fixed valkey url not accepting the protocol being omitted or protocols other than the valkey protocol for convenience
 - Fixed parsing the db keyspace even if the first database does not begin with a zero
 - Fixed handling of errors occurring while receiving pub sub messages
 - Fixed huge string pipelines crashing NodeJS (Pipeline size above 256mb)
@@ -345,15 +345,15 @@ Deprecations
 - From v.3.0.0 on using .end without flush will result in an error
 - Using .end without flush means that any command that did not yet return is going to silently fail. Therefor this is considered harmful and you should explicitly silence such errors if you are sure you want this
 - Depending on the return value of a command to detect the backpressure is deprecated
-- From version 3.0.0 on node_redis might not return true / false as a return value anymore. Please rely on client.should_buffer instead
+- From version 3.0.0 on node_valkey might not return true / false as a return value anymore. Please rely on client.should_buffer instead
 - The `socket_nodelay` option is deprecated and will be removed in v.3.0.0
 - If you want to buffer commands you should use [.batch or .multi](./README.md) instead. This is necessary to reduce the amount of different options and this is very likely reducing your throughput if set to false.
 - If you are sure you want to activate the NAGLE algorithm you can still activate it by using client.stream.setNoDelay(false)
 - The `max_attempts` option is deprecated and will be removed in v.3.0.0. Please use the `retry_strategy` instead
 - The `retry_max_delay` option is deprecated and will be removed in v.3.0.0. Please use the `retry_strategy` instead
 - The drain event is deprecated and will be removed in v.3.0.0. Please listen to the stream drain event instead
-- The idle event is deprecated and will likely be removed in v.3.0.0. If you rely on this feature please open a new ticket in node_redis with your use case
-- Redis < v. 2.6 is not officially supported anymore and might not work in all cases. Please update to a newer redis version as it is not possible to test for these old versions
+- The idle event is deprecated and will likely be removed in v.3.0.0. If you rely on this feature please open a new ticket in node_valkey with your use case
+- Valkey < v. 2.6 is not officially supported anymore and might not work in all cases. Please update to a newer valkey version as it is not possible to test for these old versions
 - Removed non documented command syntax (adding the callback to an arguments array instead of passing it as individual argument)
 
 ## v2.4.2 - 27 Nov, 2015
@@ -372,7 +372,7 @@ Bugfixes
 
 Features
 
-- Added `tls` option to initiate a connection to a redis server behind a TLS proxy. Thanks ([@paddybyers](https://github.com/paddybyers))
+- Added `tls` option to initiate a connection to a valkey server behind a TLS proxy. Thanks ([@paddybyers](https://github.com/paddybyers))
 - Added `prefix` option to auto key prefix any command with the provided prefix ([@luin](https://github.com/luin) & [@BridgeAR](https://github.com/BridgeAR))
 - Added `url` option to pass the connection url with the options object ([@BridgeAR](https://github.com/BridgeAR))
 - Added `client.duplicate([options])` to duplicate the current client and return a new one with the same options ([@BridgeAR](https://github.com/BridgeAR))
@@ -381,7 +381,7 @@ Features
 Bugfixes
 
 - Fixed js parser handling big values slow ([@BridgeAR](https://github.com/BridgeAR))
-- The speed is now on par with the hiredis parser.
+- The speed is now on par with the hivalkey parser.
 
 ## v2.3.1 - 18 Nov, 2015
 
@@ -389,7 +389,7 @@ Bugfixes
 
 - Fixed saving buffers with charsets other than utf-8 while using multi ([@BridgeAR](https://github.com/BridgeAR))
 - Fixed js parser handling big values very slow ([@BridgeAR](https://github.com/BridgeAR))
-- The speed is up to ~500% faster than before but still up to ~50% slower than the hiredis parser.
+- The speed is up to ~500% faster than before but still up to ~50% slower than the hivalkey parser.
 
 ## v2.3.0 - 30 Oct, 2015
 
@@ -404,7 +404,7 @@ Features
 - Removed the high water mark and low water mark. Such a mechanism should be implemented by a user instead
 - The `drain` event is from now on only emitted if the stream really had to buffer
 - Reduced the default connect_timeout to be one hour instead of 24h ([@BridgeAR](https://github.com/BridgeAR))
-- Added .path to redis.createClient(options); ([@BridgeAR](https://github.com/BridgeAR))
+- Added .path to valkey.createClient(options); ([@BridgeAR](https://github.com/BridgeAR))
 - Ignore info command, if not available on server ([@ivanB1975](https://github.com/ivanB1975))
 
 Bugfixes
@@ -436,7 +436,7 @@ Bugfixes
 
 Bugfixes
 
-- Fixed multi not being executed on Node 0.10.x if node_redis not yet ready ([@BridgeAR](https://github.com/BridgeAR))
+- Fixed multi not being executed on Node 0.10.x if node_valkey not yet ready ([@BridgeAR](https://github.com/BridgeAR))
 
 ## v2.2.2 - 14 Oct, 2015
 
@@ -454,19 +454,19 @@ The peregrino falcon is the fasted bird on earth and this is what this release i
 
 Features
 
-- Added rename_commands options to handle renamed commands from the redis config ([@digmxl](https://github.com/digmxl) & [@BridgeAR](https://github.com/BridgeAR))
+- Added rename_commands options to handle renamed commands from the valkey config ([@digmxl](https://github.com/digmxl) & [@BridgeAR](https://github.com/BridgeAR))
 - Added disable_resubscribing option to prevent a client from resubscribing after reconnecting ([@BridgeAR](https://github.com/BridgeAR))
 - Increased performance ([@BridgeAR](https://github.com/BridgeAR))
 - exchanging built in queue with [@petkaantonov](https://github.com/petkaantonov)'s [double-ended queue](https://github.com/petkaantonov/deque)
 - prevent polymorphism
 - optimize statements
 - Added _.batch_ command, similar to .multi but without transaction ([@BridgeAR](https://github.com/BridgeAR))
-- Improved pipelining to minimize the [RTT](http://redis.io/topics/pipelining) further ([@BridgeAR](https://github.com/BridgeAR))
+- Improved pipelining to minimize the [RTT](http://valkey.io/topics/pipelining) further ([@BridgeAR](https://github.com/BridgeAR))
 
 Bugfixes
 
 - Fixed a javascript parser regression introduced in 2.0 that could result in timeouts on high load. ([@BridgeAR](https://github.com/BridgeAR))
-- I was not able to write a regression test for this, since the error seems to only occur under heavy load with special conditions. So please have a look for timeouts with the js parser, if you use it and report all issues and switch to the hiredis parser in the meanwhile. If you're able to come up with a reproducable test case, this would be even better :)
+- I was not able to write a regression test for this, since the error seems to only occur under heavy load with special conditions. So please have a look for timeouts with the js parser, if you use it and report all issues and switch to the hivalkey parser in the meanwhile. If you're able to come up with a reproducable test case, this would be even better :)
 - Fixed should_buffer boolean for .exec, .select and .auth commands not being returned and fix a couple special conditions ([@BridgeAR](https://github.com/BridgeAR))
 
 If you do not rely on transactions but want to reduce the RTT you can use .batch from now on. It'll behave just the same as .multi but it does not have any transaction and therefor won't roll back any failed commands.<br>
@@ -474,33 +474,33 @@ Both .multi and .batch are from now on going to cache the commands and release t
 
 Please consider using .batch instead of looping through a lot of commands one by one. This will significantly improve your performance.
 
-Here are some stats compared to ioredis 1.9.1 (Lenovo T450s i7-5600U):
+Here are some stats compared to iovalkey 1.9.1 (Lenovo T450s i7-5600U):
 
                       simple set
-          82,496 op/s » ioredis
-         112,617 op/s » node_redis
+          82,496 op/s » iovalkey
+         112,617 op/s » node_valkey
 
                       simple get
-          82,015 op/s » ioredis
-         105,701 op/s » node_redis
+          82,015 op/s » iovalkey
+         105,701 op/s » node_valkey
 
                       simple get with pipeline
-          10,233 op/s » ioredis
-          26,541 op/s » node_redis (using .batch)
+          10,233 op/s » iovalkey
+          26,541 op/s » node_valkey (using .batch)
 
                       lrange 100
-           7,321 op/s » ioredis
-          26,155 op/s » node_redis
+           7,321 op/s » iovalkey
+          26,155 op/s » node_valkey
 
                       publish
-          90,524 op/s » ioredis
-         112,823 op/s » node_redis
+          90,524 op/s » iovalkey
+         112,823 op/s » node_valkey
 
                       subscribe
-          43,783 op/s » ioredis
-          61,889 op/s » node_redis
+          43,783 op/s » iovalkey
+          61,889 op/s » node_valkey
 
-To conclude: we can proudly say that node_redis is very likely outperforming any other node redis client.
+To conclude: we can proudly say that node_valkey is very likely outperforming any other node valkey client.
 
 Known issues
 
@@ -511,7 +511,7 @@ Known issues
 Features:
 
 - Addded optional flush parameter to `.end`. If set to true, commands fired after using .end are going to be rejected instead of being ignored. (@crispy1989)
-- Addded: host and port can now be provided in a single options object. E.g. redis.createClient({ host: 'localhost', port: 1337, max_attempts: 5 }); (@BridgeAR)
+- Addded: host and port can now be provided in a single options object. E.g. valkey.createClient({ host: 'localhost', port: 1337, max_attempts: 5 }); (@BridgeAR)
 - Speedup common cases (@BridgeAR)
 
 Bugfixes:
@@ -519,7 +519,7 @@ Bugfixes:
 - Fix argument mutation while using the array notation with the multi constructor (@BridgeAR)
 - Fix multi.hmset key not being type converted if used with an object and key not being a string (@BridgeAR)
 - Fix parser errors not being catched properly (@BridgeAR)
-- Fix a crash that could occur if a redis server does not return the info command as usual #541 (@BridgeAR)
+- Fix a crash that could occur if a valkey server does not return the info command as usual #541 (@BridgeAR)
 - Explicitly passing undefined as a callback statement will work again. E.g. client.publish('channel', 'message', undefined); (@BridgeAR)
 
 ## v2.0.1 - Sep 24, 2015
@@ -530,12 +530,12 @@ Bugfixes:
 
 ## v2.0.0 - Sep 21, 2015
 
-This is the biggest release that node_redis had since it was released in 2010. A long list of outstanding bugs has been fixed, so we are very happy to present you redis 2.0 and we highly recommend updating as soon as possible.
+This is the biggest release that node_valkey had since it was released in 2010. A long list of outstanding bugs has been fixed, so we are very happy to present you valkey 2.0 and we highly recommend updating as soon as possible.
 
 # What's new in 2.0
 
 - Implemented a "connection is broken" mode if no connection could be established
-- node_redis no longer throws under any circumstances, preventing it from terminating applications.
+- node_valkey no longer throws under any circumstances, preventing it from terminating applications.
 - Multi error handling is now working properly
 - Consistent command behavior including multi
 - Windows support
@@ -546,12 +546,12 @@ This is the biggest release that node_redis had since it was released in 2010. A
 
 ## Features:
 
-- Added a "redis connection is broken" mode after reaching max connection attempts / exceeding connection timeout. (@BridgeAR)
-- Added NODE_DEBUG=redis env to activate the debug_mode (@BridgeAR)
+- Added a "valkey connection is broken" mode after reaching max connection attempts / exceeding connection timeout. (@BridgeAR)
+- Added NODE_DEBUG=valkey env to activate the debug_mode (@BridgeAR)
 - Added a default connection timeout of 24h instead of never timing out as a default (@BridgeAR)
 - Added: Network errors and other stream errors will from now on include the error code as `err.code` property (@BridgeAR)
-- Added: Errors thrown by redis will now include the redis error code as `err.code` property. (@skeggse & @BridgeAR)
-- Added: Errors thrown by node_redis will now include a `err.command` property for the command used (@BridgeAR)
+- Added: Errors thrown by valkey will now include the valkey error code as `err.code` property. (@skeggse & @BridgeAR)
+- Added: Errors thrown by node_valkey will now include a `err.command` property for the command used (@BridgeAR)
 - Added new commands and drop support for deprecated _substr_ (@BridgeAR)
 - Added new possibilities how to provide the command arguments (@BridgeAR)
 - The entries in the keyspace of the server_info is now an object instead of a string. (@SinisterLight & @BridgeAR)
@@ -587,7 +587,7 @@ This is the biggest release that node_redis had since it was released in 2010. A
 
 ## Breaking changes:
 
-1. redis.send_command commands have to be lower case from now on. This does only apply if you use `.send_command` directly instead of the convenient methods like `redis.command`.
+1. valkey.send_command commands have to be lower case from now on. This does only apply if you use `.send_command` directly instead of the convenient methods like `valkey.command`.
 2. Error messages have changed quite a bit. If you depend on a specific wording please check your application carfully.
 3. Errors are from now on always either returned if a callback is present or emitted. They won't be thrown (neither sync, nor async).
 4. The Multi error handling has changed a lot!
@@ -598,12 +598,12 @@ This is the biggest release that node_redis had since it was released in 2010. A
 - All the errors occuring while executing the commands will stay in the result value as error instance (if you used the js parser before they would have been strings). Be aware that the transaction won't be aborted if those error occurr!
 - If `multi.exec` does not have a callback and an EXECABORT error occurrs, it'll emit that error instead.
 
-5. If redis can't connect to your redis server it'll give up after a certain point of failures (either max connection attempts or connection timeout exceeded). If that is the case it'll emit an CONNECTION_BROKEN error. You'll have to initiate a new client to try again afterwards.
-6. The offline queue is not flushed anymore on a reconnect. It'll stay until node_redis gives up trying to reach the server or until you close the connection.
-7. Before this release node_redis catched user errors and threw them async back. This is not the case anymore! No user behavior of what so ever will be tracked or catched.
-8. The keyspace of `redis.server_info` (db0...) is from now on an object instead of an string.
+5. If valkey can't connect to your valkey server it'll give up after a certain point of failures (either max connection attempts or connection timeout exceeded). If that is the case it'll emit an CONNECTION_BROKEN error. You'll have to initiate a new client to try again afterwards.
+6. The offline queue is not flushed anymore on a reconnect. It'll stay until node_valkey gives up trying to reach the server or until you close the connection.
+7. Before this release node_valkey catched user errors and threw them async back. This is not the case anymore! No user behavior of what so ever will be tracked or catched.
+8. The keyspace of `valkey.server_info` (db0...) is from now on an object instead of an string.
 
-NodeRedis also thanks @qdb, @tobek, @cvibhagool, @frewsxcv, @davidbanham, @serv, @vitaliylag, @chrishamant, @GamingCoder and all other contributors that I may have missed for their contributions!
+NodeValkey also thanks @qdb, @tobek, @cvibhagool, @frewsxcv, @davidbanham, @serv, @vitaliylag, @chrishamant, @GamingCoder and all other contributors that I may have missed for their contributions!
 
 From now on we'll push new releases more frequently out and fix further long outstanding things and implement new features.
 
@@ -612,12 +612,12 @@ From now on we'll push new releases more frequently out and fix further long out
 ## v1.0.0 - Aug 30, 2015
 
 - Huge issue and pull-request cleanup. Thanks Blain! (@blainsmith)
-- [#658](https://github.com/NodeRedis/node_redis/pull/658) Client now parses URL-format connection strings (e.g., redis://foo:pass@127.0.0.1:8080) (@kuwabarahiroshi)
-- [#749](https://github.com/NodeRedis/node_redis/pull/749) Fix reconnection bug when client is in monitoring mode (@danielbprice)
-- [#786](https://github.com/NodeRedis/node_redis/pull/786) Refactor createClient. Fixes #651 (@BridgeAR)
-- [#793](https://github.com/NodeRedis/node_redis/pull/793) Refactor tests and improve test coverage (@erinspice, @bcoe)
-- [#733](https://github.com/NodeRedis/node_redis/pull/733) Fixes detect_buffers functionality in the context of exec. Fixes #732, #263 (@raydog)
-- [#785](https://github.com/NodeRedis/node_redis/pull/785) Tiny speedup by using 'use strict' (@BridgeAR)
+- [#658](https://github.com/NodeValkey/node_valkey/pull/658) Client now parses URL-format connection strings (e.g., valkey://foo:pass@127.0.0.1:8080) (@kuwabarahiroshi)
+- [#749](https://github.com/NodeValkey/node_valkey/pull/749) Fix reconnection bug when client is in monitoring mode (@danielbprice)
+- [#786](https://github.com/NodeValkey/node_valkey/pull/786) Refactor createClient. Fixes #651 (@BridgeAR)
+- [#793](https://github.com/NodeValkey/node_valkey/pull/793) Refactor tests and improve test coverage (@erinspice, @bcoe)
+- [#733](https://github.com/NodeValkey/node_valkey/pull/733) Fixes detect_buffers functionality in the context of exec. Fixes #732, #263 (@raydog)
+- [#785](https://github.com/NodeValkey/node_valkey/pull/785) Tiny speedup by using 'use strict' (@BridgeAR)
 - Fix extraneous error output due to pubsub tests (Mikael Kohlmyr)
 
 ## v0.12.1 - Aug 10, 2014
@@ -640,7 +640,7 @@ From now on we'll push new releases more frequently out and fix further long out
 
 ## v0.10.3 - May 22, 2014
 
-- Update command list to match Redis 2.8.9 (Charles Feng)
+- Update command list to match Valkey 2.8.9 (Charles Feng)
 
 ## v0.10.2 - May 18, 2014
 
@@ -650,7 +650,7 @@ From now on we'll push new releases more frequently out and fix further long out
 
 ## v0.10.1 - February 17, 2014
 
-- Skip plucking redis version from the INFO stream if INFO results weren't provided. (Robert Sköld)
+- Skip plucking valkey version from the INFO stream if INFO results weren't provided. (Robert Sköld)
 
 ## v0.10.0 - December 21, 2013
 
@@ -658,7 +658,7 @@ From now on we'll push new releases more frequently out and fix further long out
 
 ## v0.9.2 - December 15, 2013
 
-- Regenerate commands for new 2.8.x Redis commands. (Marek Ventur)
+- Regenerate commands for new 2.8.x Valkey commands. (Marek Ventur)
 - Correctly time reconnect counts when using 'auth'. (William Hockey)
 
 ## v0.9.1 - November 23, 2013
@@ -675,7 +675,7 @@ From now on we'll push new releases more frequently out and fix further long out
 - If error is already an Error, don't wrap it in another Error. (Mathieu M-Gosselin)
 - Fix retry delay logic (Ian Babrou)
 - Return Errors instead of strings where Errors are expected (Ian Babrou)
-- Add experimental `.unref()` method to RedisClient (Bryce Baril / Olivier Lalonde)
+- Add experimental `.unref()` method to ValkeyClient (Bryce Baril / Olivier Lalonde)
 - Strengthen checking of reply to prevent conflating "message" or "pmessage" fields with pub_sub replies. (Bryce Baril)
 
 ## v0.8.5 - September 26, 2013
@@ -701,7 +701,7 @@ Many contributed features and fixes, including:
 
 - Fix some tests for Node.js version 0.9.x+ changes (Roman Ivanilov)
 - Fix error when commands submitted after idle event handler (roamm)
-- Bypass Redis for no-op SET/SETEX commands (jifeng)
+- Bypass Valkey for no-op SET/SETEX commands (jifeng)
 - Fix HMGET + detect_buffers (Joffrey F)
 - Fix CLIENT LOAD functionality (Jonas Dohse)
 - Add percentage outputs to diff_multi_bench_output.js (Bryce Baril)
@@ -711,12 +711,12 @@ Many contributed features and fixes, including:
 - Fix parser incorrect buffer skip when parsing multi-bulk errors (Bryce Baril)
 - Reverted previous change with throwing on non-string values with HMSET (David Trejo)
 - Fix command queue sync issue when using pubsub (Tom Leach)
-- Fix compatibility with two-word Redis commands (Jonas Dohse)
+- Fix compatibility with two-word Valkey commands (Jonas Dohse)
 - Add EVAL with array syntax (dmoena)
-- Fix tests due to Redis reply order changes in 2.6.5+ (Bryce Baril)
+- Fix tests due to Valkey reply order changes in 2.6.5+ (Bryce Baril)
 - Added a test for the SLOWLOG command (Nitesh Sinha)
-- Fix SMEMBERS order dependency in test broken by Redis changes (Garrett Johnson)
-- Update commands for new Redis commands (David Trejo)
+- Fix SMEMBERS order dependency in test broken by Valkey changes (Garrett Johnson)
+- Update commands for new Valkey commands (David Trejo)
 - Prevent exception from SELECT on subscriber reconnection (roamm)
 
 ## v0.8.2 - November 11, 2012
@@ -734,8 +734,8 @@ Important bug fix for null responses (Jerry Sievert)
 
 Many contributed features and fixes, including:
 
-- Pure JavaScript reply parser that is usually faster than hiredis (Jerry Sievert)
-- Remove hiredis as optionalDependency from package.json. It still works if you want it.
+- Pure JavaScript reply parser that is usually faster than hivalkey (Jerry Sievert)
+- Remove hivalkey as optionalDependency from package.json. It still works if you want it.
 - Restore client state on reconnect, including select, subscribe, and monitor. (Ignacio Burgueño)
 - Fix idle event (Trae Robrock)
 - Many documentation improvements and bug fixes (David Trejo)
@@ -808,7 +808,7 @@ Bugs fixed:
 
 New features:
 
-- Auto update of new commands from redis.io (Dave Hoover)
+- Auto update of new commands from valkey.io (Dave Hoover)
 - Performance improvements and backpressure controls.
 - Commands now return the true/false value from the underlying socket write(s).
 - Implement command_queue high water and low water for more better control of queueing.
@@ -817,11 +817,11 @@ See `examples/backpressure_drain.js` for more information.
 
 ## v0.6.1 - June 29, 2011
 
-Add support and tests for Redis scripting through EXEC command.
+Add support and tests for Valkey scripting through EXEC command.
 
 Bug fix for monitor mode. (forddg)
 
-Auto update of new commands from redis.io (Dave Hoover)
+Auto update of new commands from valkey.io (Dave Hoover)
 
 ## v0.6.0 - April 21, 2011
 
@@ -870,9 +870,9 @@ Thanks to Dean Mao and Austin Chau.
 
 Add probe for server readiness.
 
-When a Redis server starts up, it might take a while to load the dataset into memory.
+When a Valkey server starts up, it might take a while to load the dataset into memory.
 During this time, the server will accept connections, but will return errors for all non-INFO
-commands. Now node_redis will send an INFO command whenever it connects to a server.
+commands. Now node_valkey will send an INFO command whenever it connects to a server.
 If the info command indicates that the server is not ready, the client will keep trying until
 the server is ready. Once it is ready, the client will emit a "ready" event as well as the
 "connect" event. The client will queue up all commands sent before the server is ready, just
@@ -903,7 +903,7 @@ Fix bug where unhandled error replies confuse the parser.
 
 ## v0.5.1 - January 18, 2011
 
-Fix bug where subscribe commands would not handle redis-server startup error properly.
+Fix bug where subscribe commands would not handle valkey-server startup error properly.
 
 ## v0.5.0 - December 29, 2010
 
@@ -919,11 +919,11 @@ New feature:
 
 ## v0.4.1 - December 8, 2010
 
-Remove warning about missing hiredis. You probably do want it though.
+Remove warning about missing hivalkey. You probably do want it though.
 
 ## v0.4.0 - December 5, 2010
 
-Support for multiple response parsers and hiredis C library from Pieter Noordhuis.
+Support for multiple response parsers and hivalkey C library from Pieter Noordhuis.
 Return Strings instead of Buffers by default.
 Empty nested mb reply bug fix.
 
@@ -941,7 +941,7 @@ Add "drain" and "idle" events.
 
 ## v0.3.6 - November 3, 2010
 
-Add all known Redis commands from Redis master, even ones that are coming in 2.2 and beyond.
+Add all known Valkey commands from Valkey master, even ones that are coming in 2.2 and beyond.
 
 Send a friendlier "error" event message on stream errors like connection refused / reset.
 

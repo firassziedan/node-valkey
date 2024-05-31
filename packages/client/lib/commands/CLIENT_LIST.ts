@@ -1,4 +1,4 @@
-import { RedisCommandArguments, RedisCommandArgument } from '.';
+import { ValkeyCommandArguments, ValkeyCommandArgument } from '.';
 import { pushVerdictArguments } from './generic-transformers';
 import { transformReply as transformClientInfoReply, ClientInfoReply } from './CLIENT_INFO';
 
@@ -8,7 +8,7 @@ interface ListFilterType {
 }
 
 interface ListFilterId {
-    ID: Array<RedisCommandArgument>;
+    ID: Array<ValkeyCommandArgument>;
     TYPE?: never;
 }
 
@@ -16,8 +16,8 @@ export type ListFilter = ListFilterType | ListFilterId;
 
 export const IS_READ_ONLY = true;
 
-export function transformArguments(filter?: ListFilter): RedisCommandArguments {
-    let args: RedisCommandArguments = ['CLIENT', 'LIST'];
+export function transformArguments(filter?: ListFilter): ValkeyCommandArguments {
+    let args: ValkeyCommandArguments = ['CLIENT', 'LIST'];
 
     if (filter) {
         if (filter.TYPE !== undefined) {

@@ -1,19 +1,19 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const IS_READ_ONLY = true;
 
-export function transformArguments(args: Array<RedisCommandArgument>): RedisCommandArguments {
+export function transformArguments(args: Array<ValkeyCommandArgument>): ValkeyCommandArguments {
     return ['COMMAND', 'GETKEYSANDFLAGS', ...args];
 }
 
 type KeysAndFlagsRawReply = Array<[
-    RedisCommandArgument,
-    RedisCommandArguments
+    ValkeyCommandArgument,
+    ValkeyCommandArguments
 ]>;
 
 type KeysAndFlagsReply = Array<{
-    key: RedisCommandArgument;
-    flags: RedisCommandArguments;
+    key: ValkeyCommandArgument;
+    flags: ValkeyCommandArguments;
 }>;
 
 export function transformReply(reply: KeysAndFlagsRawReply): KeysAndFlagsReply {

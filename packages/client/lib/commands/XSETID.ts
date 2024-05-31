@@ -1,17 +1,17 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
 interface XSetIdOptions {
     ENTRIESADDED?: number;
-    MAXDELETEDID?: RedisCommandArgument;
+    MAXDELETEDID?: ValkeyCommandArgument;
 }
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    lastId: RedisCommandArgument,
+    key: ValkeyCommandArgument,
+    lastId: ValkeyCommandArgument,
     options?: XSetIdOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['XSETID', key, lastId];
 
     if (options?.ENTRIESADDED) {

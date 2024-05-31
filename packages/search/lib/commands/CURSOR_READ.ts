@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -9,10 +9,10 @@ interface CursorReadOptions {
 }
 
 export function transformArguments(
-    index: RedisCommandArgument,
+    index: ValkeyCommandArgument,
     cursor: number,
     options?: CursorReadOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = [
         'FT.CURSOR',
         'READ',

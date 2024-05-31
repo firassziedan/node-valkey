@@ -1,9 +1,9 @@
 import COMMANDS from './commands';
-import { RedisCommand, RedisCommandArguments, RedisCommandRawReply, RedisCommandReply, RedisFunctions, RedisModules, RedisExtensions, RedisScript, RedisScripts, RedisCommandSignature, ConvertArgumentType, RedisFunction, ExcludeMappedString, RedisCommands } from '../commands';
-import RedisSocket, { RedisSocketOptions, RedisTlsSocketOptions } from './socket';
-import RedisCommandsQueue, { QueueCommandOptions } from './commands-queue';
-import RedisClientMultiCommand, { RedisClientMultiCommandType } from './multi-command';
-import { RedisMultiQueuedCommand } from '../multi-command';
+import { ValkeyCommand, ValkeyCommandArguments, ValkeyCommandRawReply, ValkeyCommandReply, ValkeyFunctions, ValkeyModules, ValkeyExtensions, ValkeyScript, ValkeyScripts, ValkeyCommandSignature, ConvertArgumentType, ValkeyFunction, ExcludeMappedString, ValkeyCommands } from '../commands';
+import ValkeySocket, { ValkeySocketOptions, ValkeyTlsSocketOptions } from './socket';
+import ValkeyCommandsQueue, { QueueCommandOptions } from './commands-queue';
+import ValkeyClientMultiCommand, { ValkeyClientMultiCommandType } from './multi-command';
+import { ValkeyMultiQueuedCommand } from '../multi-command';
 import { EventEmitter } from 'events';
 import { CommandOptions, commandOptions, isCommandOptions } from '../command-options';
 import { ScanOptions, ZMember } from '../commands/generic-transformers';
@@ -18,22 +18,22 @@ import { PubSubType, PubSubListener, PubSubTypeListeners, ChannelListeners } fro
 
 import {version} from '../../package.json';
 
-export interface RedisClientOptions<
-    M extends RedisModules = RedisModules,
-    F extends RedisFunctions = RedisFunctions,
-    S extends RedisScripts = RedisScripts
-> extends RedisExtensions<M, F, S> {
+export interface ValkeyClientOptions<
+    M extends ValkeyModules = ValkeyModules,
+    F extends ValkeyFunctions = ValkeyFunctions,
+    S extends ValkeyScripts = ValkeyScripts
+> extends ValkeyExtensions<M, F, S> {
     /**
-     * `redis[s]://[[username][:password]@][host][:port][/db-number]`
-     * See [`redis`](https://www.iana.org/assignments/uri-schemes/prov/redis) and [`rediss`](https://www.iana.org/assignments/uri-schemes/prov/rediss) IANA registration for more details
+     * `valkey[s]://[[username][:password]@][host][:port][/db-number]`
+     * See [`valkey`](https://www.iana.org/assignments/uri-schemes/prov/valkey) and [`valkeys`](https://www.iana.org/assignments/uri-schemes/prov/valkeys) IANA registration for more details
      */
     url?: string;
     /**
      * Socket connection properties
      */
-    socket?: RedisSocketOptions;
+    socket?: ValkeySocketOptions;
     /**
-     * ACL username ([see ACL guide](https://redis.io/topics/acl))
+     * ACL username ([see ACL guide](https://valkey.io/topics/acl))
      */
     username?: string;
     /**
@@ -41,11 +41,11 @@ export interface RedisClientOptions<
      */
     password?: string;
     /**
-     * Client name ([see `CLIENT SETNAME`](https://redis.io/commands/client-setname))
+     * Client name ([see `CLIENT SETNAME`](https://valkey.io/commands/client-setname))
      */
     name?: string;
     /**
-     * Redis database number (see [`SELECT`](https://redis.io/commands/select) command)
+     * Valkey database number (see [`SELECT`](https://valkey.io/commands/select) command)
      */
     database?: number;
     /**
@@ -58,117 +58,117 @@ export interface RedisClientOptions<
      */
     disableOfflineQueue?: boolean;
     /**
-     * Connect in [`READONLY`](https://redis.io/commands/readonly) mode
+     * Connect in [`READONLY`](https://valkey.io/commands/readonly) mode
      */
     readonly?: boolean;
     legacyMode?: boolean;
     isolationPoolOptions?: PoolOptions;
     /**
      * Send `PING` command at interval (in ms).
-     * Useful with Redis deployments that do not use TCP Keep-Alive.
+     * Useful with Valkey deployments that do not use TCP Keep-Alive.
      */
     pingInterval?: number;
     /**
-     * If set to true, disables sending client identifier (user-agent like message) to the redis server
+     * If set to true, disables sending client identifier (user-agent like message) to the valkey server
      */
     disableClientInfo?: boolean;
     /**
-     * Tag to append to library name that is sent to the Redis server
+     * Tag to append to library name that is sent to the Valkey server
      */
     clientInfoTag?: string;
 }
 
 type WithCommands = {
-    [P in keyof typeof COMMANDS]: RedisCommandSignature<(typeof COMMANDS)[P]>;
+    [P in keyof typeof COMMANDS]: ValkeyCommandSignature<(typeof COMMANDS)[P]>;
 };
 
-export type WithModules<M extends RedisModules> = {
+export type WithModules<M extends ValkeyModules> = {
     [P in keyof M as ExcludeMappedString<P>]: {
-        [C in keyof M[P] as ExcludeMappedString<C>]: RedisCommandSignature<M[P][C]>;
+        [C in keyof M[P] as ExcludeMappedString<C>]: ValkeyCommandSignature<M[P][C]>;
     };
 };
 
-export type WithFunctions<F extends RedisFunctions> = {
+export type WithFunctions<F extends ValkeyFunctions> = {
     [P in keyof F as ExcludeMappedString<P>]: {
-        [FF in keyof F[P] as ExcludeMappedString<FF>]: RedisCommandSignature<F[P][FF]>;
+        [FF in keyof F[P] as ExcludeMappedString<FF>]: ValkeyCommandSignature<F[P][FF]>;
     };
 };
 
-export type WithScripts<S extends RedisScripts> = {
-    [P in keyof S as ExcludeMappedString<P>]: RedisCommandSignature<S[P]>;
+export type WithScripts<S extends ValkeyScripts> = {
+    [P in keyof S as ExcludeMappedString<P>]: ValkeyCommandSignature<S[P]>;
 };
 
-export type RedisClientType<
-    M extends RedisModules = Record<string, never>,
-    F extends RedisFunctions = Record<string, never>,
-    S extends RedisScripts = Record<string, never>
-> = RedisClient<M, F, S> & WithCommands & WithModules<M> & WithFunctions<F> & WithScripts<S>;
+export type ValkeyClientType<
+    M extends ValkeyModules = Record<string, never>,
+    F extends ValkeyFunctions = Record<string, never>,
+    S extends ValkeyScripts = Record<string, never>
+> = ValkeyClient<M, F, S> & WithCommands & WithModules<M> & WithFunctions<F> & WithScripts<S>;
 
-export type InstantiableRedisClient<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
-> = new (options?: RedisClientOptions<M, F, S>) => RedisClientType<M, F, S>;
+export type InstantiableValkeyClient<
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
+> = new (options?: ValkeyClientOptions<M, F, S>) => ValkeyClientType<M, F, S>;
 
 export interface ClientCommandOptions extends QueueCommandOptions {
     isolated?: boolean;
 }
 
-type ClientLegacyCallback = (err: Error | null, reply?: RedisCommandRawReply) => void;
+type ClientLegacyCallback = (err: Error | null, reply?: ValkeyCommandRawReply) => void;
 
-export default class RedisClient<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+export default class ValkeyClient<
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > extends EventEmitter {
     static commandOptions<T extends ClientCommandOptions>(options: T): CommandOptions<T> {
         return commandOptions(options);
     }
 
-    commandOptions = RedisClient.commandOptions;
+    commandOptions = ValkeyClient.commandOptions;
 
     static extend<
-        M extends RedisModules,
-        F extends RedisFunctions,
-        S extends RedisScripts
-    >(extensions?: RedisExtensions<M, F, S>): InstantiableRedisClient<M, F, S> {
+        M extends ValkeyModules,
+        F extends ValkeyFunctions,
+        S extends ValkeyScripts
+    >(extensions?: ValkeyExtensions<M, F, S>): InstantiableValkeyClient<M, F, S> {
         const Client = attachExtensions({
-            BaseClass: RedisClient,
-            modulesExecutor: RedisClient.prototype.commandsExecutor,
+            BaseClass: ValkeyClient,
+            modulesExecutor: ValkeyClient.prototype.commandsExecutor,
             modules: extensions?.modules,
-            functionsExecutor: RedisClient.prototype.functionsExecuter,
+            functionsExecutor: ValkeyClient.prototype.functionsExecuter,
             functions: extensions?.functions,
-            scriptsExecutor: RedisClient.prototype.scriptsExecuter,
+            scriptsExecutor: ValkeyClient.prototype.scriptsExecuter,
             scripts: extensions?.scripts
         });
 
-        if (Client !== RedisClient) {
-            Client.prototype.Multi = RedisClientMultiCommand.extend(extensions);
+        if (Client !== ValkeyClient) {
+            Client.prototype.Multi = ValkeyClientMultiCommand.extend(extensions);
         }
 
         return Client;
     }
 
     static create<
-        M extends RedisModules,
-        F extends RedisFunctions,
-        S extends RedisScripts
-    >(options?: RedisClientOptions<M, F, S>): RedisClientType<M, F, S> {
-        return new (RedisClient.extend(options))(options);
+        M extends ValkeyModules,
+        F extends ValkeyFunctions,
+        S extends ValkeyScripts
+    >(options?: ValkeyClientOptions<M, F, S>): ValkeyClientType<M, F, S> {
+        return new (ValkeyClient.extend(options))(options);
     }
 
-    static parseURL(url: string): RedisClientOptions {
-        // https://www.iana.org/assignments/uri-schemes/prov/redis
+    static parseURL(url: string): ValkeyClientOptions {
+        // https://www.iana.org/assignments/uri-schemes/prov/valkey
         const { hostname, port, protocol, username, password, pathname } = new URL(url),
-            parsed: RedisClientOptions = {
+            parsed: ValkeyClientOptions = {
                 socket: {
                     host: hostname
                 }
             };
 
-        if (protocol === 'rediss:') {
-            (parsed.socket as RedisTlsSocketOptions).tls = true;
-        } else if (protocol !== 'redis:') {
+        if (protocol === 'valkeys:') {
+            (parsed.socket as ValkeyTlsSocketOptions).tls = true;
+        } else if (protocol !== 'valkey:') {
             throw new TypeError('Invalid protocol');
         }
 
@@ -196,14 +196,14 @@ export default class RedisClient<
         return parsed;
     }
 
-    readonly #options?: RedisClientOptions<M, F, S>;
-    readonly #socket: RedisSocket;
-    readonly #queue: RedisCommandsQueue;
-    #isolationPool?: Pool<RedisClientType<M, F, S>>;
+    readonly #options?: ValkeyClientOptions<M, F, S>;
+    readonly #socket: ValkeySocket;
+    readonly #queue: ValkeyCommandsQueue;
+    #isolationPool?: Pool<ValkeyClientType<M, F, S>>;
     readonly #v4: Record<string, any> = {};
     #selectedDB = 0;
 
-    get options(): RedisClientOptions<M, F, S> | undefined {
+    get options(): ValkeyClientOptions<M, F, S> | undefined {
         return this.#options;
     }
 
@@ -227,7 +227,7 @@ export default class RedisClient<
         return this.#v4;
     }
 
-    constructor(options?: RedisClientOptions<M, F, S>) {
+    constructor(options?: ValkeyClientOptions<M, F, S>) {
         super();
         this.#options = this.#initiateOptions(options);
         this.#queue = this.#initiateQueue();
@@ -238,9 +238,9 @@ export default class RedisClient<
         this.#legacyMode();
     }
 
-    #initiateOptions(options?: RedisClientOptions<M, F, S>): RedisClientOptions<M, F, S> | undefined {
+    #initiateOptions(options?: ValkeyClientOptions<M, F, S>): ValkeyClientOptions<M, F, S> | undefined {
         if (options?.url) {
-            const parsed = RedisClient.parseURL(options.url);
+            const parsed = ValkeyClient.parseURL(options.url);
             if (options.socket) {
                 parsed.socket = Object.assign(options.socket, parsed.socket);
             }
@@ -255,14 +255,14 @@ export default class RedisClient<
         return options;
     }
 
-    #initiateQueue(): RedisCommandsQueue {
-        return new RedisCommandsQueue(
+    #initiateQueue(): ValkeyCommandsQueue {
+        return new ValkeyCommandsQueue(
             this.#options?.commandsQueueMaxLength,
             (channel, listeners) => this.emit('sharded-channel-moved', channel, listeners)
         );
     }
 
-    #initiateSocket(): RedisSocket {
+    #initiateSocket(): ValkeySocket {
         const socketInitiator = async (): Promise<void> => {
             const promises = [];
 
@@ -300,7 +300,7 @@ export default class RedisClient<
                     this.#queue.addCommand(
                         [
                            'CLIENT', 'SETINFO', 'LIB-NAME',
-                            this.#options?.clientInfoTag ? `node-redis(${this.#options.clientInfoTag})` : 'node-redis'
+                            this.#options?.clientInfoTag ? `node-valkey(${this.#options.clientInfoTag})` : 'node-valkey'
                         ],
                         { asap: true }
                     ).catch(err => {
@@ -343,7 +343,7 @@ export default class RedisClient<
             }
         };
 
-        return new RedisSocket(socketInitiator, this.#options?.socket)
+        return new ValkeySocket(socketInitiator, this.#options?.socket)
             .on('data', chunk => this.#queue.onReplyChunk(chunk))
             .on('error', err => {
                 this.emit('error', err);
@@ -392,7 +392,7 @@ export default class RedisClient<
             }
         };
 
-        for (const [ name, command ] of Object.entries(COMMANDS as RedisCommands)) {
+        for (const [ name, command ] of Object.entries(COMMANDS as ValkeyCommands)) {
             this.#defineLegacyCommand(name, command);
             (this as any)[name.toLowerCase()] ??= (this as any)[name];
         }
@@ -425,7 +425,7 @@ export default class RedisClient<
         promise.catch(err => this.emit('error', err));
     }
 
-    #defineLegacyCommand(name: string, command?: RedisCommand): void {
+    #defineLegacyCommand(name: string, command?: ValkeyCommand): void {
         this.#v4[name] = (this as any)[name].bind(this);
         (this as any)[name] = command && command.TRANSFORM_LEGACY_REPLY && command.transformReply ?
             (...args: Array<unknown>) => {
@@ -456,7 +456,7 @@ export default class RedisClient<
         }, this.#options.pingInterval);
     }
 
-    duplicate(overrides?: Partial<RedisClientOptions<M, F, S>>): RedisClientType<M, F, S> {
+    duplicate(overrides?: Partial<ValkeyClientOptions<M, F, S>>): ValkeyClientType<M, F, S> {
         return new (Object.getPrototypeOf(this).constructor)({
             ...this.#options,
             ...overrides
@@ -467,31 +467,31 @@ export default class RedisClient<
         // see comment in constructor
         this.#isolationPool ??= this.#initiateIsolationPool();
         await this.#socket.connect();
-        return this as unknown as RedisClientType<M, F, S>;
+        return this as unknown as ValkeyClientType<M, F, S>;
     }
 
-    async commandsExecutor<C extends RedisCommand>(
+    async commandsExecutor<C extends ValkeyCommand>(
         command: C,
         args: Array<unknown>
-    ): Promise<RedisCommandReply<C>> {
-        const { args: redisArgs, options } = transformCommandArguments(command, args);
+    ): Promise<ValkeyCommandReply<C>> {
+        const { args: valkeyArgs, options } = transformCommandArguments(command, args);
         return transformCommandReply(
             command,
-            await this.#sendCommand(redisArgs, options),
-            redisArgs.preserve
+            await this.#sendCommand(valkeyArgs, options),
+            valkeyArgs.preserve
         );
     }
 
-    sendCommand<T = RedisCommandRawReply>(
-        args: RedisCommandArguments,
+    sendCommand<T = ValkeyCommandRawReply>(
+        args: ValkeyCommandArguments,
         options?: ClientCommandOptions
     ): Promise<T> {
         return this.#sendCommand(args, options);
     }
 
     // using `#sendCommand` cause `sendCommand` is overwritten in legacy mode
-    #sendCommand<T = RedisCommandRawReply>(
-        args: RedisCommandArguments,
+    #sendCommand<T = ValkeyCommandRawReply>(
+        args: ValkeyCommandArguments,
         options?: ClientCommandOptions
     ): Promise<T> {
         if (!this.#socket.isOpen) {
@@ -512,66 +512,66 @@ export default class RedisClient<
         return promise;
     }
 
-    async functionsExecuter<F extends RedisFunction>(
+    async functionsExecuter<F extends ValkeyFunction>(
         fn: F,
         args: Array<unknown>,
         name: string
-    ): Promise<RedisCommandReply<F>> {
-        const { args: redisArgs, options } = transformCommandArguments(fn, args);
+    ): Promise<ValkeyCommandReply<F>> {
+        const { args: valkeyArgs, options } = transformCommandArguments(fn, args);
         return transformCommandReply(
             fn,
-            await this.executeFunction(name, fn, redisArgs, options),
-            redisArgs.preserve
+            await this.executeFunction(name, fn, valkeyArgs, options),
+            valkeyArgs.preserve
         );
     }
 
     executeFunction(
         name: string,
-        fn: RedisFunction,
-        args: RedisCommandArguments,
+        fn: ValkeyFunction,
+        args: ValkeyCommandArguments,
         options?: ClientCommandOptions
-    ): Promise<RedisCommandRawReply> {
+    ): Promise<ValkeyCommandRawReply> {
         return this.#sendCommand(
             fCallArguments(name, fn, args),
             options
         );
     }
 
-    async scriptsExecuter<S extends RedisScript>(
+    async scriptsExecuter<S extends ValkeyScript>(
         script: S,
         args: Array<unknown>
-    ): Promise<RedisCommandReply<S>> {
-        const { args: redisArgs, options } = transformCommandArguments(script, args);
+    ): Promise<ValkeyCommandReply<S>> {
+        const { args: valkeyArgs, options } = transformCommandArguments(script, args);
         return transformCommandReply(
             script,
-            await this.executeScript(script, redisArgs, options),
-            redisArgs.preserve
+            await this.executeScript(script, valkeyArgs, options),
+            valkeyArgs.preserve
         );
     }
 
     async executeScript(
-        script: RedisScript,
-        args: RedisCommandArguments,
+        script: ValkeyScript,
+        args: ValkeyCommandArguments,
         options?: ClientCommandOptions
-    ): Promise<RedisCommandRawReply> {
-        const redisArgs: RedisCommandArguments = ['EVALSHA', script.SHA1];
+    ): Promise<ValkeyCommandRawReply> {
+        const valkeyArgs: ValkeyCommandArguments = ['EVALSHA', script.SHA1];
 
         if (script.NUMBER_OF_KEYS !== undefined) {
-            redisArgs.push(script.NUMBER_OF_KEYS.toString());
+            valkeyArgs.push(script.NUMBER_OF_KEYS.toString());
         }
 
-        redisArgs.push(...args);
+        valkeyArgs.push(...args);
 
         try {
-            return await this.#sendCommand(redisArgs, options);
+            return await this.#sendCommand(valkeyArgs, options);
         } catch (err: any) {
             if (!err?.message?.startsWith?.('NOSCRIPT')) {
                 throw err;
             }
 
-            redisArgs[0] = 'EVAL';
-            redisArgs[1] = script.SCRIPT;
-            return this.#sendCommand(redisArgs, options);
+            valkeyArgs[0] = 'EVAL';
+            valkeyArgs[1] = script.SCRIPT;
+            return this.#sendCommand(valkeyArgs, options);
         }
     }
 
@@ -749,12 +749,12 @@ export default class RedisClient<
         }
     }
 
-    executeIsolated<T>(fn: (client: RedisClientType<M, F, S>) => T | Promise<T>): Promise<T> {
+    executeIsolated<T>(fn: (client: ValkeyClientType<M, F, S>) => T | Promise<T>): Promise<T> {
         if (!this.#isolationPool) return Promise.reject(new ClientClosedError());
         return this.#isolationPool.use(fn);
     }
 
-    MULTI(): RedisClientMultiCommandType<M, F, S> {
+    MULTI(): ValkeyClientMultiCommandType<M, F, S> {
         return new (this as any).Multi(
             this.multiExecutor.bind(this),
             this.#options?.legacyMode
@@ -764,10 +764,10 @@ export default class RedisClient<
     multi = this.MULTI;
 
     async multiExecutor(
-        commands: Array<RedisMultiQueuedCommand>,
+        commands: Array<ValkeyMultiQueuedCommand>,
         selectedDB?: number,
         chainId?: symbol
-    ): Promise<Array<RedisCommandRawReply>> {
+    ): Promise<Array<ValkeyCommandRawReply>> {
         if (!this.#socket.isOpen) {
             return Promise.reject(new ClientClosedError());
         }
@@ -792,7 +792,7 @@ export default class RedisClient<
         return results;
     }
 
-    #addMultiCommands(commands: Array<RedisMultiQueuedCommand>, chainId?: symbol) {
+    #addMultiCommands(commands: Array<ValkeyMultiQueuedCommand>, chainId?: symbol) {
         return Promise.all(
             commands.map(({ args }) => this.#queue.addCommand(args, { chainId }))
         );
@@ -865,8 +865,8 @@ export default class RedisClient<
 }
 
 attachCommands({
-    BaseClass: RedisClient,
+    BaseClass: ValkeyClient,
     commands: COMMANDS,
-    executor: RedisClient.prototype.commandsExecutor
+    executor: ValkeyClient.prototype.commandsExecutor
 });
-(RedisClient.prototype as any).Multi = RedisClientMultiCommand;
+(ValkeyClient.prototype as any).Multi = ValkeyClientMultiCommand;

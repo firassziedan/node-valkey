@@ -1,6 +1,6 @@
 # v3 to v4 Migration Guide
 
-Version 4 of Node Redis is a major refactor. While we have tried to maintain backwards compatibility where possible, several interfaces have changed. Read this guide to understand the differences and how to implement version 4 in your application.
+Version 4 of Node Valkey is a major refactor. While we have tried to maintain backwards compatibility where possible, several interfaces have changed. Read this guide to understand the differences and how to implement version 4 in your application.
 
 ## All of the Breaking Changes
 
@@ -8,7 +8,7 @@ See the [Change Log](../CHANGELOG.md).
 
 ### Promises
 
-Node Redis now uses native [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) by default for all functions.
+Node Valkey now uses native [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) by default for all functions.
 
 ### `createClient`
 
@@ -19,7 +19,7 @@ The configuration object passed to `createClient` has changed significantly with
 In V4, the client does not automatically connect to the server. Instead you need to run `.connect()` after creating the client or you will receive an error: `ClientClosedError: The client is closed`.
 
 ```typescript
-import { createClient } from 'redis';
+import { createClient } from 'valkey';
 
 const client = createClient();
 
@@ -55,7 +55,7 @@ The third argument to these commands is a boolean to set `bufferMode` (default `
 The `subscribe`-like commands return a promise. If the command is executed successfully the promise will be fulfilled, otherwise the promise will be rejected.
 
 ```typescript
-import { createClient } from 'redis';
+import { createClient } from 'valkey';
 
 const subscriber = createClient();
 

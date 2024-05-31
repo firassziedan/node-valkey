@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 interface CopyCommandOptions {
     destinationDb?: number;
@@ -8,10 +8,10 @@ interface CopyCommandOptions {
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    source: RedisCommandArgument,
-    destination: RedisCommandArgument,
+    source: ValkeyCommandArgument,
+    destination: ValkeyCommandArgument,
     options?: CopyCommandOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['COPY', source, destination];
 
     if (options?.destinationDb) {

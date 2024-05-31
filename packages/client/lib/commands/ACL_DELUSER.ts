@@ -1,9 +1,9 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { pushVerdictArguments } from './generic-transformers';
 
 export function transformArguments(
-    username: RedisCommandArgument | Array<RedisCommandArgument>
-): RedisCommandArguments {
+    username: ValkeyCommandArgument | Array<ValkeyCommandArgument>
+): ValkeyCommandArguments {
     return pushVerdictArguments(['ACL', 'DELUSER'], username);
 }
 

@@ -6,4 +6,4 @@ clientconfig:
       npm run build:tests-tools
       cd benchmark
       npm install
-      npm run start -- --name set-get-delete-string --size 1048576 --redis-server-host ${server_private_ip}
+      npm run start -- --name set-get-delete-string --size 1048576 --valkey-server-host ${server_private_ip}

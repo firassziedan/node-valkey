@@ -1,18 +1,18 @@
 import { strict as assert } from 'assert';
-import RedisMultiCommand from './multi-command';
+import ValkeyMultiCommand from './multi-command';
 import { WatchError } from './errors';
 import { SQUARE_SCRIPT } from './client/index.spec';
 
 describe('Multi Command', () => {
     it('generateChainId', () => {
         assert.equal(
-            typeof RedisMultiCommand.generateChainId(),
+            typeof ValkeyMultiCommand.generateChainId(),
             'symbol'
         );
     });
 
     it('addCommand', () => {
-        const multi = new RedisMultiCommand();
+        const multi = new ValkeyMultiCommand();
         multi.addCommand(['PING']);
 
         assert.deepEqual(
@@ -22,7 +22,7 @@ describe('Multi Command', () => {
     });
 
     it('addScript', () => {
-        const multi = new RedisMultiCommand();
+        const multi = new ValkeyMultiCommand();
 
         multi.addScript(SQUARE_SCRIPT, ['1']);
         assert.equal(
@@ -48,13 +48,13 @@ describe('Multi Command', () => {
     describe('exec', () => {
         it('without commands', () => {
             assert.deepEqual(
-                new RedisMultiCommand().queue,
+                new ValkeyMultiCommand().queue,
                 []
             );
         });
 
         it('with commands', () => {
-            const multi = new RedisMultiCommand();
+            const multi = new ValkeyMultiCommand();
             multi.addCommand(['PING']);
 
             assert.deepEqual(
@@ -70,13 +70,13 @@ describe('Multi Command', () => {
     describe('handleExecReplies', () => {
         it('WatchError', () => {
             assert.throws(
-                () => new RedisMultiCommand().handleExecReplies([null]),
+                () => new ValkeyMultiCommand().handleExecReplies([null]),
                 WatchError
             );
         });
 
         it('with replies', () => {
-            const multi = new RedisMultiCommand();
+            const multi = new ValkeyMultiCommand();
             multi.addCommand(['PING']);
             assert.deepEqual(
                 multi.handleExecReplies(['OK', 'QUEUED', ['PONG']]),
@@ -86,7 +86,7 @@ describe('Multi Command', () => {
     });
 
     it('transformReplies', () => {
-        const multi = new RedisMultiCommand();
+        const multi = new ValkeyMultiCommand();
         multi.addCommand(['PING'], (reply: string) => reply.substring(0, 2));
         assert.deepEqual(
             multi.transformReplies(['PONG']),

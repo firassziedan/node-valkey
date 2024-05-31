@@ -1,5 +1,5 @@
-// Check the connection status of the Redis client instance.
-import { createClient } from 'redis';
+// Check the connection status of the Valkey client instance.
+import { createClient } from 'valkey';
 
 const client = createClient();
 

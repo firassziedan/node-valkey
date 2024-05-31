@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 import { RangeOptions, Timestamp, pushRangeArguments, SampleRawReply, SampleReply, transformRangeReply } from '.';
 
 export const FIRST_KEY_INDEX = 1;
@@ -10,7 +10,7 @@ export function transformArguments(
     fromTimestamp: Timestamp,
     toTimestamp: Timestamp,
     options?: RangeOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return pushRangeArguments(
         ['TS.RANGE', key],
         fromTimestamp,

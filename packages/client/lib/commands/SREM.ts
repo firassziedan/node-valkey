@@ -1,12 +1,12 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { pushVerdictArguments } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    members: RedisCommandArgument | Array<RedisCommandArgument>
-): RedisCommandArguments {
+    key: ValkeyCommandArgument,
+    members: ValkeyCommandArgument | Array<ValkeyCommandArgument>
+): ValkeyCommandArguments {
     return pushVerdictArguments(['SREM', key], members);
 }
 

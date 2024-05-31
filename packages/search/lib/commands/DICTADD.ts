@@ -1,7 +1,7 @@
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
-import { pushVerdictArguments } from '@redis/client/dist/lib/commands/generic-transformers';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
+import { pushVerdictArguments } from 'valkey-client/dist/lib/commands/generic-transformers';
 
-export function transformArguments(dictionary: string, term: string | Array<string>): RedisCommandArguments {
+export function transformArguments(dictionary: string, term: string | Array<string>): ValkeyCommandArguments {
     return pushVerdictArguments(['FT.DICTADD', dictionary], term);
 }
 

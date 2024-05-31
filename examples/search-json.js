@@ -1,16 +1,16 @@
-// This example demonstrates how to use RediSearch and RedisJSON together.
-// Requires both the RediSearch and RedisJSON modules:
-// https://redis.io/docs/stack/search/
-// https://redis.io/docs/stack/json/
+// This example demonstrates how to use ValkeySearch and ValkeyJSON together.
+// Requires both the ValkeySearch and ValkeyJSON modules:
+// https://valkey.io/docs/stack/search/
+// https://valkey.io/docs/stack/json/
 
-import { createClient, SchemaFieldTypes, AggregateGroupByReducers, AggregateSteps } from 'redis';
+import { createClient, SchemaFieldTypes, AggregateGroupByReducers, AggregateSteps } from 'valkey';
 
 const client = createClient();
 
 await client.connect();
 
 // Create an index.
-// https://redis.io/commands/ft.create/
+// https://valkey.io/commands/ft.create/
 try {
   await client.ft.create('idx:users', {
     '$.name': {
@@ -31,28 +31,28 @@ try {
     }
   }, {
     ON: 'JSON',
-    PREFIX: 'noderedis:users'
+    PREFIX: 'nodevalkey:users'
   });
 } catch (e) {
   if (e.message === 'Index already exists') {
     console.log('Index exists already, skipped creation.');
   } else {
-    // Something went wrong, perhaps RediSearch isn't installed...
+    // Something went wrong, perhaps ValkeySearch isn't installed...
     console.error(e);
     process.exit(1);
   }
 }
 
 // Add some users.
-// https://redis.io/commands/json.set/
+// https://valkey.io/commands/json.set/
 await Promise.all([
-  client.json.set('noderedis:users:1', '$', {
+  client.json.set('nodevalkey:users:1', '$', {
     name: 'Alice',
     age: 32,
     coins: 100,
     email: 'alice@nonexist.com'
   }),
-  client.json.set('noderedis:users:2', '$', {
+  client.json.set('nodevalkey:users:2', '$', {
     name: 'Bob',
     age: 23,
     coins: 15,
@@ -63,7 +63,7 @@ await Promise.all([
 // Search all users under 30
 console.log('Users under 30 years old:');
 console.log(
-  // https://redis.io/commands/ft.search/
+  // https://valkey.io/commands/ft.search/
   JSON.stringify(
     await client.ft.search('idx:users', '@age:[0 30]'),
     null,
@@ -74,7 +74,7 @@ console.log(
 //   "total": 1,
 //   "documents": [
 //     {
-//       "id": "noderedis:users:2",
+//       "id": "nodevalkey:users:2",
 //       "value": {
 //         "name": "Bob",
 //         "age": 23,
@@ -87,7 +87,7 @@ console.log(
 
 // Find a user by email - note we need to escape . and @ characters
 // in the email address.  This applies for other punctuation too.
-// https://redis.io/docs/stack/search/reference/tags/#including-punctuation-in-tags
+// https://valkey.io/docs/stack/search/reference/tags/#including-punctuation-in-tags
 console.log('Users with email "bob@somewhere.gov":');
 const emailAddress = 'bob@somewhere.gov'.replace(/[.@\\]/g, '\\$&');
 console.log(
@@ -101,7 +101,7 @@ console.log(
 //   "total": 1,
 //   "documents": [
 //     {
-//       "id": "noderedis:users:2",
+//       "id": "nodevalkey:users:2",
 //       "value": {
 //         "name": "Bob",
 //         "age": 23,
@@ -113,7 +113,7 @@ console.log(
 // }
 
 // Some aggregrations, what's the average age and total number of coins...
-// https://redis.io/commands/ft.aggregate/
+// https://valkey.io/commands/ft.aggregate/
 console.log('Aggregation Demo:');
 console.log(
   JSON.stringify(

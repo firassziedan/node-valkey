@@ -1,7 +1,7 @@
-import Redis from 'ioredis';
+import Valkey from 'iovalkey';
 
 export default async (host) => {
-    const client = new Redis({
+    const client = new Valkey({
         host,
         lazyConnect: true
     });

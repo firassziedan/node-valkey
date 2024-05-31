@@ -1,8 +1,8 @@
 // A sample stream consumer using the blocking variant of XREAD.
-// https://redis.io/commands/xread/
+// https://valkey.io/commands/xread/
 // This consumes entries from a stream created by stream-producer.js
 
-import { createClient, commandOptions } from 'redis';
+import { createClient, commandOptions } from 'valkey';
 
 const client = createClient();
 

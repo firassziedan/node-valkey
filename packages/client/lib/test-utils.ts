@@ -1,10 +1,10 @@
-import TestUtils from '@redis/test-utils';
+import TestUtils from 'valkey-test-utils';
 import { SinonSpy } from 'sinon';
 import { promiseTimeout } from './utils';
 
 const utils = new TestUtils({
-  dockerImageName: 'redis',
-  dockerImageVersionArgument: 'redis-version',
+  dockerImageName: 'valkey',
+  dockerImageVersionArgument: 'valkey-version',
   defaultDockerVersion: '7.2'
 });
 

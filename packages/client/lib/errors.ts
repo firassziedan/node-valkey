@@ -1,4 +1,4 @@
-import { RedisCommandRawReply } from './commands';
+import { ValkeyCommandRawReply } from './commands';
 
 export class AbortError extends Error {
     constructor() {
@@ -70,7 +70,7 @@ export class MultiErrorReply extends ErrorReply {
     replies;
     errorIndexes;
 
-    constructor(replies: Array<RedisCommandRawReply | ErrorReply>, errorIndexes: Array<number>) {
+    constructor(replies: Array<ValkeyCommandRawReply | ErrorReply>, errorIndexes: Array<number>) {
         super(`${errorIndexes.length} commands failed, see .replies and .errorIndexes for more information`);
         this.replies = replies;
         this.errorIndexes = errorIndexes;

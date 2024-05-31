@@ -1,16 +1,16 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformArguments as transformZRandMemberArguments } from './ZRANDMEMBER';
 
 export { FIRST_KEY_INDEX, IS_READ_ONLY } from './ZRANDMEMBER';
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     count: number
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return [
         ...transformZRandMemberArguments(key),
         count.toString()
     ];
 }
 
-export declare function transformReply(): Array<RedisCommandArgument>;
+export declare function transformReply(): Array<ValkeyCommandArgument>;

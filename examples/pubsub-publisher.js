@@ -1,6 +1,6 @@
 // A sample publisher using the publish function to put message on different channels.
-// https://redis.io/commands/publish/
-import { createClient } from 'redis';
+// https://valkey.io/commands/publish/
+import { createClient } from 'valkey';
 
 const client = createClient();
 

@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformStringNumberInfinityArgument } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -15,11 +15,11 @@ interface ZRangeOptions {
 }
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    min: RedisCommandArgument | number,
-    max: RedisCommandArgument | number,
+    key: ValkeyCommandArgument,
+    min: ValkeyCommandArgument | number,
+    max: ValkeyCommandArgument | number,
     options?: ZRangeOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = [
         'ZRANGE',
         key,
@@ -48,4 +48,4 @@ export function transformArguments(
     return args;
 }
 
-export declare function transformReply(): Array<RedisCommandArgument>;
+export declare function transformReply(): Array<ValkeyCommandArgument>;

@@ -1,12 +1,12 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformArguments as transformHRandFieldCountArguments } from './HRANDFIELD_COUNT';
 
 export { FIRST_KEY_INDEX, IS_READ_ONLY } from './HRANDFIELD_COUNT';
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     count: number
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return [
         ...transformHRandFieldCountArguments(key, count),
         'WITHVALUES'

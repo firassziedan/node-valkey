@@ -1,9 +1,9 @@
-export enum RedisFlushModes {
+export enum ValkeyFlushModes {
     ASYNC = 'ASYNC',
     SYNC = 'SYNC'
 }
 
-export function transformArguments(mode?: RedisFlushModes): Array<string> {
+export function transformArguments(mode?: ValkeyFlushModes): Array<string> {
     const args = ['FLUSHALL'];
 
     if (mode) {

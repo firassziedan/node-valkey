@@ -1,4 +1,4 @@
-import { RedisJSON, transformRedisJsonNullReply } from '.';
+import { ValkeyJSON, transformValkeyJsonNullReply } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -16,12 +16,12 @@ export function transformArguments(key: string, path?: string, index?: number): 
     return args;
 }
 
-export function transformReply(reply: null | string | Array<null | string>): null | RedisJSON | Array<RedisJSON> {
+export function transformReply(reply: null | string | Array<null | string>): null | ValkeyJSON | Array<ValkeyJSON> {
     if (reply === null) return null;
 
     if (Array.isArray(reply)) {
-        return reply.map(transformRedisJsonNullReply);
+        return reply.map(transformValkeyJsonNullReply);
     }
 
-    return transformRedisJsonNullReply(reply);
+    return transformValkeyJsonNullReply(reply);
 }

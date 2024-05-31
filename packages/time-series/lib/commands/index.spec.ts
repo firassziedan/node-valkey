@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 import { strict as assert } from 'assert';
 import {
     transformTimestampArgument,
@@ -49,7 +49,7 @@ describe('transformTimestampArgument', () => {
     });
 });
 
-function testOptionalArgument(fn: (args: RedisCommandArguments) => unknown): void {
+function testOptionalArgument(fn: (args: ValkeyCommandArguments) => unknown): void {
     it('undefined', () => {
         assert.deepEqual(
             fn([]),

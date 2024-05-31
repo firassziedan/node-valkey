@@ -1,11 +1,11 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const IS_READ_ONLY = true;
 
 export function transformArguments(
-    username: RedisCommandArgument,
-    command: Array<RedisCommandArgument>
-): RedisCommandArguments {
+    username: ValkeyCommandArgument,
+    command: Array<ValkeyCommandArgument>
+): ValkeyCommandArguments {
     return [
         'ACL',
         'DRYRUN',
@@ -14,5 +14,5 @@ export function transformArguments(
     ];
 }
 
-export declare function transformReply(): RedisCommandArgument;
+export declare function transformReply(): ValkeyCommandArgument;
 

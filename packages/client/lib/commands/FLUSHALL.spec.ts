@@ -1,6 +1,6 @@
 import { strict as assert } from 'assert';
 import testUtils, { GLOBAL } from '../test-utils';
-import { RedisFlushModes, transformArguments } from './FLUSHALL';
+import { ValkeyFlushModes, transformArguments } from './FLUSHALL';
 
 describe('FLUSHALL', () => {
     describe('transformArguments', () => {
@@ -13,14 +13,14 @@ describe('FLUSHALL', () => {
 
         it('ASYNC', () => {
             assert.deepEqual(
-                transformArguments(RedisFlushModes.ASYNC),
+                transformArguments(ValkeyFlushModes.ASYNC),
                 ['FLUSHALL', 'ASYNC']
             );
         });
 
         it('SYNC', () => {
             assert.deepEqual(
-                transformArguments(RedisFlushModes.SYNC),
+                transformArguments(ValkeyFlushModes.SYNC),
                 ['FLUSHALL', 'SYNC']
             );
         });

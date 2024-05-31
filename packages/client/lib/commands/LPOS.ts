@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -10,10 +10,10 @@ export interface LPosOptions {
 }
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    element: RedisCommandArgument,
+    key: ValkeyCommandArgument,
+    element: ValkeyCommandArgument,
     options?: LPosOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['LPOS', key, element];
 
     if (typeof options?.RANK === 'number') {

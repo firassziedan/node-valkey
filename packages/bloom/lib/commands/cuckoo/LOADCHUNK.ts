@@ -1,12 +1,12 @@
-import { RedisCommandArgument, RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
     key: string,
     iterator: number,
-    chunk: RedisCommandArgument
-): RedisCommandArguments {
+    chunk: ValkeyCommandArgument
+): ValkeyCommandArguments {
     return ['CF.LOADCHUNK', key, iterator.toString(), chunk];
 }
 

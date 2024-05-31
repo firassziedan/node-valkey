@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 
 interface FunctionLoadOptions {
     REPLACE?: boolean;
@@ -7,7 +7,7 @@ interface FunctionLoadOptions {
 export function transformArguments(
     code: string,
     options?: FunctionLoadOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['FUNCTION', 'LOAD'];
 
     if (options?.REPLACE) {

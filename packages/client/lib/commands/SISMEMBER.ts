@@ -1,11 +1,11 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    member: RedisCommandArgument
-): RedisCommandArguments {
+    key: ValkeyCommandArgument,
+    member: ValkeyCommandArgument
+): ValkeyCommandArguments {
     return ['SISMEMBER', key, member];
 }
 

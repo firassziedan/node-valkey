@@ -1,7 +1,7 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 import { pushVerdictNumberArguments } from './generic-transformers';
 
-export function transformArguments(slots: number | Array<number>): RedisCommandArguments {
+export function transformArguments(slots: number | Array<number>): ValkeyCommandArguments {
     return pushVerdictNumberArguments(
         ['CLUSTER', 'ADDSLOTS'],
         slots

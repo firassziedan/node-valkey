@@ -1,9 +1,9 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export function transformArguments(
-    dump: RedisCommandArgument,
+    dump: ValkeyCommandArgument,
     mode?: 'FLUSH' | 'APPEND' | 'REPLACE'
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['FUNCTION', 'RESTORE', dump];
 
     if (mode) {

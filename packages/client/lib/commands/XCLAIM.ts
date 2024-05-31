@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { pushVerdictArguments } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -11,13 +11,13 @@ export interface XClaimOptions {
 }
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    group: RedisCommandArgument,
-    consumer: RedisCommandArgument,
+    key: ValkeyCommandArgument,
+    group: ValkeyCommandArgument,
+    consumer: ValkeyCommandArgument,
     minIdleTime: number,
-    id: RedisCommandArgument | Array<RedisCommandArgument>,
+    id: ValkeyCommandArgument | Array<ValkeyCommandArgument>,
     options?: XClaimOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args =  pushVerdictArguments(
         ['XCLAIM', key, group, consumer, minIdleTime.toString()],
         id

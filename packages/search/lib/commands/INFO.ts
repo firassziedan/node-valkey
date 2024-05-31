@@ -1,5 +1,5 @@
-import { RedisCommandArgument } from '@redis/client/dist/lib/commands';
-import { transformTuplesReply } from '@redis/client/dist/lib/commands/generic-transformers';
+import { ValkeyCommandArgument } from 'valkey-client/dist/lib/commands';
+import { transformTuplesReply } from 'valkey-client/dist/lib/commands/generic-transformers';
 
 export function transformArguments(index: string): Array<string> {
     return ['FT.INFO', index];
@@ -7,65 +7,65 @@ export function transformArguments(index: string): Array<string> {
 
 type InfoRawReply = [
     'index_name',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'index_options',
-    Array<RedisCommandArgument>,
+    Array<ValkeyCommandArgument>,
     'index_definition',
-    Array<RedisCommandArgument>,
+    Array<ValkeyCommandArgument>,
     'attributes',
-    Array<Array<RedisCommandArgument>>,
+    Array<Array<ValkeyCommandArgument>>,
     'num_docs',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'max_doc_id',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'num_terms',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'num_records',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'inverted_sz_mb',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'vector_index_sz_mb',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'total_inverted_index_blocks',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'offset_vectors_sz_mb',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'doc_table_size_mb',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'sortable_values_size_mb',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'key_table_size_mb',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'records_per_doc_avg',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'bytes_per_record_avg',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'offsets_per_term_avg',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'offset_bits_per_record_avg',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'hash_indexing_failures',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'indexing',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'percent_indexed',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'gc_stats',
     [
         'bytes_collected',
-        RedisCommandArgument,
+        ValkeyCommandArgument,
         'total_ms_run',
-        RedisCommandArgument,
+        ValkeyCommandArgument,
         'total_cycles',
-        RedisCommandArgument,
+        ValkeyCommandArgument,
         'average_cycle_time_ms',
-        RedisCommandArgument,
+        ValkeyCommandArgument,
         'last_run_time_ms',
-        RedisCommandArgument,
+        ValkeyCommandArgument,
         'gc_numeric_trees_missed',
-        RedisCommandArgument,
+        ValkeyCommandArgument,
         'gc_blocks_denied',
-        RedisCommandArgument
+        ValkeyCommandArgument
     ],
     'cursor_stats',
     [
@@ -79,40 +79,40 @@ type InfoRawReply = [
         number
     ],
     'stopwords_list'?,
-    Array<RedisCommandArgument>?
+    Array<ValkeyCommandArgument>?
 ];
 
 interface InfoReply {
-    indexName: RedisCommandArgument;
-    indexOptions: Array<RedisCommandArgument>;
-    indexDefinition: Record<string, RedisCommandArgument>;
-    attributes: Array<Record<string, RedisCommandArgument>>;
-    numDocs: RedisCommandArgument;
-    maxDocId: RedisCommandArgument;
-    numTerms: RedisCommandArgument;
-    numRecords: RedisCommandArgument;
-    invertedSzMb: RedisCommandArgument;
-    vectorIndexSzMb: RedisCommandArgument;
-    totalInvertedIndexBlocks: RedisCommandArgument;
-    offsetVectorsSzMb: RedisCommandArgument;
-    docTableSizeMb: RedisCommandArgument;
-    sortableValuesSizeMb: RedisCommandArgument;
-    keyTableSizeMb: RedisCommandArgument;
-    recordsPerDocAvg: RedisCommandArgument;
-    bytesPerRecordAvg: RedisCommandArgument;
-    offsetsPerTermAvg: RedisCommandArgument;
-    offsetBitsPerRecordAvg: RedisCommandArgument;
-    hashIndexingFailures: RedisCommandArgument;
-    indexing: RedisCommandArgument;
-    percentIndexed: RedisCommandArgument;
+    indexName: ValkeyCommandArgument;
+    indexOptions: Array<ValkeyCommandArgument>;
+    indexDefinition: Record<string, ValkeyCommandArgument>;
+    attributes: Array<Record<string, ValkeyCommandArgument>>;
+    numDocs: ValkeyCommandArgument;
+    maxDocId: ValkeyCommandArgument;
+    numTerms: ValkeyCommandArgument;
+    numRecords: ValkeyCommandArgument;
+    invertedSzMb: ValkeyCommandArgument;
+    vectorIndexSzMb: ValkeyCommandArgument;
+    totalInvertedIndexBlocks: ValkeyCommandArgument;
+    offsetVectorsSzMb: ValkeyCommandArgument;
+    docTableSizeMb: ValkeyCommandArgument;
+    sortableValuesSizeMb: ValkeyCommandArgument;
+    keyTableSizeMb: ValkeyCommandArgument;
+    recordsPerDocAvg: ValkeyCommandArgument;
+    bytesPerRecordAvg: ValkeyCommandArgument;
+    offsetsPerTermAvg: ValkeyCommandArgument;
+    offsetBitsPerRecordAvg: ValkeyCommandArgument;
+    hashIndexingFailures: ValkeyCommandArgument;
+    indexing: ValkeyCommandArgument;
+    percentIndexed: ValkeyCommandArgument;
     gcStats: {
-        bytesCollected: RedisCommandArgument;
-        totalMsRun: RedisCommandArgument;
-        totalCycles: RedisCommandArgument;
-        averageCycleTimeMs: RedisCommandArgument;
-        lastRunTimeMs: RedisCommandArgument;
-        gcNumericTreesMissed: RedisCommandArgument;
-        gcBlocksDenied: RedisCommandArgument;
+        bytesCollected: ValkeyCommandArgument;
+        totalMsRun: ValkeyCommandArgument;
+        totalCycles: ValkeyCommandArgument;
+        averageCycleTimeMs: ValkeyCommandArgument;
+        lastRunTimeMs: ValkeyCommandArgument;
+        gcNumericTreesMissed: ValkeyCommandArgument;
+        gcBlocksDenied: ValkeyCommandArgument;
     };
     cursorStats: {
         globalIdle: number;
@@ -120,7 +120,7 @@ interface InfoReply {
         indexCapacity: number;
         idnexTotal: number;
     };
-    stopWords: Array<RedisCommandArgument> | undefined;
+    stopWords: Array<ValkeyCommandArgument> | undefined;
 }
 
 export function transformReply(rawReply: InfoRawReply): InfoReply {

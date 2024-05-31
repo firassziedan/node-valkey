@@ -1,34 +1,34 @@
 import COMMANDS from './commands';
-import { RedisCommand, RedisCommandArgument, RedisCommandArguments, RedisCommandRawReply, RedisCommandReply, RedisFunctions, RedisModules, RedisExtensions, RedisScript, RedisScripts, RedisCommandSignature, RedisFunction } from '../commands';
-import { ClientCommandOptions, RedisClientOptions, RedisClientType, WithFunctions, WithModules, WithScripts } from '../client';
-import RedisClusterSlots, { NodeAddressMap, ShardNode } from './cluster-slots';
+import { ValkeyCommand, ValkeyCommandArgument, ValkeyCommandArguments, ValkeyCommandRawReply, ValkeyCommandReply, ValkeyFunctions, ValkeyModules, ValkeyExtensions, ValkeyScript, ValkeyScripts, ValkeyCommandSignature, ValkeyFunction } from '../commands';
+import { ClientCommandOptions, ValkeyClientOptions, ValkeyClientType, WithFunctions, WithModules, WithScripts } from '../client';
+import ValkeyClusterSlots, { NodeAddressMap, ShardNode } from './cluster-slots';
 import { attachExtensions, transformCommandReply, attachCommands, transformCommandArguments } from '../commander';
 import { EventEmitter } from 'events';
-import RedisClusterMultiCommand, { InstantiableRedisClusterMultiCommandType, RedisClusterMultiCommandType } from './multi-command';
-import { RedisMultiQueuedCommand } from '../multi-command';
+import ValkeyClusterMultiCommand, { InstantiableValkeyClusterMultiCommandType, ValkeyClusterMultiCommandType } from './multi-command';
+import { ValkeyMultiQueuedCommand } from '../multi-command';
 import { PubSubListener } from '../client/pub-sub';
 import { ErrorReply } from '../errors';
 
-export type RedisClusterClientOptions = Omit<
-    RedisClientOptions,
+export type ValkeyClusterClientOptions = Omit<
+    ValkeyClientOptions,
     'modules' | 'functions' | 'scripts' | 'database'
 >;
 
-export interface RedisClusterOptions<
-    M extends RedisModules = Record<string, never>,
-    F extends RedisFunctions = Record<string, never>,
-    S extends RedisScripts = Record<string, never>
-> extends RedisExtensions<M, F, S> {
+export interface ValkeyClusterOptions<
+    M extends ValkeyModules = Record<string, never>,
+    F extends ValkeyFunctions = Record<string, never>,
+    S extends ValkeyScripts = Record<string, never>
+> extends ValkeyExtensions<M, F, S> {
     /**
      * Should contain details for some of the cluster nodes that the client will use to discover
      * the "cluster topology". We recommend including details for at least 3 nodes here.
      */
-    rootNodes: Array<RedisClusterClientOptions>;
+    rootNodes: Array<ValkeyClusterClientOptions>;
     /**
      * Default values used for every client in the cluster. Use this to specify global values,
      * for example: ACL credentials, timeouts, TLS configuration etc.
      */
-    defaults?: Partial<RedisClusterClientOptions>;
+    defaults?: Partial<ValkeyClusterClientOptions>;
     /**
      * When `true`, `.connect()` will only discover the cluster topology, without actually connecting to all the nodes.
      * Useful for short-term or PubSub-only connections.
@@ -51,53 +51,53 @@ export interface RedisClusterOptions<
 }
 
 type WithCommands = {
-    [P in keyof typeof COMMANDS]: RedisCommandSignature<(typeof COMMANDS)[P]>;
+    [P in keyof typeof COMMANDS]: ValkeyCommandSignature<(typeof COMMANDS)[P]>;
 };
 
-export type RedisClusterType<
-    M extends RedisModules = Record<string, never>,
-    F extends RedisFunctions = Record<string, never>,
-    S extends RedisScripts = Record<string, never>
-> = RedisCluster<M, F, S> & WithCommands & WithModules<M> & WithFunctions<F> & WithScripts<S>;
+export type ValkeyClusterType<
+    M extends ValkeyModules = Record<string, never>,
+    F extends ValkeyFunctions = Record<string, never>,
+    S extends ValkeyScripts = Record<string, never>
+> = ValkeyCluster<M, F, S> & WithCommands & WithModules<M> & WithFunctions<F> & WithScripts<S>;
 
-export default class RedisCluster<
-    M extends RedisModules,
-    F extends RedisFunctions,
-    S extends RedisScripts
+export default class ValkeyCluster<
+    M extends ValkeyModules,
+    F extends ValkeyFunctions,
+    S extends ValkeyScripts
 > extends EventEmitter {
     static extractFirstKey(
-        command: RedisCommand,
+        command: ValkeyCommand,
         originalArgs: Array<unknown>,
-        redisArgs: RedisCommandArguments
-    ): RedisCommandArgument | undefined {
+        valkeyArgs: ValkeyCommandArguments
+    ): ValkeyCommandArgument | undefined {
         if (command.FIRST_KEY_INDEX === undefined) {
             return undefined;
         } else if (typeof command.FIRST_KEY_INDEX === 'number') {
-            return redisArgs[command.FIRST_KEY_INDEX];
+            return valkeyArgs[command.FIRST_KEY_INDEX];
         }
 
         return command.FIRST_KEY_INDEX(...originalArgs);
     }
 
     static create<
-        M extends RedisModules,
-        F extends RedisFunctions,
-        S extends RedisScripts
-    >(options?: RedisClusterOptions<M, F, S>): RedisClusterType<M, F, S> {
+        M extends ValkeyModules,
+        F extends ValkeyFunctions,
+        S extends ValkeyScripts
+    >(options?: ValkeyClusterOptions<M, F, S>): ValkeyClusterType<M, F, S> {
         return new (attachExtensions({
-            BaseClass: RedisCluster,
-            modulesExecutor: RedisCluster.prototype.commandsExecutor,
+            BaseClass: ValkeyCluster,
+            modulesExecutor: ValkeyCluster.prototype.commandsExecutor,
             modules: options?.modules,
-            functionsExecutor: RedisCluster.prototype.functionsExecutor,
+            functionsExecutor: ValkeyCluster.prototype.functionsExecutor,
             functions: options?.functions,
-            scriptsExecutor: RedisCluster.prototype.scriptsExecutor,
+            scriptsExecutor: ValkeyCluster.prototype.scriptsExecutor,
             scripts: options?.scripts
         }))(options);
     }
 
-    readonly #options: RedisClusterOptions<M, F, S>;
+    readonly #options: ValkeyClusterOptions<M, F, S>;
 
-    readonly #slots: RedisClusterSlots<M, F, S>;
+    readonly #slots: ValkeyClusterSlots<M, F, S>;
 
     get slots() {
         return this.#slots.slots;
@@ -123,21 +123,21 @@ export default class RedisCluster<
         return this.#slots.pubSubNode;
     }
 
-    readonly #Multi: InstantiableRedisClusterMultiCommandType<M, F, S>;
+    readonly #Multi: InstantiableValkeyClusterMultiCommandType<M, F, S>;
 
     get isOpen() {
         return this.#slots.isOpen;
     }
 
-    constructor(options: RedisClusterOptions<M, F, S>) {
+    constructor(options: ValkeyClusterOptions<M, F, S>) {
         super();
 
         this.#options = options;
-        this.#slots = new RedisClusterSlots(options, this.emit.bind(this));
-        this.#Multi = RedisClusterMultiCommand.extend(options);
+        this.#slots = new ValkeyClusterSlots(options, this.emit.bind(this));
+        this.#Multi = ValkeyClusterMultiCommand.extend(options);
     }
 
-    duplicate(overrides?: Partial<RedisClusterOptions<M, F, S>>): RedisClusterType<M, F, S> {
+    duplicate(overrides?: Partial<ValkeyClusterOptions<M, F, S>>): ValkeyClusterType<M, F, S> {
         return new (Object.getPrototypeOf(this).constructor)({
             ...this.#options,
             ...overrides
@@ -148,27 +148,27 @@ export default class RedisCluster<
         return this.#slots.connect();
     }
 
-    async commandsExecutor<C extends RedisCommand>(
+    async commandsExecutor<C extends ValkeyCommand>(
         command: C,
         args: Array<unknown>
-    ): Promise<RedisCommandReply<C>> {
-        const { jsArgs, args: redisArgs, options } = transformCommandArguments(command, args);
+    ): Promise<ValkeyCommandReply<C>> {
+        const { jsArgs, args: valkeyArgs, options } = transformCommandArguments(command, args);
         return transformCommandReply(
             command,
             await this.sendCommand(
-                RedisCluster.extractFirstKey(command, jsArgs, redisArgs),
+                ValkeyCluster.extractFirstKey(command, jsArgs, valkeyArgs),
                 command.IS_READ_ONLY,
-                redisArgs,
+                valkeyArgs,
                 options
             ),
-            redisArgs.preserve
+            valkeyArgs.preserve
         );
     }
 
-    async sendCommand<T = RedisCommandRawReply>(
-        firstKey: RedisCommandArgument | undefined,
+    async sendCommand<T = ValkeyCommandRawReply>(
+        firstKey: ValkeyCommandArgument | undefined,
         isReadonly: boolean | undefined,
-        args: RedisCommandArguments,
+        args: ValkeyCommandArguments,
         options?: ClientCommandOptions
     ): Promise<T> {
         return this.#execute(
@@ -178,70 +178,70 @@ export default class RedisCluster<
         );
     }
 
-    async functionsExecutor<F extends RedisFunction>(
+    async functionsExecutor<F extends ValkeyFunction>(
         fn: F,
         args: Array<unknown>,
         name: string,
-    ): Promise<RedisCommandReply<F>> {
-        const { args: redisArgs, options } = transformCommandArguments(fn, args);
+    ): Promise<ValkeyCommandReply<F>> {
+        const { args: valkeyArgs, options } = transformCommandArguments(fn, args);
         return transformCommandReply(
             fn,
             await this.executeFunction(
                 name,
                 fn,
                 args,
-                redisArgs,
+                valkeyArgs,
                 options
             ),
-            redisArgs.preserve
+            valkeyArgs.preserve
         );
     }
 
     async executeFunction(
         name: string,
-        fn: RedisFunction,
+        fn: ValkeyFunction,
         originalArgs: Array<unknown>,
-        redisArgs: RedisCommandArguments,
+        valkeyArgs: ValkeyCommandArguments,
         options?: ClientCommandOptions
-    ): Promise<RedisCommandRawReply> {
+    ): Promise<ValkeyCommandRawReply> {
         return this.#execute(
-            RedisCluster.extractFirstKey(fn, originalArgs, redisArgs),
+            ValkeyCluster.extractFirstKey(fn, originalArgs, valkeyArgs),
             fn.IS_READ_ONLY,
-            client => client.executeFunction(name, fn, redisArgs, options)
+            client => client.executeFunction(name, fn, valkeyArgs, options)
         );
     }
 
-    async scriptsExecutor<S extends RedisScript>(script: S, args: Array<unknown>): Promise<RedisCommandReply<S>> {
-        const { args: redisArgs, options } = transformCommandArguments(script, args);
+    async scriptsExecutor<S extends ValkeyScript>(script: S, args: Array<unknown>): Promise<ValkeyCommandReply<S>> {
+        const { args: valkeyArgs, options } = transformCommandArguments(script, args);
         return transformCommandReply(
             script,
             await this.executeScript(
                 script,
                 args,
-                redisArgs,
+                valkeyArgs,
                 options
             ),
-            redisArgs.preserve
+            valkeyArgs.preserve
         );
     }
 
     async executeScript(
-        script: RedisScript,
+        script: ValkeyScript,
         originalArgs: Array<unknown>,
-        redisArgs: RedisCommandArguments,
+        valkeyArgs: ValkeyCommandArguments,
         options?: ClientCommandOptions
-    ): Promise<RedisCommandRawReply> {
+    ): Promise<ValkeyCommandRawReply> {
         return this.#execute(
-            RedisCluster.extractFirstKey(script, originalArgs, redisArgs),
+            ValkeyCluster.extractFirstKey(script, originalArgs, valkeyArgs),
             script.IS_READ_ONLY,
-            client => client.executeScript(script, redisArgs, options)
+            client => client.executeScript(script, valkeyArgs, options)
         );
     }
 
     async #execute<Reply>(
-        firstKey: RedisCommandArgument | undefined,
+        firstKey: ValkeyCommandArgument | undefined,
         isReadonly: boolean | undefined,
-        executor: (client: RedisClientType<M, F, S>) => Promise<Reply>
+        executor: (client: ValkeyClientType<M, F, S>) => Promise<Reply>
     ): Promise<Reply> {
         const maxCommandRedirections = this.#options.maxCommandRedirections ?? 16;
         let client = await this.#slots.getClient(firstKey, isReadonly);
@@ -257,7 +257,7 @@ export default class RedisCluster<
                     const address = err.message.substring(err.message.lastIndexOf(' ') + 1);
                     let redirectTo = await this.#slots.getMasterByAddress(address);
                     if (!redirectTo) {
-                        await this.#slots.rediscover(client);
+                        await this.#slots.valkeycover(client);
                         redirectTo = await this.#slots.getMasterByAddress(address);
                     }
 
@@ -269,7 +269,7 @@ export default class RedisCluster<
                     client = redirectTo;
                     continue;
                 } else if (err.message.startsWith('MOVED')) {
-                    await this.#slots.rediscover(client);
+                    await this.#slots.valkeycover(client);
                     client = await this.#slots.getClient(firstKey, isReadonly);
                     continue;
                 }
@@ -279,9 +279,9 @@ export default class RedisCluster<
         }
     }
 
-    MULTI(routing?: RedisCommandArgument): RedisClusterMultiCommandType<M, F, S> {
+    MULTI(routing?: ValkeyCommandArgument): ValkeyClusterMultiCommandType<M, F, S> {
         return new this.#Multi(
-            (commands: Array<RedisMultiQueuedCommand>, firstKey?: RedisCommandArgument, chainId?: symbol) => {
+            (commands: Array<ValkeyMultiQueuedCommand>, firstKey?: ValkeyCommandArgument, chainId?: symbol) => {
                 return this.#execute(
                     firstKey,
                     false,
@@ -357,7 +357,7 @@ export default class RedisCluster<
                 }
 
                 if (err.message.startsWith('MOVED')) {
-                    await this.#slots.rediscover(client);
+                    await this.#slots.valkeycover(client);
                     client = await this.#slots.getShardedPubSubClient(firstChannel);
                     continue;
                 }
@@ -418,7 +418,7 @@ export default class RedisCluster<
 }
 
 attachCommands({
-    BaseClass: RedisCluster,
+    BaseClass: ValkeyCluster,
     commands: COMMANDS,
-    executor: RedisCluster.prototype.commandsExecutor
+    executor: ValkeyCluster.prototype.commandsExecutor
 });

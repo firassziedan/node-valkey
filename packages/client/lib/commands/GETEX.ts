@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformEXAT, transformPXAT } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -16,9 +16,9 @@ type GetExModes = {
 };
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     mode: GetExModes
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['GETEX', key];
 
     if ('EX' in mode) {
@@ -36,4 +36,4 @@ export function transformArguments(
     return args;
 }
 
-export declare function transformReply(): RedisCommandArgument | null;
+export declare function transformReply(): ValkeyCommandArgument | null;

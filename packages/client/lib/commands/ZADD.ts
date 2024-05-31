@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformNumberInfinityArgument, ZMember } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -30,10 +30,10 @@ interface INCR {
 type ZAddOptions = (NX | (XX & LT & GT)) & CH & INCR;
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     members: ZMember | Array<ZMember>,
     options?: ZAddOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['ZADD', key];
 
     if ((<NX>options)?.NX) {

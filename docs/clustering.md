@@ -5,20 +5,20 @@
 Connecting to a cluster is a bit different. Create the client by specifying some (or all) of the nodes in your cluster and then use it like a regular client instance:
 
 ```typescript
-import { createCluster } from 'redis';
+import { createCluster } from 'valkey';
 
 const cluster = createCluster({
   rootNodes: [
     {
-      url: 'redis://10.0.0.1:30001'
+      url: 'valkey://10.0.0.1:30001'
     },
     {
-      url: 'redis://10.0.0.2:30002'
+      url: 'valkey://10.0.0.2:30002'
     }
   ]
 });
 
-cluster.on('error', (err) => console.log('Redis Cluster Error', err));
+cluster.on('error', (err) => console.log('Valkey Cluster Error', err));
 
 await cluster.connect();
 
@@ -38,7 +38,7 @@ const value = await cluster.get('key');
 | minimizeConnections    | `false` | When `true`, `.connect()` will only discover the cluster topology, without actually connecting to all the nodes. Useful for short-term or Pub/Sub-only connections.                                                                                                                                                 |
 | maxCommandRedirections | `16`    | The maximum number of times a command will be redirected due to `MOVED` or `ASK` errors                                                                                                                                                                                                                             |
 | nodeAddressMap         |         | Defines the [node address mapping](#node-address-map)                                                                                                                                                                                                                                                               |
-| modules                |         | Included [Redis Modules](../README.md#packages)                                                                                                                                                                                                                                                                     |
+| modules                |         | Included [Valkey Modules](../README.md#packages)                                                                                                                                                                                                                                                                     |
 | scripts                |         | Script definitions (see [Lua Scripts](../README.md#lua-scripts))                                                                                                                                                                                                                                                    |
 | functions              |         | Function definitions (see [Functions](../README.md#functions))                                                                                                                                                                                                                                                      |
 ## Auth with password and username
@@ -47,9 +47,9 @@ Specifying the password in the URL or a root node will only affect the connectio
 ```javascript
 createCluster({
   rootNodes: [{
-    url: 'redis://10.0.0.1:30001'
+    url: 'valkey://10.0.0.1:30001'
   }, {
-    url: 'redis://10.0.0.2:30002'
+    url: 'valkey://10.0.0.2:30002'
   }],
   defaults: {
     username: 'username',
@@ -92,7 +92,7 @@ createCluster({
     const indexOfDash = address.lastIndexOf('-'),
       indexOfDot = address.indexOf('.', indexOfDash),
       indexOfColons = address.indexOf(':', indexOfDot);
-    
+
     return {
       host: `external-host-${address.substring(indexOfDash + 1, indexOfDot)}.io`,
       port: Number(address.substring(indexOfColons + 1))
@@ -105,14 +105,14 @@ createCluster({
 
 ## Command Routing
 
-### Commands that operate on Redis Keys
+### Commands that operate on Valkey Keys
 
 Commands such as `GET`, `SET`, etc. are routed by the first key, for instance `MGET 1 2 3` will be routed by the key `1`.
 
-### [Server Commands](https://redis.io/commands#server)
+### [Server Commands](https://valkey.io/commands#server)
 
 Admin commands such as `MEMORY STATS`, `FLUSHALL`, etc. are not attached to the cluster, and must be executed on a specific node via `.getSlotMaster()`.
 
 ### "Forwarded Commands"
 
-Certain commands (e.g. `PUBLISH`) are forwarded to other cluster nodes by the Redis server. This client sends these commands to a random node in order to spread the load across the cluster.
+Certain commands (e.g. `PUBLISH`) are forwarded to other cluster nodes by the Valkey server. This client sends these commands to a random node in order to spread the load across the cluster.

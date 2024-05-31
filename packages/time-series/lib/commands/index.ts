@@ -19,8 +19,8 @@ import * as MRANGE from './MRANGE';
 import * as MRANGE_WITHLABELS from './MRANGE_WITHLABELS';
 import * as MREVRANGE from './MREVRANGE';
 import * as MREVRANGE_WITHLABELS from './MREVRANGE_WITHLABELS';
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
-import { pushVerdictArguments } from '@redis/client/dist/lib/commands/generic-transformers';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
+import { pushVerdictArguments } from 'valkey-client/dist/lib/commands/generic-transformers';
 
 export default {
     ADD,
@@ -127,7 +127,7 @@ export function transformTimestampArgument(timestamp: Timestamp): string {
     ).toString();
 }
 
-export function pushRetentionArgument(args: RedisCommandArguments, retention?: number): RedisCommandArguments {
+export function pushRetentionArgument(args: ValkeyCommandArguments, retention?: number): ValkeyCommandArguments {
     if (retention !== undefined) {
         args.push(
             'RETENTION',
@@ -143,7 +143,7 @@ export enum TimeSeriesEncoding {
     UNCOMPRESSED = 'UNCOMPRESSED'
 }
 
-export function pushEncodingArgument(args: RedisCommandArguments, encoding?: TimeSeriesEncoding): RedisCommandArguments {
+export function pushEncodingArgument(args: ValkeyCommandArguments, encoding?: TimeSeriesEncoding): ValkeyCommandArguments {
     if (encoding !== undefined) {
         args.push(
             'ENCODING',
@@ -154,7 +154,7 @@ export function pushEncodingArgument(args: RedisCommandArguments, encoding?: Tim
     return args;
 }
 
-export function pushChunkSizeArgument(args: RedisCommandArguments, chunkSize?: number): RedisCommandArguments {
+export function pushChunkSizeArgument(args: ValkeyCommandArguments, chunkSize?: number): ValkeyCommandArguments {
     if (chunkSize !== undefined) {
         args.push(
             'CHUNK_SIZE',
@@ -165,7 +165,7 @@ export function pushChunkSizeArgument(args: RedisCommandArguments, chunkSize?: n
     return args;
 }
 
-export function pushDuplicatePolicy(args: RedisCommandArguments, duplicatePolicy?: TimeSeriesDuplicatePolicies): RedisCommandArguments {
+export function pushDuplicatePolicy(args: ValkeyCommandArguments, duplicatePolicy?: TimeSeriesDuplicatePolicies): ValkeyCommandArguments {
     if (duplicatePolicy !== undefined) {
         args.push(
             'DUPLICATE_POLICY',
@@ -192,7 +192,7 @@ export function transformLablesReply(reply: RawLabels): Labels {
     return labels
 }
 
-export function pushLabelsArgument(args: RedisCommandArguments, labels?: Labels): RedisCommandArguments {
+export function pushLabelsArgument(args: ValkeyCommandArguments, labels?: Labels): ValkeyCommandArguments {
     if (labels) {
         args.push('LABELS');
 
@@ -217,7 +217,7 @@ export function transformIncrDecrArguments(
     key: string,
     value: number,
     options?: IncrDecrOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = [
         command,
         key,
@@ -279,11 +279,11 @@ export interface RangeOptions {
 }
 
 export function pushRangeArguments(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     fromTimestamp: Timestamp,
     toTimestamp: Timestamp,
     options?: RangeOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     args.push(
         transformTimestampArgument(fromTimestamp),
         transformTimestampArgument(toTimestamp)
@@ -347,7 +347,7 @@ interface MRangeGroupBy {
     reducer: TimeSeriesReducers;
 }
 
-export function pushMRangeGroupByArguments(args: RedisCommandArguments, groupBy?: MRangeGroupBy): RedisCommandArguments {
+export function pushMRangeGroupByArguments(args: ValkeyCommandArguments, groupBy?: MRangeGroupBy): ValkeyCommandArguments {
     if (groupBy) {
         args.push(
             'GROUPBY',
@@ -362,7 +362,7 @@ export function pushMRangeGroupByArguments(args: RedisCommandArguments, groupBy?
 
 export type Filter = string | Array<string>;
 
-export function pushFilterArgument(args: RedisCommandArguments, filter: string | Array<string>): RedisCommandArguments {
+export function pushFilterArgument(args: ValkeyCommandArguments, filter: string | Array<string>): ValkeyCommandArguments {
     args.push('FILTER');
     return pushVerdictArguments(args, filter);
 }
@@ -372,12 +372,12 @@ export interface MRangeOptions extends RangeOptions {
 }
 
 export function pushMRangeArguments(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     fromTimestamp: Timestamp,
     toTimestamp: Timestamp,
     filter: Filter,
     options?: MRangeOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     args = pushRangeArguments(args, fromTimestamp, toTimestamp, options);
     args = pushFilterArgument(args, filter);
     return pushMRangeGroupByArguments(args, options?.GROUPBY);
@@ -385,7 +385,7 @@ export function pushMRangeArguments(
 
 export type SelectedLabels = string | Array<string>;
 
-export function pushWithLabelsArgument(args: RedisCommandArguments, selectedLabels?: SelectedLabels): RedisCommandArguments {
+export function pushWithLabelsArgument(args: ValkeyCommandArguments, selectedLabels?: SelectedLabels): ValkeyCommandArguments {
     if (!selectedLabels) {
         args.push('WITHLABELS');
     } else {
@@ -401,12 +401,12 @@ export interface MRangeWithLabelsOptions extends MRangeOptions {
 }
 
 export function pushMRangeWithLabelsArguments(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     fromTimestamp: Timestamp,
     toTimestamp: Timestamp,
     filter: Filter,
     options?: MRangeWithLabelsOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     args = pushRangeArguments(args, fromTimestamp, toTimestamp, options);
     args = pushWithLabelsArgument(args, options?.SELECTED_LABELS);
     args = pushFilterArgument(args, filter);
@@ -458,7 +458,7 @@ export function transformMRangeWithLabelsReply(reply: MRangeRawReply): Array<MRa
     return args;
 }
 
-export function pushLatestArgument(args: RedisCommandArguments, latest?: boolean): RedisCommandArguments {
+export function pushLatestArgument(args: ValkeyCommandArguments, latest?: boolean): ValkeyCommandArguments {
     if (latest) {
         args.push('LATEST');
     }

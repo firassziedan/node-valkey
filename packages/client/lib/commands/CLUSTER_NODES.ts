@@ -2,41 +2,41 @@ export function transformArguments(): Array<string> {
     return ['CLUSTER', 'NODES'];
 }
 
-export enum RedisClusterNodeLinkStates {
+export enum ValkeyClusterNodeLinkStates {
     CONNECTED = 'connected',
     DISCONNECTED = 'disconnected'
 }
 
-interface RedisClusterNodeAddress {
+interface ValkeyClusterNodeAddress {
     host: string;
     port: number;
     cport: number | null;
 }
 
-export interface RedisClusterReplicaNode extends RedisClusterNodeAddress {
+export interface ValkeyClusterReplicaNode extends ValkeyClusterNodeAddress {
     id: string;
     address: string;
     flags: Array<string>;
     pingSent: number;
     pongRecv: number;
     configEpoch: number;
-    linkState: RedisClusterNodeLinkStates;
+    linkState: ValkeyClusterNodeLinkStates;
 }
 
-export interface RedisClusterMasterNode extends RedisClusterReplicaNode {
+export interface ValkeyClusterMasterNode extends ValkeyClusterReplicaNode {
     slots: Array<{
         from: number;
         to: number;
     }>;
-    replicas: Array<RedisClusterReplicaNode>;
+    replicas: Array<ValkeyClusterReplicaNode>;
 }
 
-export function transformReply(reply: string): Array<RedisClusterMasterNode> {
+export function transformReply(reply: string): Array<ValkeyClusterMasterNode> {
     const lines = reply.split('\n');
     lines.pop(); // last line is empty
 
-    const mastersMap = new Map<string, RedisClusterMasterNode>(),
-        replicasMap = new Map<string, Array<RedisClusterReplicaNode>>();
+    const mastersMap = new Map<string, ValkeyClusterMasterNode>(),
+        replicasMap = new Map<string, Array<ValkeyClusterReplicaNode>>();
 
     for (const line of lines) {
         const [id, address, flags, masterId, pingSent, pongRecv, configEpoch, linkState, ...slots] = line.split(' '),
@@ -48,7 +48,7 @@ export function transformReply(reply: string): Array<RedisClusterMasterNode> {
                 pingSent: Number(pingSent),
                 pongRecv: Number(pongRecv),
                 configEpoch: Number(configEpoch),
-                linkState: (linkState as RedisClusterNodeLinkStates)
+                linkState: (linkState as ValkeyClusterNodeLinkStates)
             };
 
         if (masterId === '-') {
@@ -61,7 +61,7 @@ export function transformReply(reply: string): Array<RedisClusterMasterNode> {
             mastersMap.set(id, {
                 ...node,
                 slots: slots.map(slot => {
-                    // TODO: importing & exporting (https://redis.io/commands/cluster-nodes#special-slot-entries)
+                    // TODO: importing & exporting (https://valkey.io/commands/cluster-nodes#special-slot-entries)
                     const [fromString, toString] = slot.split('-', 2),
                         from = Number(fromString);
                     return {
@@ -84,7 +84,7 @@ export function transformReply(reply: string): Array<RedisClusterMasterNode> {
     return [...mastersMap.values()];
 }
 
-function transformNodeAddress(address: string): RedisClusterNodeAddress {
+function transformNodeAddress(address: string): ValkeyClusterNodeAddress {
     const indexOfColon = address.lastIndexOf(':'),
         indexOfAt = address.indexOf('@', indexOfColon),
         host = address.substring(0, indexOfColon);

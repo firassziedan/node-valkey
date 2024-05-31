@@ -1,7 +1,7 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
-export function transformArguments(categoryName?: RedisCommandArgument): RedisCommandArguments {
-    const args: RedisCommandArguments = ['ACL', 'CAT'];
+export function transformArguments(categoryName?: ValkeyCommandArgument): ValkeyCommandArguments {
+    const args: ValkeyCommandArguments = ['ACL', 'CAT'];
 
     if (categoryName) {
         args.push(categoryName);
@@ -10,4 +10,4 @@ export function transformArguments(categoryName?: RedisCommandArgument): RedisCo
     return args;
 }
 
-export declare function transformReply(): Array<RedisCommandArgument>;
+export declare function transformReply(): Array<ValkeyCommandArgument>;

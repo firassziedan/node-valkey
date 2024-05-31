@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 import { Filter, pushFilterArgument, pushLatestArgument, RawLabels, SampleRawReply, SampleReply, transformSampleReply } from '.';
 
 export const IS_READ_ONLY = true;
@@ -7,7 +7,7 @@ export interface MGetOptions {
     LATEST?: boolean;
 }
 
-export function transformArguments(filter: Filter, options?: MGetOptions): RedisCommandArguments {
+export function transformArguments(filter: Filter, options?: MGetOptions): ValkeyCommandArguments {
     const args = pushLatestArgument(['TS.MGET'], options?.LATEST);
     return pushFilterArgument(args, filter);
 }

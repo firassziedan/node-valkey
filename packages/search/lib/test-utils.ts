@@ -1,19 +1,19 @@
-import TestUtils from '@redis/test-utils';
-import RediSearch from '.';
+import TestUtils from 'valkey-test-utils';
+import ValkeySearch from '.';
 
 export default new TestUtils({
-    dockerImageName: 'redislabs/redisearch',
-    dockerImageVersionArgument: 'redisearch-version',
+    dockerImageName: 'valkeylabs/valkeyearch',
+    dockerImageVersionArgument: 'valkeyearch-version',
     defaultDockerVersion: '2.4.9'
 });
 
 export const GLOBAL = {
     SERVERS: {
         OPEN: {
-            serverArguments: ['--loadmodule /usr/lib/redis/modules/redisearch.so'],
+            serverArguments: ['--loadmodule /usr/lib/valkey/modules/valkeyearch.so'],
             clientOptions: {
                 modules: {
-                    ft: RediSearch
+                    ft: ValkeySearch
                 }
             }
         }

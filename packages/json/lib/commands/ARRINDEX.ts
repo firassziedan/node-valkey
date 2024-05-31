@@ -1,11 +1,11 @@
-import { RedisJSON, transformRedisJsonArgument } from '.';
+import { ValkeyJSON, transformValkeyJsonArgument } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
 export const IS_READ_ONLY = true;
 
-export function transformArguments(key: string, path: string, json: RedisJSON, start?: number, stop?: number): Array<string> {
-    const args = ['JSON.ARRINDEX', key, path, transformRedisJsonArgument(json)];
+export function transformArguments(key: string, path: string, json: ValkeyJSON, start?: number, stop?: number): Array<string> {
+    const args = ['JSON.ARRINDEX', key, path, transformValkeyJsonArgument(json)];
 
     if (start !== undefined && start !== null) {
         args.push(start.toString());

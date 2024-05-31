@@ -1,10 +1,10 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { GeoCoordinates } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
 
 interface GeoMember extends GeoCoordinates {
-    member: RedisCommandArgument;
+    member: ValkeyCommandArgument;
 }
 
 interface NX {
@@ -24,9 +24,9 @@ interface GeoAddCommonOptions {
 type GeoAddOptions = SetGuards & GeoAddCommonOptions;
 
 export function transformArguments(
-    key: RedisCommandArgument, toAdd: GeoMember | Array<GeoMember>,
+    key: ValkeyCommandArgument, toAdd: GeoMember | Array<GeoMember>,
     options?: GeoAddOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['GEOADD', key];
 
     if ((options as NX)?.NX) {

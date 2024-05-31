@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformStringNumberInfinityArgument } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -6,10 +6,10 @@ export const FIRST_KEY_INDEX = 1;
 export const IS_READ_ONLY = true;
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    min: RedisCommandArgument | number,
-    max: RedisCommandArgument | number
-): RedisCommandArguments {
+    key: ValkeyCommandArgument,
+    min: ValkeyCommandArgument | number,
+    max: ValkeyCommandArgument | number
+): ValkeyCommandArguments {
     return [
         'ZCOUNT',
         key,

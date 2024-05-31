@@ -1,7 +1,7 @@
-// This example demonstrates the use of the Bloom Filter 
-// in the RedisBloom module (https://redis.io/docs/stack/bloom/)
+// This example demonstrates the use of the Bloom Filter
+// in the ValkeyBloom module (https://valkey.io/docs/stack/bloom/)
 
-import { createClient } from 'redis';
+import { createClient } from 'valkey';
 
 const client = createClient();
 
@@ -11,7 +11,7 @@ await client.connect();
 await client.del('mybloom');
 
 // Reserve a Bloom Filter with configurable error rate and capacity.
-// https://redis.io/commands/bf.reserve/
+// https://valkey.io/commands/bf.reserve/
 try {
   await client.bf.reserve('mybloom', 0.01, 1000);
   console.log('Reserved Bloom Filter.');
@@ -19,13 +19,13 @@ try {
   if (e.message.endsWith('item exists')) {
     console.log('Bloom Filter already reserved.');
   } else {
-    console.log('Error, maybe RedisBloom is not installed?:');
+    console.log('Error, maybe ValkeyBloom is not installed?:');
     console.log(e);
   }
 }
 
 // Add items to Bloom Filter individually with BF.ADD command.
-// https://redis.io/commands/bf.add/
+// https://valkey.io/commands/bf.add/
 await Promise.all([
   client.bf.add('mybloom', 'leibale'),
   client.bf.add('mybloom', 'simon'),
@@ -40,21 +40,21 @@ await Promise.all([
 ]);
 
 // Add multiple items to Bloom Filter at once with BF.MADD command.
-// https://redis.io/commands/bf.madd/
+// https://valkey.io/commands/bf.madd/
 await client.bf.mAdd('mybloom', [
-  'kaitlyn', 
+  'kaitlyn',
   'rachel'
 ]);
 
 console.log('Added members to Bloom Filter.');
 
 // Check whether a member exists with the BF.EXISTS command.
-// https://redis.io/commands/bf.exists/
+// https://valkey.io/commands/bf.exists/
 const simonExists = await client.bf.exists('mybloom', 'simon');
 console.log(`simon ${simonExists ? 'may' : 'does not'} exist in the Bloom Filter.`);
 
 // Check whether multiple members exist with the BF.MEXISTS command.
-// https://redis.io/commands/bf.mexists/
+// https://valkey.io/commands/bf.mexists/
 const [ lanceExists, leibaleExists ] = await client.bf.mExists('mybloom', [
   'lance',
   'leibale'
@@ -64,7 +64,7 @@ console.log(`lance ${lanceExists ? 'may' : 'does not'} exist in the Bloom Filter
 console.log(`leibale ${leibaleExists ? 'may' : 'does not'} exist in the Bloom Filter.`);
 
 // Get stats for the Bloom Filter with the BF.INFO command.
-// https://redis.io/commands/bf.info/
+// https://valkey.io/commands/bf.info/
 const info = await client.bf.info('mybloom');
 // info looks like this:
 //

@@ -1,5 +1,5 @@
 // A sample stream consumer using the blocking variant of XREADGROUP.
-// https://redis.io/commands/xreadgroup/
+// https://valkey.io/commands/xreadgroup/
 
 // This consumer works in collaboration with other instances of itself
 // in the same consumer group such that the group as a whole receives
@@ -20,7 +20,7 @@
 //
 // $ node stream-consumer-group.js consumer2
 
-import { createClient, commandOptions } from 'redis';
+import { createClient, commandOptions } from 'valkey';
 
 const client = createClient();
 
@@ -35,7 +35,7 @@ await client.connect();
 
 // Create the consumer group (and stream) if needed...
 try {
-  // https://redis.io/commands/xgroup-create/
+  // https://valkey.io/commands/xgroup-create/
   await client.xGroupCreate('mystream', 'myconsumergroup', '0', {
     MKSTREAM: true
   });
@@ -48,12 +48,12 @@ console.log(`Starting consumer ${consumerName}.`);
 
 while (true) {
   try {
-    // https://redis.io/commands/xreadgroup/
+    // https://valkey.io/commands/xreadgroup/
     let response = await client.xReadGroup(
       commandOptions({
         isolated: true
       }),
-      'myconsumergroup', 
+      'myconsumergroup',
       consumerName, [
         // XREADGROUP can read from multiple streams, starting at a
         // different ID for each...
@@ -89,7 +89,7 @@ while (true) {
 
       // Use XACK to acknowledge successful processing of this
       // stream entry.
-      // https://redis.io/commands/xack/
+      // https://valkey.io/commands/xack/
       const entryId = response[0].messages[0].id;
       await client.xAck('mystream', 'myconsumergroup', entryId);
 

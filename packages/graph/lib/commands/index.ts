@@ -7,7 +7,7 @@ import * as PROFILE from './PROFILE';
 import * as QUERY from './QUERY';
 import * as RO_QUERY from './RO_QUERY';
 import * as SLOWLOG from './SLOWLOG';
-import { RedisCommandArgument, RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 
 export default {
     CONFIG_GET,
@@ -44,12 +44,12 @@ export interface QueryOptions {
 export type QueryOptionsBackwardCompatible = QueryOptions | number;
 
 export function pushQueryArguments(
-    args: RedisCommandArguments,
-    graph: RedisCommandArgument,
-    query: RedisCommandArgument,
+    args: ValkeyCommandArguments,
+    graph: ValkeyCommandArgument,
+    query: ValkeyCommandArgument,
     options?: QueryOptionsBackwardCompatible,
     compact?: boolean
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     args.push(graph);
 
     if (typeof options === 'number') {
@@ -74,7 +74,7 @@ export function pushQueryArguments(
     return args;
 }
 
-function pushTimeout(args: RedisCommandArguments, timeout: number): void {
+function pushTimeout(args: ValkeyCommandArguments, timeout: number): void {
     args.push('TIMEOUT', timeout.toString());
 }
 

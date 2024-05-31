@@ -1,6 +1,6 @@
 import { SearchOptions, SearchRawReply, transformReply as transformSearchReply } from './SEARCH';
 import { pushSearchOptions, ProfileOptions, ProfileRawReply, ProfileReply, transformProfile } from '.';
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 
 export const IS_READ_ONLY = true;
 
@@ -8,8 +8,8 @@ export function transformArguments(
     index: string,
     query: string,
     options?: ProfileOptions & SearchOptions
-): RedisCommandArguments {
-    let args: RedisCommandArguments = ['FT.PROFILE', index, 'SEARCH'];
+): ValkeyCommandArguments {
+    let args: ValkeyCommandArguments = ['FT.PROFILE', index, 'SEARCH'];
 
     if (options?.LIMITED) {
         args.push('LIMITED');

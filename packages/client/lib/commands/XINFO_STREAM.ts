@@ -1,11 +1,11 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { StreamMessageReply, transformTuplesReply } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 2;
 
 export const IS_READ_ONLY = true;
 
-export function transformArguments(key: RedisCommandArgument): RedisCommandArguments {
+export function transformArguments(key: ValkeyCommandArgument): ValkeyCommandArguments {
     return ['XINFO', 'STREAM', key];
 }
 
@@ -14,7 +14,7 @@ interface XInfoStreamReply {
     radixTreeKeys: number;
     radixTreeNodes: number;
     groups: number;
-    lastGeneratedId: RedisCommandArgument;
+    lastGeneratedId: ValkeyCommandArgument;
     firstEntry: StreamMessageReply | null;
     lastEntry: StreamMessageReply | null;
 }

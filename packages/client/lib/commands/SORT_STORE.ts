@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 import { SortOptions } from './generic-transformers';
 import { transformArguments as transformSortArguments } from './SORT';
 
@@ -8,7 +8,7 @@ export function transformArguments(
     source: string,
     destination: string,
     options?: SortOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = transformSortArguments(source, options);
     args.push('STORE', destination);
     return args;

@@ -1,9 +1,9 @@
-import { RedisCommandArgument, RedisCommandArguments } from '../../commands';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '../../commands';
 
 const CRLF = '\r\n';
 
-export default function encodeCommand(args: RedisCommandArguments): Array<RedisCommandArgument> {
-    const toWrite: Array<RedisCommandArgument> = [];
+export default function encodeCommand(args: ValkeyCommandArguments): Array<ValkeyCommandArgument> {
+    const toWrite: Array<ValkeyCommandArgument> = [];
 
     let strings = '*' + args.length + CRLF;
 

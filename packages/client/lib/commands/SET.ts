@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -25,10 +25,10 @@ interface SetCommonOptions {
 export type SetOptions = SetTTL & SetGuards & SetCommonOptions;
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    value: RedisCommandArgument | number,
+    key: ValkeyCommandArgument,
+    value: ValkeyCommandArgument | number,
     options?: SetOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = [
         'SET',
         key,
@@ -60,4 +60,4 @@ export function transformArguments(
     return args;
 }
 
-export declare function transformReply(): RedisCommandArgument | null;
+export declare function transformReply(): ValkeyCommandArgument | null;

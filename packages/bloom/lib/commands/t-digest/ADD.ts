@@ -1,11 +1,11 @@
-import { RedisCommandArgument, RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     values: Array<number>
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['TDIGEST.ADD', key];
     for (const item of values) {
         args.push(item.toString());

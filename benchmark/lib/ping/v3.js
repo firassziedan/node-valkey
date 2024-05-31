@@ -1,4 +1,4 @@
-import { createClient } from 'redis-v3';
+import { createClient } from 'valkey-v1';
 import { once } from 'events';
 import { promisify } from 'util';
 

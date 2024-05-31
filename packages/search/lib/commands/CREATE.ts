@@ -1,11 +1,11 @@
-import { pushOptionalVerdictArgument } from '@redis/client/dist/lib/commands/generic-transformers';
-import { RedisSearchLanguages, PropertyName, RediSearchSchema, pushSchema } from '.';
+import { pushOptionalVerdictArgument } from 'valkey-client/dist/lib/commands/generic-transformers';
+import { ValkeySearchLanguages, PropertyName, ValkeySearchSchema, pushSchema } from '.';
 
 interface CreateOptions {
     ON?: 'HASH' | 'JSON';
     PREFIX?: string | Array<string>;
     FILTER?: string;
-    LANGUAGE?: RedisSearchLanguages;
+    LANGUAGE?: ValkeySearchLanguages;
     LANGUAGE_FIELD?: PropertyName;
     SCORE?: number;
     SCORE_FIELD?: PropertyName;
@@ -20,7 +20,7 @@ interface CreateOptions {
     STOPWORDS?: string | Array<string>;
 }
 
-export function transformArguments(index: string, schema: RediSearchSchema, options?: CreateOptions): Array<string> {
+export function transformArguments(index: string, schema: ValkeySearchSchema, options?: CreateOptions): Array<string> {
     const args = ['FT.CREATE', index];
 
     if (options?.ON) {

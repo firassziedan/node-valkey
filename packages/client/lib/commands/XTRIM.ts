@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -8,11 +8,11 @@ interface XTrimOptions {
 }
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     strategy: 'MAXLEN' | 'MINID',
     threshold: number,
     options?: XTrimOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['XTRIM', key, strategy];
 
     if (options?.strategyModifier) {

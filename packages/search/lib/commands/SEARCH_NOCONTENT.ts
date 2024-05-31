@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from "@redis/client/dist/lib/commands";
+import { ValkeyCommandArguments } from "valkey-client/dist/lib/commands";
 import { pushSearchOptions } from ".";
 import { SearchOptions, SearchRawReply } from "./SEARCH";
 
@@ -10,7 +10,7 @@ export function transformArguments(
     index: string,
     query: string,
     options?: SearchOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return pushSearchOptions(
         ['FT.SEARCH', index, query, 'NOCONTENT'],
         options

@@ -4,4 +4,4 @@ export function transformArguments(key: string, items: Array<string>): Array<str
     return ['BF.MADD', key, ...items];
 }
 
-export { transformBooleanArrayReply as transformReply } from '@redis/client/dist/lib/commands/generic-transformers';
+export { transformBooleanArrayReply as transformReply } from 'valkey-client/dist/lib/commands/generic-transformers';

@@ -1,8 +1,8 @@
 import { createConnection } from 'net';
 import { once } from 'events';
-import RedisClient from '@redis/client/dist/lib/client';
-import { promiseTimeout } from '@redis/client/dist/lib/utils';
-import { ClusterSlotsReply } from '@redis/client/dist/lib/commands/CLUSTER_SLOTS';
+import ValkeyClient from 'valkey-client/dist/lib/client';
+import { promiseTimeout } from 'valkey-client/dist/lib/utils';
+import { ClusterSlotsReply } from 'valkey-client/dist/lib/commands/CLUSTER_SLOTS';
 import * as path from 'path';
 import { promisify } from 'util';
 import { exec } from 'child_process';
@@ -36,12 +36,12 @@ const portIterator = (async function*(): AsyncIterableIterator<number> {
     throw new Error('All ports are in use');
 })();
 
-export interface RedisServerDockerConfig {
+export interface ValkeyServerDockerConfig {
     image: string;
     version: string;
 }
 
-export interface RedisServerDocker {
+export interface ValkeyServerDocker {
     port: number;
     dockerId: string;
 }
@@ -49,7 +49,7 @@ export interface RedisServerDocker {
 // ".." cause it'll be in `./dist`
 const DOCKER_FODLER_PATH = path.join(__dirname, '../docker');
 
-async function spawnRedisServerDocker({ image, version }: RedisServerDockerConfig, serverArguments: Array<string>): Promise<RedisServerDocker> {
+async function spawnValkeyServerDocker({ image, version }: ValkeyServerDockerConfig, serverArguments: Array<string>): Promise<ValkeyServerDocker> {
     const port = (await portIterator.next()).value,
         { stdout, stderr } = await execAsync(
             'docker run -d --network host $(' +
@@ -73,15 +73,15 @@ async function spawnRedisServerDocker({ image, version }: RedisServerDockerConfi
     };
 }
 
-const RUNNING_SERVERS = new Map<Array<string>, ReturnType<typeof spawnRedisServerDocker>>();
+const RUNNING_SERVERS = new Map<Array<string>, ReturnType<typeof spawnValkeyServerDocker>>();
 
-export function spawnRedisServer(dockerConfig: RedisServerDockerConfig, serverArguments: Array<string>): Promise<RedisServerDocker> {
+export function spawnValkeyServer(dockerConfig: ValkeyServerDockerConfig, serverArguments: Array<string>): Promise<ValkeyServerDocker> {
     const runningServer = RUNNING_SERVERS.get(serverArguments);
     if (runningServer) {
         return runningServer;
     }
 
-    const dockerPromise = spawnRedisServerDocker(dockerConfig, serverArguments);
+    const dockerPromise = spawnValkeyServerDocker(dockerConfig, serverArguments);
     RUNNING_SERVERS.set(serverArguments, dockerPromise);
     return dockerPromise;
 }
@@ -101,13 +101,13 @@ after(() => {
     );
 });
 
-export interface RedisClusterDockersConfig extends RedisServerDockerConfig {
+export interface ValkeyClusterDockersConfig extends ValkeyServerDockerConfig {
     numberOfMasters?: number;
     numberOfReplicas?: number;
 }
 
-async function spawnRedisClusterNodeDockers(
-    dockersConfig: RedisClusterDockersConfig,
+async function spawnValkeyClusterNodeDockers(
+    dockersConfig: ValkeyClusterDockersConfig,
     serverArguments: Array<string>,
     fromSlot: number,
     toSlot: number
@@ -117,7 +117,7 @@ async function spawnRedisClusterNodeDockers(
         range.push(i);
     }
 
-    const master = await spawnRedisClusterNodeDocker(
+    const master = await spawnValkeyClusterNodeDocker(
         dockersConfig,
         serverArguments
     );
@@ -125,11 +125,11 @@ async function spawnRedisClusterNodeDockers(
     await master.client.clusterAddSlots(range);
 
     if (!dockersConfig.numberOfReplicas) return [master];
-    
-    const replicasPromises: Array<ReturnType<typeof spawnRedisClusterNodeDocker>> = [];
+
+    const replicasPromises: Array<ReturnType<typeof spawnValkeyClusterNodeDocker>> = [];
     for (let i = 0; i < (dockersConfig.numberOfReplicas ?? 0); i++) {
         replicasPromises.push(
-            spawnRedisClusterNodeDocker(dockersConfig, [
+            spawnValkeyClusterNodeDocker(dockersConfig, [
                 ...serverArguments,
                 '--cluster-enabled',
                 'yes',
@@ -157,18 +157,18 @@ async function spawnRedisClusterNodeDockers(
     ];
 }
 
-async function spawnRedisClusterNodeDocker(
-    dockersConfig: RedisClusterDockersConfig,
+async function spawnValkeyClusterNodeDocker(
+    dockersConfig: ValkeyClusterDockersConfig,
     serverArguments: Array<string>
 ) {
-    const docker = await spawnRedisServerDocker(dockersConfig, [
+    const docker = await spawnValkeyServerDocker(dockersConfig, [
             ...serverArguments,
             '--cluster-enabled',
             'yes',
             '--cluster-node-timeout',
             '5000'
         ]),
-        client = RedisClient.create({
+        client = ValkeyClient.create({
             socket: {
                 port: docker.port
             }
@@ -184,18 +184,18 @@ async function spawnRedisClusterNodeDocker(
 
 const SLOTS = 16384;
 
-async function spawnRedisClusterDockers(
-    dockersConfig: RedisClusterDockersConfig,
+async function spawnValkeyClusterDockers(
+    dockersConfig: ValkeyClusterDockersConfig,
     serverArguments: Array<string>
-): Promise<Array<RedisServerDocker>> {
+): Promise<Array<ValkeyServerDocker>> {
     const numberOfMasters = dockersConfig.numberOfMasters ?? 2,
         slotsPerNode = Math.floor(SLOTS / numberOfMasters),
-        spawnPromises: Array<ReturnType<typeof spawnRedisClusterNodeDockers>> = [];
+        spawnPromises: Array<ReturnType<typeof spawnValkeyClusterNodeDockers>> = [];
     for (let i = 0; i < numberOfMasters; i++) {
         const fromSlot = i * slotsPerNode,
             toSlot = i === numberOfMasters - 1 ? SLOTS : fromSlot + slotsPerNode;
         spawnPromises.push(
-            spawnRedisClusterNodeDockers(
+            spawnValkeyClusterNodeDockers(
                 dockersConfig,
                 serverArguments,
                 fromSlot,
@@ -219,7 +219,7 @@ async function spawnRedisClusterDockers(
             while (totalNodes(await client.clusterSlots()) !== nodes.length) {
                 await promiseTimeout(50);
             }
-        
+
             return client.disconnect();
         })
     );
@@ -236,15 +236,15 @@ function totalNodes(slots: ClusterSlotsReply) {
     return total;
 }
 
-const RUNNING_CLUSTERS = new Map<Array<string>, ReturnType<typeof spawnRedisClusterDockers>>();
+const RUNNING_CLUSTERS = new Map<Array<string>, ReturnType<typeof spawnValkeyClusterDockers>>();
 
-export function spawnRedisCluster(dockersConfig: RedisClusterDockersConfig, serverArguments: Array<string>): Promise<Array<RedisServerDocker>> {
+export function spawnValkeyCluster(dockersConfig: ValkeyClusterDockersConfig, serverArguments: Array<string>): Promise<Array<ValkeyServerDocker>> {
     const runningCluster = RUNNING_CLUSTERS.get(serverArguments);
     if (runningCluster) {
         return runningCluster;
     }
 
-    const dockersPromise = spawnRedisClusterDockers(dockersConfig, serverArguments);
+    const dockersPromise = spawnValkeyClusterDockers(dockersConfig, serverArguments);
     RUNNING_CLUSTERS.set(serverArguments, dockersPromise);
     return dockersPromise;
 }

@@ -1,11 +1,11 @@
 import { EventEmitter } from 'events';
 import * as net from 'net';
 import * as tls from 'tls';
-import { RedisCommandArguments } from '../commands';
+import { ValkeyCommandArguments } from '../commands';
 import { ConnectionTimeoutError, ClientClosedError, SocketClosedUnexpectedlyError, ReconnectStrategyError } from '../errors';
 import { promiseTimeout } from '../utils';
 
-export interface RedisSocketCommonOptions {
+export interface ValkeySocketCommonOptions {
     /**
      * Connection Timeout (in milliseconds)
      */
@@ -28,25 +28,25 @@ export interface RedisSocketCommonOptions {
     reconnectStrategy?: false | number | ((retries: number, cause: Error) => false | Error | number);
 }
 
-type RedisNetSocketOptions = Partial<net.SocketConnectOpts> & {
+type ValkeyNetSocketOptions = Partial<net.SocketConnectOpts> & {
     tls?: false;
 };
 
-export interface RedisTlsSocketOptions extends tls.ConnectionOptions {
+export interface ValkeyTlsSocketOptions extends tls.ConnectionOptions {
     tls: true;
 }
 
-export type RedisSocketOptions = RedisSocketCommonOptions & (RedisNetSocketOptions | RedisTlsSocketOptions);
+export type ValkeySocketOptions = ValkeySocketCommonOptions & (ValkeyNetSocketOptions | ValkeyTlsSocketOptions);
 
 interface CreateSocketReturn<T> {
     connectEvent: string;
     socket: T;
 }
 
-export type RedisSocketInitiator = () => Promise<void>;
+export type ValkeySocketInitiator = () => Promise<void>;
 
-export default class RedisSocket extends EventEmitter {
-    static #initiateOptions(options?: RedisSocketOptions): RedisSocketOptions {
+export default class ValkeySocket extends EventEmitter {
+    static #initiateOptions(options?: ValkeySocketOptions): ValkeySocketOptions {
         options ??= {};
         if (!(options as net.IpcSocketConnectOpts).path) {
             (options as net.TcpSocketConnectOpts).port ??= 6379;
@@ -60,13 +60,13 @@ export default class RedisSocket extends EventEmitter {
         return options;
     }
 
-    static #isTlsSocket(options: RedisSocketOptions): options is RedisTlsSocketOptions {
-        return (options as RedisTlsSocketOptions).tls === true;
+    static #isTlsSocket(options: ValkeySocketOptions): options is ValkeyTlsSocketOptions {
+        return (options as ValkeyTlsSocketOptions).tls === true;
     }
 
-    readonly #initiator: RedisSocketInitiator;
+    readonly #initiator: ValkeySocketInitiator;
 
-    readonly #options: RedisSocketOptions;
+    readonly #options: ValkeySocketOptions;
 
     #socket?: net.Socket | tls.TLSSocket;
 
@@ -92,11 +92,11 @@ export default class RedisSocket extends EventEmitter {
 
     #isSocketUnrefed = false;
 
-    constructor(initiator: RedisSocketInitiator, options?: RedisSocketOptions) {
+    constructor(initiator: ValkeySocketInitiator, options?: ValkeySocketOptions) {
         super();
 
         this.#initiator = initiator;
-        this.#options = RedisSocket.#initiateOptions(options);
+        this.#options = ValkeySocket.#initiateOptions(options);
     }
 
     #reconnectStrategy(retries: number, cause: Error) {
@@ -176,7 +176,7 @@ export default class RedisSocket extends EventEmitter {
 
     #createSocket(): Promise<net.Socket | tls.TLSSocket> {
         return new Promise((resolve, reject) => {
-            const { connectEvent, socket } = RedisSocket.#isTlsSocket(this.#options) ?
+            const { connectEvent, socket } = ValkeySocket.#isTlsSocket(this.#options) ?
                 this.#createTlsSocket() :
                 this.#createNetSocket();
 
@@ -241,7 +241,7 @@ export default class RedisSocket extends EventEmitter {
         });
     }
 
-    writeCommand(args: RedisCommandArguments): void {
+    writeCommand(args: ValkeyCommandArguments): void {
         if (!this.#socket) {
             throw new ClientClosedError();
         }

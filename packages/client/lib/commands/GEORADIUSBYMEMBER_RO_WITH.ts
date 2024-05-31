@@ -1,18 +1,18 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { GeoReplyWith, GeoSearchOptions, GeoUnits } from './generic-transformers';
 import { transformArguments as geoRadiusTransformArguments } from './GEORADIUSBYMEMBER_RO';
 
 export { FIRST_KEY_INDEX, IS_READ_ONLY } from './GEORADIUSBYMEMBER_RO';
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     member: string,
     radius: number,
     unit: GeoUnits,
     replyWith: Array<GeoReplyWith>,
     options?: GeoSearchOptions
-): RedisCommandArguments {
-    const args: RedisCommandArguments = geoRadiusTransformArguments(
+): ValkeyCommandArguments {
+    const args: ValkeyCommandArguments = geoRadiusTransformArguments(
         key,
         member,
         radius,

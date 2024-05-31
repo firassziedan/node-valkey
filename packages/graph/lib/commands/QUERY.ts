@@ -1,14 +1,14 @@
-import { RedisCommandArgument, RedisCommandArguments } from '@redis/client/dist/lib/commands/index';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from 'valkey-client/dist/lib/commands/index';
 import { pushQueryArguments, QueryOptionsBackwardCompatible } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    graph: RedisCommandArgument,
-    query: RedisCommandArgument,
+    graph: ValkeyCommandArgument,
+    query: ValkeyCommandArgument,
     options?: QueryOptionsBackwardCompatible,
     compact?: boolean
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return pushQueryArguments(
         ['GRAPH.QUERY'],
         graph,

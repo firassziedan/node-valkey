@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 import { pushLatestArgument, SampleRawReply, SampleReply, transformSampleReply } from '.';
 
 export const FIRST_KEY_INDEX = 1;
@@ -9,7 +9,7 @@ interface GetOptions {
     LATEST?: boolean;
 }
 
-export function transformArguments(key: string, options?: GetOptions): RedisCommandArguments {
+export function transformArguments(key: string, options?: GetOptions): ValkeyCommandArguments {
     return pushLatestArgument(['TS.GET', key], options?.LATEST);
 }
 

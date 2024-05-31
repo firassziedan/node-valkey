@@ -1,7 +1,7 @@
-// This example demonstrates the use of the Top K 
-// in the RedisBloom module (https://redis.io/docs/stack/bloom/)
+// This example demonstrates the use of the Top K
+// in the ValkeyBloom module (https://valkey.io/docs/stack/bloom/)
 
-import { createClient } from 'redis';
+import { createClient } from 'valkey';
 
 const client = createClient();
 
@@ -11,7 +11,7 @@ await client.connect();
 await client.del('mytopk');
 
 // Reserve a Top K to track the 10 most common items.
-// https://redis.io/commands/topk.reserve/
+// https://valkey.io/commands/topk.reserve/
 try {
   await client.topK.reserve('mytopk', 10, { width: 400, depth: 10, decay: 0.9 });
   console.log('Reserved Top K.');
@@ -19,7 +19,7 @@ try {
   if (e.message.endsWith('key already exists')) {
     console.log('Top K already reserved.');
   } else {
-    console.log('Error, maybe RedisBloom is not installed?:');
+    console.log('Error, maybe ValkeyBloom is not installed?:');
     console.log(e);
   }
 }
@@ -42,7 +42,7 @@ const teamMembers = [
 ];
 
 // Add random counts for random team members with TOPK.INCRBY
-// https://redis.io/commands/topk.incrby/
+// https://valkey.io/commands/topk.incrby/
 for (let n = 0; n < 1000; n++) {
   const teamMember = teamMembers[Math.floor(Math.random() * teamMembers.length)];
   const points = Math.floor(Math.random() * 1000) + 1;
@@ -54,7 +54,7 @@ for (let n = 0; n < 1000; n++) {
 }
 
 // List out the top 10 with TOPK.LIST
-// https://redis.io/commands/topk.list/
+// https://valkey.io/commands/topk.list/
 const top10 = await client.topK.list('mytopk');
 console.log('The top 10:');
 // top10 looks like this:
@@ -67,8 +67,8 @@ console.log('The top 10:');
 // ]
 console.log(top10);
 
-// List out the top 10 with their counts (requires RedisBloom >=2.2.9)
-// https://redis.io/commands/topk.list/
+// List out the top 10 with their counts (requires ValkeyBloom >=2.2.9)
+// https://valkey.io/commands/topk.list/
 const top10WithCounts = await client.topK.listWithCount('mytopk');
 console.log('The top 10 with counts:');
 console.log(top10WithCounts);
@@ -87,7 +87,7 @@ console.log(top10WithCounts);
 // ]
 
 // Check if a few team members are in the top 10 with TOPK.QUERY:
-// https://redis.io/commands/topk.query/
+// https://valkey.io/commands/topk.query/
 const [ steve, suze, leibale, frederick ] = await client.topK.query('mytopk', [
   'steve',
   'suze',
@@ -101,7 +101,7 @@ console.log(`leibale ${leibale === 1 ? 'is': 'is not'} in the top 10.`);
 console.log(`frederick ${frederick === 1 ? 'is': 'is not'} in the top 10.`);
 
 // Get count estimate for some team members with TOPK.COUNT:
-// https://redis.io/commands/topk.count/
+// https://valkey.io/commands/topk.count/
 const [ simonCount, lanceCount ] = await client.topK.count('mytopk', [
   'simon',
   'lance'

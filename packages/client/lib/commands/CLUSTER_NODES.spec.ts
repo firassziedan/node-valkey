@@ -1,5 +1,5 @@
 import { strict as assert } from 'assert';
-import { RedisClusterNodeLinkStates, transformArguments, transformReply } from './CLUSTER_NODES';
+import { ValkeyClusterNodeLinkStates, transformArguments, transformReply } from './CLUSTER_NODES';
 
 describe('CLUSTER NODES', () => {
     it('transformArguments', () => {
@@ -27,7 +27,7 @@ describe('CLUSTER NODES', () => {
                     pingSent: 0,
                     pongRecv: 0,
                     configEpoch: 1,
-                    linkState: RedisClusterNodeLinkStates.CONNECTED,
+                    linkState: ValkeyClusterNodeLinkStates.CONNECTED,
                     slots: [{
                         from: 0,
                         to: 16384
@@ -42,7 +42,7 @@ describe('CLUSTER NODES', () => {
                         pingSent: 0,
                         pongRecv: 0,
                         configEpoch: 1,
-                        linkState: RedisClusterNodeLinkStates.CONNECTED
+                        linkState: ValkeyClusterNodeLinkStates.CONNECTED
                     }]
                 }]
             );
@@ -63,7 +63,7 @@ describe('CLUSTER NODES', () => {
                     pingSent: 0,
                     pongRecv: 0,
                     configEpoch: 0,
-                    linkState: RedisClusterNodeLinkStates.CONNECTED,
+                    linkState: ValkeyClusterNodeLinkStates.CONNECTED,
                     slots: [{
                         from: 0,
                         to: 16384
@@ -88,7 +88,7 @@ describe('CLUSTER NODES', () => {
                     pingSent: 0,
                     pongRecv: 0,
                     configEpoch: 0,
-                    linkState: RedisClusterNodeLinkStates.CONNECTED,
+                    linkState: ValkeyClusterNodeLinkStates.CONNECTED,
                     slots: [{
                         from: 0,
                         to: 549
@@ -113,7 +113,7 @@ describe('CLUSTER NODES', () => {
                     pingSent: 0,
                     pongRecv: 0,
                     configEpoch: 0,
-                    linkState: RedisClusterNodeLinkStates.CONNECTED,
+                    linkState: ValkeyClusterNodeLinkStates.CONNECTED,
                     slots: [], // TODO
                     replicas: []
                 }]
@@ -135,7 +135,7 @@ describe('CLUSTER NODES', () => {
                     pingSent: 0,
                     pongRecv: 0,
                     configEpoch: 0,
-                    linkState: RedisClusterNodeLinkStates.CONNECTED,
+                    linkState: ValkeyClusterNodeLinkStates.CONNECTED,
                     slots: [], // TODO
                     replicas: []
                 }]

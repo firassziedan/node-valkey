@@ -1,5 +1,5 @@
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
-import { pushSearchOptions, RedisSearchLanguages, Params, PropertyName, SortByProperty, SearchReply } from '.';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
+import { pushSearchOptions, ValkeySearchLanguages, Params, PropertyName, SortByProperty, SearchReply } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -41,7 +41,7 @@ export interface SearchOptions {
     };
     SLOP?: number;
     INORDER?: true;
-    LANGUAGE?: RedisSearchLanguages;
+    LANGUAGE?: ValkeySearchLanguages;
     EXPANDER?: string;
     SCORER?: string;
     // EXPLAINSCORE?: true; // TODO: WITHSCORES
@@ -61,7 +61,7 @@ export function transformArguments(
     index: string,
     query: string,
     options?: SearchOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return pushSearchOptions(
         ['FT.SEARCH', index, query],
         options

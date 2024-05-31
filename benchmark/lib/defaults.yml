@@ -2,7 +2,7 @@ version: 0.1
 
 remote:
   - type: oss-standalone
-  - setup: redis-small
+  - setup: valkey-small
 
 setups:
   - oss-standalone
@@ -11,7 +11,7 @@ spec:
   setups:
   - name: oss-standalone
     type: oss-standalone
-    redis_topology:
+    valkey_topology:
       primaries: 1
       replicas: 0
     resources:
@@ -21,7 +21,7 @@ spec:
 
 exporter:
   output_path: "./*.js.json"
-  redistimeseries:
+  valkeytimeseries:
     timemetric: "$.timestamp"
     metrics:
       - "$.p0"

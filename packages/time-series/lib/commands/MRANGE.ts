@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 import { MRangeOptions, Timestamp, pushMRangeArguments, Filter } from '.';
 
 export const IS_READ_ONLY = true;
@@ -8,7 +8,7 @@ export function transformArguments(
     toTimestamp: Timestamp,
     filters: Filter,
     options?: MRangeOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return pushMRangeArguments(
         ['TS.MRANGE'],
         fromTimestamp,

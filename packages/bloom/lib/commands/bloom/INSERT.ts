@@ -1,5 +1,5 @@
-import { pushVerdictArguments } from '@redis/client/dist/lib/commands/generic-transformers';
-import { RedisCommandArgument, RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { pushVerdictArguments } from 'valkey-client/dist/lib/commands/generic-transformers';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -13,9 +13,9 @@ interface InsertOptions {
 
 export function transformArguments(
     key: string,
-    items: RedisCommandArgument | Array<RedisCommandArgument>,
+    items: ValkeyCommandArgument | Array<ValkeyCommandArgument>,
     options?: InsertOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['BF.INSERT', key];
 
     if (options?.CAPACITY) {
@@ -42,4 +42,4 @@ export function transformArguments(
     return pushVerdictArguments(args, items);
 }
 
-export { transformBooleanArrayReply as transformReply } from '@redis/client/dist/lib/commands/generic-transformers';
+export { transformBooleanArrayReply as transformReply } from 'valkey-client/dist/lib/commands/generic-transformers';

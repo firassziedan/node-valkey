@@ -1,10 +1,10 @@
-// How to mix and match supported commands that have named functions with 
+// How to mix and match supported commands that have named functions with
 // commands sent as arbitrary strings in the same transaction context.
-// Use this when working with new Redis commands that haven't been added to 
-// node-redis yet, or when working with commands that have been added to Redis
-// by modules other than those directly supported by node-redis.
+// Use this when working with new Valkey commands that haven't been added to
+// node-valkey yet, or when working with commands that have been added to Valkey
+// by modules other than those directly supported by node-valkey.
 
-import { createClient } from 'redis';
+import { createClient } from 'valkey';
 
 const client = createClient();
 

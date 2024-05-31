@@ -1,8 +1,8 @@
-import { RedisCommandArgument, RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 
 export const FIRST_KEY_INDEX = 1;
 
-export function transformArguments(key: RedisCommandArgument): RedisCommandArguments {
+export function transformArguments(key: ValkeyCommandArgument): ValkeyCommandArguments {
     return ['TDIGEST.RESET', key];
 }
 

@@ -1,4 +1,4 @@
-import { transformRedisJsonArgument } from '.';
+import { transformValkeyJsonArgument } from '.';
 
 export const FIRST_KEY_INDEX = 1;
 
@@ -10,9 +10,9 @@ export function transformArguments(...[key, pathOrAppend, append]: AppendArgumen
     const args = ['JSON.STRAPPEND', key];
 
     if (append !== undefined && append !== null) {
-        args.push(pathOrAppend, transformRedisJsonArgument(append));
+        args.push(pathOrAppend, transformValkeyJsonArgument(append));
     } else {
-        args.push(transformRedisJsonArgument(pathOrAppend));
+        args.push(transformValkeyJsonArgument(pathOrAppend));
     }
 
     return args;

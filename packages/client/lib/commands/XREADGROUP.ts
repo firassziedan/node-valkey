@@ -1,8 +1,8 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export interface XReadGroupStream {
-    key: RedisCommandArgument;
-    id: RedisCommandArgument;
+    key: ValkeyCommandArgument;
+    id: ValkeyCommandArgument;
 }
 
 export interface XReadGroupOptions {
@@ -12,21 +12,21 @@ export interface XReadGroupOptions {
 }
 
 export const FIRST_KEY_INDEX = (
-    _group: RedisCommandArgument,
-    _consumer: RedisCommandArgument,
+    _group: ValkeyCommandArgument,
+    _consumer: ValkeyCommandArgument,
     streams: Array<XReadGroupStream> | XReadGroupStream
-): RedisCommandArgument => {
+): ValkeyCommandArgument => {
     return Array.isArray(streams) ? streams[0].key : streams.key;
 };
 
 export const IS_READ_ONLY = true;
 
 export function transformArguments(
-    group: RedisCommandArgument,
-    consumer: RedisCommandArgument,
+    group: ValkeyCommandArgument,
+    consumer: ValkeyCommandArgument,
     streams: Array<XReadGroupStream> | XReadGroupStream,
     options?: XReadGroupOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = ['XREADGROUP', 'GROUP', group, consumer];
 
     if (options?.COUNT) {

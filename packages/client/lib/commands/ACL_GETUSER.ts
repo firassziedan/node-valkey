@@ -1,30 +1,30 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
-export function transformArguments(username: RedisCommandArgument): RedisCommandArguments {
+export function transformArguments(username: ValkeyCommandArgument): ValkeyCommandArguments {
     return ['ACL', 'GETUSER', username];
 }
 
 type AclGetUserRawReply = [
     'flags',
-    Array<RedisCommandArgument>,
+    Array<ValkeyCommandArgument>,
     'passwords',
-    Array<RedisCommandArgument>,
+    Array<ValkeyCommandArgument>,
     'commands',
-    RedisCommandArgument,
+    ValkeyCommandArgument,
     'keys',
-    Array<RedisCommandArgument> | RedisCommandArgument,
+    Array<ValkeyCommandArgument> | ValkeyCommandArgument,
     'channels',
-    Array<RedisCommandArgument> | RedisCommandArgument,
+    Array<ValkeyCommandArgument> | ValkeyCommandArgument,
     'selectors' | undefined,
     Array<Array<string>> | undefined
 ];
 
 interface AclUser {
-    flags: Array<RedisCommandArgument>;
-    passwords: Array<RedisCommandArgument>;
-    commands: RedisCommandArgument;
-    keys: Array<RedisCommandArgument> | RedisCommandArgument;
-    channels: Array<RedisCommandArgument> | RedisCommandArgument;
+    flags: Array<ValkeyCommandArgument>;
+    passwords: Array<ValkeyCommandArgument>;
+    commands: ValkeyCommandArgument;
+    keys: Array<ValkeyCommandArgument> | ValkeyCommandArgument;
+    channels: Array<ValkeyCommandArgument> | ValkeyCommandArgument;
     selectors?: Array<Array<string>>;
 }
 

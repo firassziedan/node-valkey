@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { AuthOptions } from './AUTH';
 
 interface HelloOptions {
@@ -7,8 +7,8 @@ interface HelloOptions {
     clientName?: string;
 }
 
-export function transformArguments(options?: HelloOptions): RedisCommandArguments {
-    const args: RedisCommandArguments = ['HELLO'];
+export function transformArguments(options?: HelloOptions): ValkeyCommandArguments {
+    const args: ValkeyCommandArguments = ['HELLO'];
 
     if (options) {
         args.push(options.protover.toString());
@@ -27,29 +27,29 @@ export function transformArguments(options?: HelloOptions): RedisCommandArgument
 
 type HelloRawReply = [
     _: never,
-    server: RedisCommandArgument,
+    server: ValkeyCommandArgument,
     _: never,
-    version: RedisCommandArgument,
+    version: ValkeyCommandArgument,
     _: never,
     proto: number,
     _: never,
     id: number,
     _: never,
-    mode: RedisCommandArgument,
+    mode: ValkeyCommandArgument,
     _: never,
-    role: RedisCommandArgument,
+    role: ValkeyCommandArgument,
     _: never,
-    modules: Array<RedisCommandArgument>
+    modules: Array<ValkeyCommandArgument>
 ];
 
 interface HelloTransformedReply {
-    server: RedisCommandArgument;
-    version: RedisCommandArgument;
+    server: ValkeyCommandArgument;
+    version: ValkeyCommandArgument;
     proto: number;
     id: number;
-    mode: RedisCommandArgument;
-    role: RedisCommandArgument;
-    modules: Array<RedisCommandArgument>;
+    mode: ValkeyCommandArgument;
+    role: ValkeyCommandArgument;
+    modules: Array<ValkeyCommandArgument>;
 }
 
 export function transformReply(reply: HelloRawReply): HelloTransformedReply {

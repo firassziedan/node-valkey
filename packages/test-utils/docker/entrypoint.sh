@@ -1,3 +1,3 @@
 #!/bin/bash
 
-redis-server $REDIS_ARGUMENTS
+valkey-server $REDIS_ARGUMENTS

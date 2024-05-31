@@ -1,5 +1,5 @@
-import { RedisClientType } from '@redis/client/dist/lib/client/index';
-import { RedisCommandArgument, RedisFunctions, RedisScripts } from '@redis/client/dist/lib/commands';
+import { ValkeyClientType } from 'valkey-client/dist/lib/client/index';
+import { ValkeyCommandArgument, ValkeyFunctions, ValkeyScripts } from 'valkey-client/dist/lib/commands';
 import { QueryOptions } from './commands';
 import { QueryReply } from './commands/QUERY';
 
@@ -9,7 +9,7 @@ interface GraphMetadata {
     propertyKeys: Array<string>;
 }
 
-// https://github.com/RedisGraph/RedisGraph/blob/master/src/resultset/formatters/resultset_formatter.h#L20
+// https://github.com/ValkeyGraph/ValkeyGraph/blob/master/src/resultset/formatters/resultset_formatter.h#L20
 enum GraphValueTypes {
     UNKNOWN = 0,
     NULL = 1,
@@ -130,12 +130,12 @@ export type GraphReply<T> = Omit<QueryReply, 'headers' | 'data'> & {
     data?: Array<T>;
 };
 
-export type GraphClientType = RedisClientType<{
+export type GraphClientType = ValkeyClientType<{
     graph: {
         query: typeof import('./commands/QUERY'),
         roQuery: typeof import('./commands/RO_QUERY')
     }
-}, RedisFunctions, RedisScripts>;
+}, ValkeyFunctions, ValkeyScripts>;
 
 export default class Graph {
     #client: GraphClientType;
@@ -151,7 +151,7 @@ export default class Graph {
     }
 
     async query<T>(
-        query: RedisCommandArgument,
+        query: ValkeyCommandArgument,
         options?: QueryOptions
     ) {
         return this.#parseReply<T>(
@@ -165,7 +165,7 @@ export default class Graph {
     }
 
     async roQuery<T>(
-        query: RedisCommandArgument,
+        query: ValkeyCommandArgument,
         options?: QueryOptions
     ) {
         return this.#parseReply<T>(

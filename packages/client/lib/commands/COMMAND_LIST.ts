@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 
 export const IS_READ_ONLY = true;
 
@@ -14,7 +14,7 @@ interface Filter {
 }
 
 
-export function transformArguments(filter?: Filter): RedisCommandArguments {
+export function transformArguments(filter?: Filter): ValkeyCommandArguments {
     const args = ['COMMAND', 'LIST'];
 
     if (filter) {

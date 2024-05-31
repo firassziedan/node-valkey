@@ -8,7 +8,7 @@ import {
     pushFilterArgument
 } from '.';
 import { MGetOptions, MGetRawReply, MGetReply } from './MGET';
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 
 export const IS_READ_ONLY = true;
 
@@ -19,7 +19,7 @@ interface MGetWithLabelsOptions extends MGetOptions {
 export function transformArguments(
     filter: Filter,
     options?: MGetWithLabelsOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = pushWithLabelsArgument(['TS.MGET'], options?.SELECTED_LABELS);
     return pushFilterArgument(args, filter);
 }

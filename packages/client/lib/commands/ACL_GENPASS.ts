@@ -1,6 +1,6 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
-export function transformArguments(bits?: number): RedisCommandArguments {
+export function transformArguments(bits?: number): ValkeyCommandArguments {
     const args = ['ACL', 'GENPASS'];
 
     if (bits) {
@@ -10,4 +10,4 @@ export function transformArguments(bits?: number): RedisCommandArguments {
     return args;
 }
 
-export declare function transformReply(): RedisCommandArgument;
+export declare function transformReply(): ValkeyCommandArgument;

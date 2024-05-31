@@ -40,7 +40,7 @@ describe('GEOSEARCHSTORE', () => {
         });
     });
 
-    it('transformReply with empty array (https://github.com/redis/redis/issues/9261)', () => {
+    it('transformReply with empty array (https://github.com/valkey/valkey/issues/9261)', () => {
         assert.throws(
             () => (transformReply as any)([]),
             TypeError

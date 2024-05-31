@@ -1,8 +1,8 @@
 import { strict as assert } from 'assert';
 import testUtils, { GLOBAL, waitTillBeenCalled } from '../test-utils';
-import RedisClient, { RedisClientType } from '.';
-import { RedisClientMultiCommandType } from './multi-command';
-import { RedisCommandRawReply, RedisModules, RedisFunctions, RedisScripts } from '../commands';
+import ValkeyClient, { ValkeyClientType } from '.';
+import { ValkeyClientMultiCommandType } from './multi-command';
+import { ValkeyCommandRawReply, ValkeyModules, ValkeyFunctions, ValkeyScripts } from '../commands';
 import { AbortError, ClientClosedError, ClientOfflineError, ConnectionTimeoutError, DisconnectsClientError, ErrorReply, MultiErrorReply, SocketClosedUnexpectedlyError, WatchError } from '../errors';
 import { defineScript } from '../lua-script';
 import { spy } from 'sinon';
@@ -24,7 +24,7 @@ export const MATH_FUNCTION = {
     name: 'math',
     engine: 'LUA',
     code: `#!LUA name=math
-        redis.register_function{
+        valkey.register_function{
             function_name = "square",
             callback = function(keys, args) return args[1] * args[1] end,
             flags = { "no-writes" }
@@ -42,7 +42,7 @@ export const MATH_FUNCTION = {
 };
 
 export async function loadMathFunction(
-    client: RedisClientType<RedisModules, RedisFunctions, RedisScripts>
+    client: ValkeyClientType<ValkeyModules, ValkeyFunctions, ValkeyScripts>
 ): Promise<void> {
     await client.functionLoad(
         MATH_FUNCTION.code,
@@ -52,9 +52,9 @@ export async function loadMathFunction(
 
 describe('Client', () => {
     describe('parseURL', () => {
-        it('redis://user:secret@localhost:6379/0', () => {
+        it('valkey://user:secret@localhost:6379/0', () => {
             assert.deepEqual(
-                RedisClient.parseURL('redis://user:secret@localhost:6379/0'),
+                ValkeyClient.parseURL('valkey://user:secret@localhost:6379/0'),
                 {
                     socket: {
                         host: 'localhost',
@@ -67,9 +67,9 @@ describe('Client', () => {
             );
         });
 
-        it('rediss://user:secret@localhost:6379/0', () => {
+        it('valkeys://user:secret@localhost:6379/0', () => {
             assert.deepEqual(
-                RedisClient.parseURL('rediss://user:secret@localhost:6379/0'),
+                ValkeyClient.parseURL('valkeys://user:secret@localhost:6379/0'),
                 {
                     socket: {
                         host: 'localhost',
@@ -85,21 +85,21 @@ describe('Client', () => {
 
         it('Invalid protocol', () => {
             assert.throws(
-                () => RedisClient.parseURL('redi://user:secret@localhost:6379/0'),
+                () => ValkeyClient.parseURL('redi://user:secret@localhost:6379/0'),
                 TypeError
             );
         });
 
         it('Invalid pathname', () => {
             assert.throws(
-                () => RedisClient.parseURL('redis://user:secret@localhost:6379/NaN'),
+                () => ValkeyClient.parseURL('valkey://user:secret@localhost:6379/NaN'),
                 TypeError
             );
         });
 
-        it('redis://localhost', () => {
+        it('valkey://localhost', () => {
             assert.deepEqual(
-                RedisClient.parseURL('redis://localhost'),
+                ValkeyClient.parseURL('valkey://localhost'),
                 {
                     socket: {
                         host: 'localhost',
@@ -124,7 +124,7 @@ describe('Client', () => {
         testUtils.testWithClient('should set default lib name and version', async client => {
             const clientInfo = await client.clientInfo();
 
-            assert.equal(clientInfo.libName, 'node-redis');
+            assert.equal(clientInfo.libName, 'node-valkey');
             assert.equal(clientInfo.libVer, version);
         }, {
             ...GLOBAL.SERVERS.PASSWORD,
@@ -148,7 +148,7 @@ describe('Client', () => {
         testUtils.testWithClient('send client name tag', async client => {
             const clientInfo = await client.clientInfo();
 
-            assert.equal(clientInfo.libName, 'node-redis(test)');
+            assert.equal(clientInfo.libName, 'node-valkey(test)');
             assert.equal(clientInfo.libVer, version);
         }, {
             ...GLOBAL.SERVERS.PASSWORD,
@@ -302,7 +302,7 @@ describe('Client', () => {
 
         testUtils.testWithClient('client.hGetAll should return object', async client => {
             await client.v4.hSet('key', 'field', 'value');
-            
+
             assert.deepEqual(
                 await promisify(client.hGetAll).call(client, 'key'),
                 Object.create(null, {
@@ -321,12 +321,12 @@ describe('Client', () => {
         });
 
         function multiExecAsync<
-            M extends RedisModules,
-            F extends RedisFunctions,
-            S extends RedisScripts
-        >(multi: RedisClientMultiCommandType<M, F, S>): Promise<Array<RedisCommandRawReply>> {
+            M extends ValkeyModules,
+            F extends ValkeyFunctions,
+            S extends ValkeyScripts
+        >(multi: ValkeyClientMultiCommandType<M, F, S>): Promise<Array<ValkeyCommandRawReply>> {
             return new Promise((resolve, reject) => {
-                (multi as any).exec((err: Error | undefined, replies: Array<RedisCommandRawReply>) => {
+                (multi as any).exec((err: Error | undefined, replies: Array<ValkeyCommandRawReply>) => {
                     if (err) return reject(err);
 
                     resolve(replies);
@@ -404,7 +404,7 @@ describe('Client', () => {
             }
         });
 
-        testUtils.testWithClient('client.multi.hGetAll should return object', async client => { 
+        testUtils.testWithClient('client.multi.hGetAll should return object', async client => {
             assert.deepEqual(
                 await multiExecAsync(
                     client.multi()
@@ -556,7 +556,7 @@ describe('Client', () => {
             await client.watch('key');
 
             await client.set(
-                RedisClient.commandOptions({
+                ValkeyClient.commandOptions({
                     isolated: true
                 }),
                 'key',
@@ -714,12 +714,12 @@ describe('Client', () => {
     });
 
     async function killClient<
-        M extends RedisModules,
-        F extends RedisFunctions,
-        S extends RedisScripts
+        M extends ValkeyModules,
+        F extends ValkeyFunctions,
+        S extends ValkeyScripts
     >(
-        client: RedisClientType<M, F, S>,
-        errorClient: RedisClientType<M, F, S> = client
+        client: ValkeyClientType<M, F, S>,
+        errorClient: ValkeyClientType<M, F, S> = client
     ): Promise<void> {
         const onceErrorPromise = once(errorClient, 'error');
         await client.sendCommand(['QUIT']);
@@ -831,7 +831,7 @@ describe('Client', () => {
             members.map<MemberTuple>(member => [member.value, member.score]).sort(sort)
         );
     }, GLOBAL.SERVERS.OPEN);
-    
+
     describe('PubSub', () => {
         testUtils.testWithClient('should be able to publish and subscribe to messages', async publisher => {
             function assertStringListener(message: string, channel: string) {

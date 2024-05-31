@@ -5,7 +5,7 @@ import { promises as fs } from 'fs';
 import * as hdr from 'hdr-histogram-js';
 hdr.initWebAssemblySync();
 
-const { path, times, concurrency, 'redis-server-host': host } = yargs(hideBin(process.argv))
+const { path, times, concurrency, 'valkey-server-host': host } = yargs(hideBin(process.argv))
     .option('path', {
         type: 'string',
         demandOption: true
@@ -20,7 +20,7 @@ const { path, times, concurrency, 'redis-server-host': host } = yargs(hideBin(pr
         default: 100,
         demandOption: true
     })
-    .option('redis-server-host', {
+    .option('valkey-server-host', {
         type: 'string'
     })
     .parseSync();

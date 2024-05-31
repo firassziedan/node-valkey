@@ -1,5 +1,5 @@
 import { strict as assert } from 'assert';
-import RedisClient from '../client';
+import ValkeyClient from '../client';
 import testUtils, { GLOBAL } from '../test-utils';
 import { transformArguments } from './GET';
 

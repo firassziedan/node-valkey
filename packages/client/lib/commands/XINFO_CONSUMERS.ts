@@ -1,18 +1,18 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 
 export const FIRST_KEY_INDEX = 2;
 
 export const IS_READ_ONLY = true;
 
 export function transformArguments(
-    key: RedisCommandArgument,
-    group: RedisCommandArgument
-): RedisCommandArguments {
+    key: ValkeyCommandArgument,
+    group: ValkeyCommandArgument
+): ValkeyCommandArguments {
     return ['XINFO', 'CONSUMERS', key, group];
 }
 
 type XInfoConsumersReply = Array<{
-    name: RedisCommandArgument;
+    name: ValkeyCommandArgument;
     pending: number;
     idle: number;
     inactive: number;

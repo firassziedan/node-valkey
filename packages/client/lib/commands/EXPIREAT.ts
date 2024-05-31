@@ -1,13 +1,13 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformEXAT } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     timestamp: number | Date,
     mode?: 'NX' | 'XX' | 'GT' | 'LT'
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = [
         'EXPIREAT',
         key,

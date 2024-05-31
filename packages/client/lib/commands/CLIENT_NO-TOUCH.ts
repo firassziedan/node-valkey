@@ -1,6 +1,6 @@
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 
-export function transformArguments(value: boolean): RedisCommandArguments {
+export function transformArguments(value: boolean): ValkeyCommandArguments {
     return [
         'CLIENT',
         'NO-TOUCH',

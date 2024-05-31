@@ -1,4 +1,4 @@
-import { RedisCommandArgument } from "../commands";
+import { ValkeyCommandArgument } from "../commands";
 
 export enum PubSubType {
     CHANNELS = 'CHANNELS',
@@ -40,7 +40,7 @@ type Listeners = Record<PubSubType, PubSubTypeListeners>;
 
 export type PubSubCommand = ReturnType<
     typeof PubSub.prototype.subscribe |
-    typeof PubSub.prototype.unsubscribe | 
+    typeof PubSub.prototype.unsubscribe |
     typeof PubSub.prototype.extendTypeListeners
 >;
 
@@ -58,7 +58,7 @@ export class PubSub {
     static isShardedUnsubscribe(reply: Array<Buffer>): boolean {
         return COMMANDS[PubSubType.SHARDED].unsubscribe.equals(reply[0]);
     }
-    
+
     static #channelsArray(channels: string | Array<string>) {
         return (Array.isArray(channels) ? channels : [channels]);
     }
@@ -90,7 +90,7 @@ export class PubSub {
         listener: PubSubListener<T>,
         returnBuffers?: T
     ) {
-        const args: Array<RedisCommandArgument> = [COMMANDS[type].subscribe],
+        const args: Array<ValkeyCommandArgument> = [COMMANDS[type].subscribe],
             channelsArray = PubSub.#channelsArray(channels);
         for (const channel of channelsArray) {
             let channelListeners = this.#listeners[type].get(channel);
@@ -184,7 +184,7 @@ export class PubSub {
     }
 
     extendTypeListeners(type: PubSubType, listeners: PubSubTypeListeners) {
-        const args: Array<RedisCommandArgument> = [COMMANDS[type].subscribe];
+        const args: Array<ValkeyCommandArgument> = [COMMANDS[type].subscribe];
         for (const [channel, channelListeners] of listeners) {
             if (this.#extendChannelListeners(type, channel, channelListeners)) {
                 args.push(channel);
@@ -236,7 +236,7 @@ export class PubSub {
             );
         }
 
-        const args: Array<RedisCommandArgument> = [COMMANDS[type].unsubscribe];
+        const args: Array<ValkeyCommandArgument> = [COMMANDS[type].unsubscribe];
         for (const channel of channelsArray) {
             const sets = listeners.get(channel);
             if (sets) {
@@ -288,7 +288,7 @@ export class PubSub {
     }
 
     #unsubscribeCommand(
-        args: Array<RedisCommandArgument>,
+        args: Array<ValkeyCommandArgument>,
         channelsCounter: number,
         removeListeners: () => void
     ) {
@@ -373,7 +373,7 @@ export class PubSub {
         this.#updateIsActive();
         return listeners;
     }
-    
+
     #emitPubSubMessage(
         type: PubSubType,
         message: Buffer,
@@ -392,9 +392,9 @@ export class PubSub {
         if (!listeners.strings.size) return;
 
         const channelString = pattern ? channel.toString() : keyString,
-            messageString = channelString === '__redis__:invalidate' ?
-                // https://github.com/redis/redis/pull/7469
-                // https://github.com/redis/redis/issues/7463
+            messageString = channelString === '__valkey__:invalidate' ?
+                // https://github.com/valkey/valkey/pull/7469
+                // https://github.com/valkey/valkey/issues/7463
                 (message === null ? null : (message as any as Array<Buffer>).map(x => x.toString())) as any :
                 message.toString();
         for (const listener of listeners.strings) {

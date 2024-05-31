@@ -1,7 +1,7 @@
 import { strict as assert } from 'assert';
 import testUtils, { GLOBAL } from '../test-utils';
 import { transformArguments } from './CREATE';
-import { SchemaFieldTypes, SchemaTextFieldPhonetics, RedisSearchLanguages, VectorAlgorithms } from '.';
+import { SchemaFieldTypes, SchemaTextFieldPhonetics, ValkeySearchLanguages, VectorAlgorithms } from '.';
 
 describe('CREATE', () => {
     describe('transformArguments', () => {
@@ -290,9 +290,9 @@ describe('CREATE', () => {
         it('with LANGUAGE', () => {
             assert.deepEqual(
                 transformArguments('index', {}, {
-                    LANGUAGE: RedisSearchLanguages.ARABIC
+                    LANGUAGE: ValkeySearchLanguages.ARABIC
                 }),
-                ['FT.CREATE', 'index', 'LANGUAGE', RedisSearchLanguages.ARABIC, 'SCHEMA']
+                ['FT.CREATE', 'index', 'LANGUAGE', ValkeySearchLanguages.ARABIC, 'SCHEMA']
             );
         });
 

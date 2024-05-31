@@ -1,14 +1,14 @@
-// Store, retrieve and manipulate JSON data atomically with RedisJSON.
+// Store, retrieve and manipulate JSON data atomically with ValkeyJSON.
 
-import { createClient } from 'redis';
+import { createClient } from 'valkey';
 
 const client = createClient();
 
 await client.connect();
-await client.del('noderedis:jsondata');
+await client.del('nodevalkey:jsondata');
 
 // Store a JSON object...
-await client.json.set('noderedis:jsondata', '$', {
+await client.json.set('nodevalkey:jsondata', '$', {
   name: 'Roberta McDonald',
   pets: [
     {
@@ -40,7 +40,7 @@ await client.json.set('noderedis:jsondata', '$', {
 });
 
 // Retrieve the name and age of the second pet in the pets array.
-let results = await client.json.get('noderedis:jsondata', {
+let results = await client.json.get('nodevalkey:jsondata', {
   path: [
     '$.pets[1].name',
     '$.pets[1].age'
@@ -51,8 +51,8 @@ let results = await client.json.get('noderedis:jsondata', {
 console.log(results);
 
 // Goldie had a birthday, increment the age...
-await client.json.numIncrBy('noderedis:jsondata', '$.pets[2].age', 1);
-results = await client.json.get('noderedis:jsondata', {
+await client.json.numIncrBy('nodevalkey:jsondata', '$.pets[2].age', 1);
+results = await client.json.get('nodevalkey:jsondata', {
   path: '$.pets[2].age'
 });
 
@@ -60,7 +60,7 @@ results = await client.json.get('noderedis:jsondata', {
 console.log(`Goldie is ${JSON.stringify(results[0])} years old now.`);
 
 // Add a new pet...
-await client.json.arrAppend('noderedis:jsondata', '$.pets', {
+await client.json.arrAppend('nodevalkey:jsondata', '$.pets', {
   name: 'Robin',
   species: 'bird',
   isMammal: false,
@@ -68,7 +68,7 @@ await client.json.arrAppend('noderedis:jsondata', '$.pets', {
 });
 
 // How many pets do we have now?
-const numPets = await client.json.arrLen('noderedis:jsondata', '$.pets');
+const numPets = await client.json.arrLen('nodevalkey:jsondata', '$.pets');
 
 // We now have 4 pets.
 console.log(`We now have ${numPets} pets.`);

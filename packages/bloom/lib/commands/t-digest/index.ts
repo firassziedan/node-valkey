@@ -1,4 +1,4 @@
-import { RedisCommandArguments } from '@redis/client/dist/lib/commands';
+import { ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
 import * as ADD from './ADD';
 import * as BYRANK from './BYRANK';
 import * as BYREVRANK from './BYREVRANK';
@@ -50,9 +50,9 @@ export interface CompressionOption {
 }
 
 export function pushCompressionArgument(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     options?: CompressionOption
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     if (options?.COMPRESSION) {
         args.push('COMPRESSION', options.COMPRESSION.toString());
     }

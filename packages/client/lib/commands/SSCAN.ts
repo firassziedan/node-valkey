@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { ScanOptions, pushScanArguments } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -6,21 +6,21 @@ export const FIRST_KEY_INDEX = 1;
 export const IS_READ_ONLY = true;
 
 export function transformArguments(
-    key: RedisCommandArgument,
+    key: ValkeyCommandArgument,
     cursor: number,
     options?: ScanOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     return pushScanArguments([
         'SSCAN',
         key,
     ], cursor, options);
 }
 
-type SScanRawReply = [string, Array<RedisCommandArgument>];
+type SScanRawReply = [string, Array<ValkeyCommandArgument>];
 
 interface SScanReply {
     cursor: number;
-    members: Array<RedisCommandArgument>;
+    members: Array<ValkeyCommandArgument>;
 }
 
 export function transformReply([cursor, members]: SScanRawReply): SScanReply {

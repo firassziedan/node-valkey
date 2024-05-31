@@ -32,8 +32,8 @@ import * as SUGLEN from './SUGLEN';
 import * as SYNDUMP from './SYNDUMP';
 import * as SYNUPDATE from './SYNUPDATE';
 import * as TAGVALS from './TAGVALS';
-import { RedisCommandArgument, RedisCommandArguments } from '@redis/client/dist/lib/commands';
-import { pushOptionalVerdictArgument, pushVerdictArgument } from '@redis/client/dist/lib/commands/generic-transformers';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from 'valkey-client/dist/lib/commands';
+import { pushOptionalVerdictArgument, pushVerdictArgument } from 'valkey-client/dist/lib/commands/generic-transformers';
 import { SearchOptions } from './SEARCH';
 
 export default {
@@ -107,7 +107,7 @@ export default {
     tagVals: TAGVALS
 };
 
-export enum RedisSearchLanguages {
+export enum ValkeySearchLanguages {
     ARABIC = 'Arabic',
     BASQUE = 'Basque',
     CATALANA = 'Catalan',
@@ -142,7 +142,7 @@ export type SortByProperty = string | {
     DIRECTION?: 'ASC' | 'DESC';
 };
 
-export function pushSortByProperty(args: RedisCommandArguments, sortBy: SortByProperty): void {
+export function pushSortByProperty(args: ValkeyCommandArguments, sortBy: SortByProperty): void {
     if (typeof sortBy === 'string') {
         args.push(sortBy);
     } else {
@@ -154,7 +154,7 @@ export function pushSortByProperty(args: RedisCommandArguments, sortBy: SortByPr
     }
 }
 
-export function pushSortByArguments(args: RedisCommandArguments, name: string, sortBy: SortByProperty | Array<SortByProperty>): RedisCommandArguments {
+export function pushSortByArguments(args: ValkeyCommandArguments, name: string, sortBy: SortByProperty | Array<SortByProperty>): ValkeyCommandArguments {
     const lengthBefore = args.push(
         name,
         '' // will be overwritten
@@ -173,7 +173,7 @@ export function pushSortByArguments(args: RedisCommandArguments, name: string, s
     return args;
 }
 
-export function pushArgumentsWithLength(args: RedisCommandArguments, fn: (args: RedisCommandArguments) => void): RedisCommandArguments {
+export function pushArgumentsWithLength(args: ValkeyCommandArguments, fn: (args: ValkeyCommandArguments) => void): ValkeyCommandArguments {
     const lengthIndex = args.push('') - 1;
     fn(args);
     args[lengthIndex] = (args.length - lengthIndex - 1).toString();
@@ -257,7 +257,7 @@ type CreateSchemaHNSWVectorField = CreateSchemaVectorField<VectorAlgorithms.HNSW
     EF_RUNTIME?: number;
 }>;
 
-export interface RediSearchSchema {
+export interface ValkeySearchSchema {
     [field: string]:
         CreateSchemaTextField |
         CreateSchemaNumericField |
@@ -267,7 +267,7 @@ export interface RediSearchSchema {
         CreateSchemaHNSWVectorField;
 }
 
-export function pushSchema(args: RedisCommandArguments, schema: RediSearchSchema) {
+export function pushSchema(args: ValkeyCommandArguments, schema: ValkeySearchSchema) {
     for (const [field, fieldOptions] of Object.entries(schema)) {
         args.push(field);
 
@@ -377,12 +377,12 @@ export function pushSchema(args: RedisCommandArguments, schema: RediSearchSchema
     }
 }
 
-export type Params = Record<string, RedisCommandArgument | number>;
+export type Params = Record<string, ValkeyCommandArgument | number>;
 
 export function pushParamsArgs(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     params?: Params
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     if (params) {
         const enrties = Object.entries(params);
         args.push('PARAMS', (enrties.length * 2).toString());
@@ -395,9 +395,9 @@ export function pushParamsArgs(
 }
 
 export function pushSearchOptions(
-    args: RedisCommandArguments,
+    args: ValkeyCommandArguments,
     options?: SearchOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     if (options?.VERBATIM) {
         args.push('VERBATIM');
     }

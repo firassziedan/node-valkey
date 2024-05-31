@@ -1,4 +1,4 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { transformStringNumberInfinityArgument } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
@@ -14,12 +14,12 @@ interface ZRangeStoreOptions {
 }
 
 export function transformArguments(
-    dst: RedisCommandArgument,
-    src: RedisCommandArgument,
-    min: RedisCommandArgument | number,
-    max: RedisCommandArgument | number,
+    dst: ValkeyCommandArgument,
+    src: ValkeyCommandArgument,
+    min: ValkeyCommandArgument | number,
+    max: ValkeyCommandArgument | number,
     options?: ZRangeStoreOptions
-): RedisCommandArguments {
+): ValkeyCommandArguments {
     const args = [
         'ZRANGESTORE',
         dst,
@@ -55,7 +55,7 @@ export function transformArguments(
 
 export function transformReply(reply: number): number {
     if (typeof reply !== 'number') {
-        throw new TypeError(`Upgrade to Redis 6.2.5 and up (https://github.com/redis/redis/pull/9089)`);
+        throw new TypeError(`Upgrade to Valkey 6.2.5 and up (https://github.com/valkey/valkey/pull/9089)`);
     }
 
     return reply;

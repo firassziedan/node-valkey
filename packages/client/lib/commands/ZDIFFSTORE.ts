@@ -1,12 +1,12 @@
-import { RedisCommandArgument, RedisCommandArguments } from '.';
+import { ValkeyCommandArgument, ValkeyCommandArguments } from '.';
 import { pushVerdictArgument } from './generic-transformers';
 
 export const FIRST_KEY_INDEX = 1;
 
 export function transformArguments(
-    destination: RedisCommandArgument,
-    keys: Array<RedisCommandArgument> | RedisCommandArgument
-): RedisCommandArguments {
+    destination: ValkeyCommandArgument,
+    keys: Array<ValkeyCommandArgument> | ValkeyCommandArgument
+): ValkeyCommandArguments {
     return pushVerdictArgument(['ZDIFFSTORE', destination], keys);
 }
 

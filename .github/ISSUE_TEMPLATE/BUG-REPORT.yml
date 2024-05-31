@@ -15,15 +15,15 @@ body:
       label: Node.js Version
       description: Please enter your Node.js version `node --version`
   - type: input
-    id: redis-server-version
+    id: valkey-server-version
     attributes:
-      label: Redis Server Version
-      description: Please enter your Redis server version ([`INFO server`](https://redis.io/commands/info/))
+      label: Valkey Server Version
+      description: Please enter your Valkey server version ([`INFO server`](https://valkey.io/commands/info/))
   - type: input
-    id: node-redis-version
+    id: node-valkey-version
     attributes:
-      label: Node Redis Version
-      description: Please enter your node redis version `npm ls redis`
+      label: Node Valkey Version
+      description: Please enter your node valkey version `npm ls valkey`
   - type: input
     id: platform
     attributes:

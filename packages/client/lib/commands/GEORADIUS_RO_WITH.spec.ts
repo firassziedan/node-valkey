@@ -1,12 +1,12 @@
 import { strict as assert } from 'assert';
 import testUtils, { GLOBAL } from '../test-utils';
-import { RedisCommandArguments } from '.';
+import { ValkeyCommandArguments } from '.';
 import { GeoReplyWith } from './generic-transformers';
 import { transformArguments } from './GEORADIUS_RO_WITH';
 
 describe('GEORADIUS_RO WITH', () => {
     it('transformArguments', () => {
-        const expectedReply: RedisCommandArguments = ['GEORADIUS_RO', 'key', '1', '2', '3', 'm', 'WITHDIST'];
+        const expectedReply: ValkeyCommandArguments = ['GEORADIUS_RO', 'key', '1', '2', '3', 'm', 'WITHDIST'];
         expectedReply.preserve = ['WITHDIST'];
 
         assert.deepEqual(
