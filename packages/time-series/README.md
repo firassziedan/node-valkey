@@ -1,12 +1,12 @@
 # valkey-time-series
 
-This package provides support for the [ValkeyTimeSeries](https://valkeytimeseries.io) module, which adds a time series data structure to Valkey. It extends the [Node Valkey client](https://github.com/valkey/node-valkey) to include functions for each of the ValkeyTimeSeries commands.
+This package provides support for the [ValkeyTimeSeries](https://valkeytimeseries.io) module, which adds a time series data structure to Valkey. It extends the [Node Valkey client](https://github.com/firassziedan/node-valkey) to include functions for each of the ValkeyTimeSeries commands.
 
 To use these extra commands, your Valkey server must have the ValkeyTimeSeries module installed.
 
 ## Usage
 
-For a complete example, see [`time-series.js`](https://github.com/valkey/node-valkey/blob/master/examples/time-series.js) in the Node Valkey examples folder.
+For a complete example, see [`time-series.js`](https://github.com/firassziedan/node-valkey/blob/master/examples/time-series.js) in the Node Valkey examples folder.
 
 ### Creating Time Series data structure in Valkey
 

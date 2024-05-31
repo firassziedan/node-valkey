@@ -1,12 +1,12 @@
 # valkey-search
 
-This package provides support for the [ValkeySearch](https://valkeyearch.io) module, which adds indexing and querying support for data stored in Valkey Hashes or as JSON documents with the ValkeyJSON module.  It extends the [Node Valkey client](https://github.com/valkey/node-valkey) to include functions for each of the ValkeySearch commands.
+This package provides support for the [ValkeySearch](https://valkeyearch.io) module, which adds indexing and querying support for data stored in Valkey Hashes or as JSON documents with the ValkeyJSON module.  It extends the [Node Valkey client](https://github.com/firassziedan/node-valkey) to include functions for each of the ValkeySearch commands.
 
 To use these extra commands, your Valkey server must have the ValkeySearch module installed.  To index and query JSON documents, you'll also need to add the ValkeyJSON module.
 
 ## Usage
 
-For complete examples, see [`search-hashes.js`](https://github.com/valkey/node-valkey/blob/master/examples/search-hashes.js) and [`search-json.js`](https://github.com/valkey/node-valkey/blob/master/examples/search-json.js) in the Node Valkey examples folder.
+For complete examples, see [`search-hashes.js`](https://github.com/firassziedan/node-valkey/blob/master/examples/search-hashes.js) and [`search-json.js`](https://github.com/firassziedan/node-valkey/blob/master/examples/search-json.js) in the Node Valkey examples folder.
 
 ### Indexing and Querying Data in Valkey Hashes
 
@@ -110,7 +110,7 @@ Note that we're using JSON Path to specify where the fields to index are in our 
 
 #### Querying the Index
 
-Now we have an index and some data stored as JSON documents in Valkey (see the [JSON package documentation](https://github.com/valkey/node-valkey/tree/master/packages/json) for examples of how to store JSON), we can write some queries...
+Now we have an index and some data stored as JSON documents in Valkey (see the [JSON package documentation](https://github.com/firassziedan/node-valkey/tree/master/packages/json) for examples of how to store JSON), we can write some queries...
 
 We'll use the [ValkeySearch query language](https://valkey.io/docs/interact/search-and-query/query) and [`FT.SEARCH`](https://valkey.io/commands/ft.search) command.  Here's a query to find users under the age of 30:
 

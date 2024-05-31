@@ -1,12 +1,12 @@
 # valkey-json
 
-This package provides support for the [ValkeyJSON](https://valkey.io/docs/stack/json/) module, which adds JSON as a native data type to Valkey.  It extends the [Node Valkey client](https://github.com/valkey/node-valkey) to include functions for each of the ValkeyJSON commands.
+This package provides support for the [ValkeyJSON](https://valkey.io/docs/stack/json/) module, which adds JSON as a native data type to Valkey.  It extends the [Node Valkey client](https://github.com/firassziedan/node-valkey) to include functions for each of the ValkeyJSON commands.
 
 To use these extra commands, your Valkey server must have the ValkeyJSON module installed.
 
 ## Usage
 
-For a complete example, see [`managing-json.js`](https://github.com/valkey/node-valkey/blob/master/examples/managing-json.js) in the Node Valkey examples folder.
+For a complete example, see [`managing-json.js`](https://github.com/firassziedan/node-valkey/blob/master/examples/managing-json.js) in the Node Valkey examples folder.
 
 ### Storing JSON Documents in Valkey
 

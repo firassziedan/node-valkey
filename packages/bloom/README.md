@@ -1,6 +1,6 @@
 # valkey-bloom
 
-This package provides support for the [ValkeyBloom](https://valkeybloom.io) module, which adds additional probabilistic data structures to Valkey.  It extends the [Node Valkey client](https://github.com/valkey/node-valkey) to include functions for each of the RediBloom commands.
+This package provides support for the [ValkeyBloom](https://valkeybloom.io) module, which adds additional probabilistic data structures to Valkey.  It extends the [Node Valkey client](https://github.com/firassziedan/node-valkey) to include functions for each of the RediBloom commands.
 
 To use these extra commands, your Valkey server must have the ValkeyBloom module installed.
 

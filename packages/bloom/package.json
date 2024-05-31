@@ -28,12 +28,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/valkey/node-valkey.git"
+    "url": "git://github.com/firassziedan/node-valkey.git"
   },
   "bugs": {
-    "url": "https://github.com/valkey/node-valkey/issues"
+    "url": "https://github.com/firassziedan/node-valkey/issues"
   },
-  "homepage": "https://github.com/valkey/node-valkey/tree/master/packages/bloom",
+  "homepage": "https://github.com/firassziedan/node-valkey/tree/master/packages/bloom",
   "keywords": [
     "valkey",
     "ValkeyBloom"

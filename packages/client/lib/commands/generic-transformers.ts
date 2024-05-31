@@ -435,7 +435,7 @@ export function pushEvalArguments(args: Array<string>, options?: EvalOptions): A
 
 export function pushVerdictArguments(args: ValkeyCommandArguments, value: ValkeyCommandArgument | Array<ValkeyCommandArgument>): ValkeyCommandArguments  {
     if (Array.isArray(value)) {
-        // https://github.com/valkey/node-valkey/pull/2160
+        // https://github.com/redis/node-redis/pull/2160
         args = args.concat(value);
     } else {
         args.push(value);
