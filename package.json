@@ -1,7 +1,7 @@
 {
   "name": "valkey",
   "description": "A modern, high performance Valkey client",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,12 +23,12 @@
     "gh-pages": "gh-pages -d ./documentation -e ./documentation -u 'documentation-bot <documentation@bot>'"
   },
   "dependencies": {
-    "valkey-bloom": "1.0.0",
-    "valkey-client": "1.0.0",
-    "valkey-graph": "1.0.0",
-    "valkey-json": "1.0.0",
-    "valkey-search": "1.0.0",
-    "valkey-time-series": "1.0.0"
+    "valkey-bloom": "0.0.1",
+    "valkey-client": "0.0.1",
+    "valkey-graph": "0.0.1",
+    "valkey-json": "0.0.1",
+    "valkey-search": "0.0.1",
+    "valkey-time-series": "0.0.1"
   },
   "devDependencies": {
     "@tsconfig/node14": "^14.1.0",

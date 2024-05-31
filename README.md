@@ -1,7 +1,7 @@
 # Node-Valkey
 
-[![Tests](https://img.shields.io/github/actions/workflow/status/valkey/node-valkey/tests.yml?branch=master)](https://github.com/valkey/node-valkey/actions/workflows/tests.yml)
-[![Coverage](https://codecov.io/gh/valkey/node-valkey/branch/master/graph/badge.svg?token=xcfqHhJC37)](https://codecov.io/gh/valkey/node-valkey)
+[![Tests](https://img.shields.io/github/actions/workflow/status/firassziedan/node-valkey/tests.yml?branch=master)](https://github.com/firassziedan/node-valkey/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/github/firassziedan/node-valkey/graph/badge.svg?token=5RMGMAE63F)](https://codecov.io/github/firassziedan/node-valkey)
 [![License](https://img.shields.io/github/license/firassziedan/node-valkey.svg)](https://github.com/firassziedan/node-valkey/blob/master/LICENSE)
 
 node-valkey is a modern, high performance [Valkey](https://valkey.io) client for Node.js.

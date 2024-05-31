@@ -41,7 +41,7 @@ We'd love to see more examples here. If you have an idea that you'd like to see 
 To set up the examples folder so that you can run an example / develop one of your own:
 
 ```
-$ git clone https://github.com/valkey/node-valkey.git
+$ git clone https://github.com/firassziedan/node-valkey.git
 $ cd node-valkey
 $ npm install -ws && npm run build-all
 $ cd examples

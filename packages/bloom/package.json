@@ -1,6 +1,6 @@
 {
   "name": "valkey-bloom",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/firassziedan/node-valkey/issues"
   },
-  "homepage": "https://github.com/firassziedan/node-valkey/tree/master/packages/bloom",
+  "homepage": "https://github.com/firassziedan/node-valkey/tree/main/packages/bloom",
   "keywords": [
     "valkey",
     "ValkeyBloom"

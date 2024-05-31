@@ -176,7 +176,7 @@ In addition to the pre-releases the following changes exist in v.2.6.0:
 
 Features
 
-- Updated [valkey-parser](https://github.com/NodeValkey/node-valkey-parser) dependency ([changelog](https://github.com/NodeValkey/node-valkey-parser/releases/tag/v.2.0.0))
+- Updated [valkey-parser](https://github.com/firassziedan/node-valkey-parser) dependency ([changelog](https://github.com/Nodefirassziedan/node-valkey-parser/releases/tag/v.2.0.0))
 - The JS parser is from now on the new default as it is a lot faster than the hivalkey parser
 - This is no BC as there is no changed behavior for the user at all but just a performance improvement. Explicitly requireing the Hivalkey parser is still possible.
 - Added name property to all Valkey functions (Node.js >= 4.0)
@@ -301,7 +301,7 @@ This release is also going to deprecate a couple things to prepare for a future 
 
 Features
 
-- The parsers moved into the [valkey-parser](https://github.com/NodeValkey/node-valkey-parser) module and will be maintained in there from now on
+- The parsers moved into the [valkey-parser](https://github.com/firassziedan/node-valkey-parser) module and will be maintained in there from now on
 - Improve js parser speed significantly for big SUNION/SINTER/LRANGE/ZRANGE
 - Improve valkey-url parsing to also accept the database-number and options as query parameters as suggested in [IANA](http://www.iana.org/assignments/uri-schemes/prov/valkey)
 - Added a `retry_unfulfilled_commands` option

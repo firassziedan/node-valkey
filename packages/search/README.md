@@ -110,7 +110,7 @@ Note that we're using JSON Path to specify where the fields to index are in our 
 
 #### Querying the Index
 
-Now we have an index and some data stored as JSON documents in Valkey (see the [JSON package documentation](https://github.com/firassziedan/node-valkey/tree/master/packages/json) for examples of how to store JSON), we can write some queries...
+Now we have an index and some data stored as JSON documents in Valkey (see the [JSON package documentation](https://github.com/firassziedan/node-valkey/tree/main/packages/json) for examples of how to store JSON), we can write some queries...
 
 We'll use the [ValkeySearch query language](https://valkey.io/docs/interact/search-and-query/query) and [`FT.SEARCH`](https://valkey.io/commands/ft.search) command.  Here's a query to find users under the age of 30:
 
