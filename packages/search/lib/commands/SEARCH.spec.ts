@@ -254,7 +254,7 @@ describe('SEARCH', () => {
             ]);
 
             assert.deepEqual(
-                await client.ft.search('index', '*'),
+                await client.ft.search('index', '@field:[-inf +inf]'),
                 {
                     total: 1,
                     documents: [{
@@ -281,7 +281,7 @@ describe('SEARCH', () => {
             ]);
 
             assert.deepEqual(
-                await client.ft.search('index', '*', {
+                await client.ft.search('index', '@field:[-inf +inf]', {
                     RETURN: []
                 }),
                 {

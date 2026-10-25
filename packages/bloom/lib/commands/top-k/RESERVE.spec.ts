@@ -28,5 +28,5 @@ describe('TOPK RESERVE', () => {
             await client.topK.reserve('topK', 3),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

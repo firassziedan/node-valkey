@@ -15,5 +15,5 @@ describe('CMS INITBYDIM', () => {
             await client.cms.initByDim('key', 1000, 5),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

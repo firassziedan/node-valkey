@@ -19,5 +19,5 @@ describe('CF SCANDUMP', () => {
                 chunk: null
             }
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

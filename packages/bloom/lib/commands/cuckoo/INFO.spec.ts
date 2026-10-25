@@ -23,5 +23,5 @@ describe('CF INFO', () => {
         assert.equal(typeof info.bucketSize, 'number');
         assert.equal(typeof info.expansionRate, 'number');
         assert.equal(typeof info.maxIteration, 'number');
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

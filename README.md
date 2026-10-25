@@ -1,8 +1,8 @@
 # Node-Valkey
 
-[![Tests](https://img.shields.io/github/actions/workflow/status/firassziedan/node-valkey/tests.yml?branch=master)](https://github.com/firassziedan/node-valkey/actions/workflows/tests.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/firassziedan/node-valkey/tests.yml?branch=main)](https://github.com/firassziedan/node-valkey/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/github/firassziedan/node-valkey/graph/badge.svg?token=5RMGMAE63F)](https://codecov.io/github/firassziedan/node-valkey)
-[![License](https://img.shields.io/github/license/firassziedan/node-valkey.svg)](https://github.com/firassziedan/node-valkey/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/firassziedan/node-valkey.svg)](https://github.com/firassziedan/node-valkey/blob/main/LICENSE)
 
 node-valkey is a modern, high performance [Valkey](https://valkey.io) client for Node.js.
 
@@ -12,31 +12,37 @@ node-valkey is a modern, high performance [Valkey](https://valkey.io) client for
 
 [Valkey Blog](https://valkey.io/blog/)
 
-[developer Documentation](https://valkey.io/docs/)
+[Developer Documentation](https://valkey.io/docs/)
 
 [Join the Valkey community](https://github.com/orgs/valkey-io/discussions)
 
 
 ## Packages
 
-| Name                                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [valkey](./)                                  | [![Downloads](https://img.shields.io/npm/dm/valkey.svg)](https://www.npmjs.com/package/valkey) [![Version](https://img.shields.io/npm/v/valkey.svg)](https://www.npmjs.com/package/valkey)                                                                                                                                                                                                                                         |
-| [valkey-client](./packages/client)           | [![Downloads](https://img.shields.io/npm/dm/valkey-client.svg)](https://www.npmjs.com/package/valkey-client) [![Version](https://img.shields.io/npm/v/valkey-client.svg)](https://www.npmjs.com/package/valkey-client) [![Docs](https://img.shields.io/badge/-documentation-dc382c)](https://valkey.js.org/documentation/client/)                                                                                               |
-| [valkey-bloom](./packages/bloom)             | [![Downloads](https://img.shields.io/npm/dm/valkey-bloom.svg)](https://www.npmjs.com/package/valkey-bloom) [![Version](https://img.shields.io/npm/v/valkey-bloom.svg)](https://www.npmjs.com/package/valkey-bloom) [![Docs](https://img.shields.io/badge/-documentation-dc382c)](https://valkey.js.org/documentation/bloom/) [Valkey Bloom](https://oss.valkey.com/valkeybloom/) commands                                          |
-| [valkey-graph](./packages/graph)             | [![Downloads](https://img.shields.io/npm/dm/valkey-graph.svg)](https://www.npmjs.com/package/valkey-graph) [![Version](https://img.shields.io/npm/v/valkey-graph.svg)](https://www.npmjs.com/package/valkey-graph) [![Docs](https://img.shields.io/badge/-documentation-dc382c)](https://valkey.js.org/documentation/graph/) [Valkey Graph](https://oss.valkey.com/valkeygraph/) commands                                          |
-| [valkey-json](./packages/json)               | [![Downloads](https://img.shields.io/npm/dm/valkey-json.svg)](https://www.npmjs.com/package/valkey-json) [![Version](https://img.shields.io/npm/v/valkey-json.svg)](https://www.npmjs.com/package/valkey-json) [![Docs](https://img.shields.io/badge/-documentation-dc382c)](https://valkey.js.org/documentation/json/) [Valkey JSON](https://oss.valkey.com/valkeyjson/) commands                                                 |
-| [valkey-search](./packages/search)           | [![Downloads](https://img.shields.io/npm/dm/valkey-search.svg)](https://www.npmjs.com/package/valkey-search) [![Version](https://img.shields.io/npm/v/valkey-search.svg)](https://www.npmjs.com/package/valkey-search) [![Docs](https://img.shields.io/badge/-documentation-dc382c)](https://valkey.js.org/documentation/search/) [ValkeySearch](https://oss.valkey.com/valkeyearch/) commands                                    |
-| [valkey-time-series](./packages/time-series) | [![Downloads](https://img.shields.io/npm/dm/valkey-time-series.svg)](https://www.npmjs.com/package/valkey-time-series) [![Version](https://img.shields.io/npm/v/valkey-time-series.svg)](https://www.npmjs.com/package/valkey-time-series) [![Docs](https://img.shields.io/badge/-documentation-dc382c)](https://valkey.js.org/documentation/time-series/) [Valkey Time-Series](https://oss.valkey.com/valkeytimeseries/) commands |
+| Name                                         | Description                                                                                                                                                                                                                                                                      |
+|----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [valkey](./)                                 | [![Downloads](https://img.shields.io/npm/dm/valkey.svg)](https://www.npmjs.com/package/valkey) [![Version](https://img.shields.io/npm/v/valkey.svg)](https://www.npmjs.com/package/valkey) The client plus all module packages below                                             |
+| [valkey-client](./packages/client)           | [![Downloads](https://img.shields.io/npm/dm/valkey-client.svg)](https://www.npmjs.com/package/valkey-client) [![Version](https://img.shields.io/npm/v/valkey-client.svg)](https://www.npmjs.com/package/valkey-client) The core client (all built-in [Valkey commands](https://valkey.io/commands/)) |
+| [valkey-bloom](./packages/bloom)             | [![Downloads](https://img.shields.io/npm/dm/valkey-bloom.svg)](https://www.npmjs.com/package/valkey-bloom) [![Version](https://img.shields.io/npm/v/valkey-bloom.svg)](https://www.npmjs.com/package/valkey-bloom) [valkey-bloom](https://valkey.io/topics/bloomfilters/) `BF.*` commands           |
+| [valkey-json](./packages/json)               | [![Downloads](https://img.shields.io/npm/dm/valkey-json.svg)](https://www.npmjs.com/package/valkey-json) [![Version](https://img.shields.io/npm/v/valkey-json.svg)](https://www.npmjs.com/package/valkey-json) [valkey-json](https://valkey.io/topics/valkey-json/) `JSON.*` commands                 |
+| [valkey-search](./packages/search)           | [![Downloads](https://img.shields.io/npm/dm/valkey-search.svg)](https://www.npmjs.com/package/valkey-search) [![Version](https://img.shields.io/npm/v/valkey-search.svg)](https://www.npmjs.com/package/valkey-search) [valkey-search](https://valkey.io/topics/search/) `FT.*` commands               |
+| [valkey-graph](./packages/graph)             | [![Downloads](https://img.shields.io/npm/dm/valkey-graph.svg)](https://www.npmjs.com/package/valkey-graph) [![Version](https://img.shields.io/npm/v/valkey-graph.svg)](https://www.npmjs.com/package/valkey-graph) `GRAPH.*` commands. **No Valkey module implements them** (RedisGraph is end-of-life); kept for API compatibility only |
+| [valkey-time-series](./packages/time-series) | [![Downloads](https://img.shields.io/npm/dm/valkey-time-series.svg)](https://www.npmjs.com/package/valkey-time-series) [![Version](https://img.shields.io/npm/v/valkey-time-series.svg)](https://www.npmjs.com/package/valkey-time-series) `TS.*` commands. **No released Valkey module implements them**; kept for API compatibility only |
 
-> :warning: In version 4.1.0 we moved our subpackages from `@node-valkey` to `@valkey`. If you're just using `npm install valkey`, you don't need to do anything—it'll upgrade automatically. If you're using the subpackages directly, you'll need to point to the new scope (e.g. `valkey-client` instead of `@node-valkey/client`).
+The module packages target the official Valkey modules shipped in the [`valkey/valkey-bundle`](https://valkey.io/topics/valkey-bundle/) image (Valkey 8.1 and later). Each package README lists which commands the Valkey module implements; commands that only existed in the corresponding Redis Stack module are still exposed for API compatibility but fail with `ERR unknown command` on a Valkey server.
 
 ## Installation
 
-Start a valkey via docker:
+Start a Valkey server via docker:
 
 ``` bash
-docker run -p 6379:6379 -it valkey/valkey-stack-server:latest
+docker run -p 6379:6379 -it valkey/valkey:latest
+```
+
+To also get the JSON, Bloom and Search modules, use the [`valkey/valkey-bundle`](https://hub.docker.com/r/valkey/valkey-bundle) image instead:
+
+``` bash
+docker run -p 6379:6379 -it valkey/valkey-bundle:latest
 ```
 
 To install node-valkey, simply:
@@ -45,9 +51,7 @@ To install node-valkey, simply:
 npm install valkey
 ```
 
-> :warning: The new interface is clean and cool, but if you have an existing codebase, you'll want to read the [migration guide](./docs/v3-to-v4.md).
-
-Looking for a high-level library to handle object mapping? See [valkey-om-node](https://github.com/valkey/valkey-om-node)!
+> node-valkey is a fork of [node-redis](https://github.com/redis/node-redis) v4. If you are coming from node-redis v4 the API is the same apart from the package and type names (`createClient`, `ValkeyClientType`, ...). If you are coming from node-redis v3, read the [migration guide](./docs/v3-to-v4.md).
 
 ## Usage
 
@@ -65,7 +69,7 @@ const value = await client.get('key');
 await client.disconnect();
 ```
 
-The above code connects to localhost on port 6379. To connect to a different host or port, use a connection string in the format `valkey[s]://[[username][:password]@][host][:port][/db-number]`:
+The above code connects to localhost on port 6379. To connect to a different host or port, use a connection string in the format `valkey[s]://[[username][:password]@][host][:port][/db-number]` (`redis://` and `rediss://` are accepted as well, so existing connection strings keep working):
 
 ```typescript
 createClient({
@@ -75,11 +79,11 @@ createClient({
 
 You can also use discrete parameters, UNIX sockets, and even TLS to connect. Details can be found in the [client configuration guide](./docs/client-configuration.md).
 
-To check if the the client is connected and ready to send commands, use `client.isReady` which returns a boolean. `client.isOpen` is also available.  This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example when the client is still connecting or reconnecting after a network error).
+To check if the client is connected and ready to send commands, use `client.isReady` which returns a boolean. `client.isOpen` is also available.  This returns `true` when the client's underlying socket is open, and `false` when it isn't (for example when the client is still connecting or reconnecting after a network error).
 
 ### Valkey Commands
 
-There is built-in support for all of the [out-of-the-box Valkey commands](https://valkey.io/commands). They are exposed using the raw Valkey command names (`HSET`, `HGETALL`, etc.) and a friendlier camel-cased version (`hSet`, `hGetAll`, etc.):
+There is built-in support for all the [out-of-the-box Valkey commands](https://valkey.io/commands). They are exposed using the raw Valkey command names (`HSET`, `HGETALL`, etc.) and a friendlier camel-cased version (`hSet`, `hGetAll`, etc.):
 
 ```typescript
 // raw Valkey commands
@@ -200,20 +204,20 @@ client.scanIterator({
 });
 ```
 
-### [Programmability](https://valkey.io/docs/manual/programmability/)
+### [Programmability](https://valkey.io/topics/programmability/)
 
 Valkey provides a programming interface allowing code execution on the valkey server.
 
-#### [Functions](https://valkey.io/docs/manual/programmability/functions-intro/)
+#### [Functions](https://valkey.io/topics/functions-intro/)
 
 The following example retrieves a key in valkey, returning the value of the key, incremented by an integer. For example, if your key _foo_ has the value _17_ and we run `add('foo', 25)`, it returns the answer to Life, the Universe and Everything.
 
 ```lua
 #!lua name=library
 
-valkey.register_function {
+server.register_function {
   function_name = 'add',
-  callback = function(keys, args) return valkey.call('GET', keys[1]) + args[1] end,
+  callback = function(keys, args) return server.call('GET', keys[1]) + args[1] end,
   flags = { 'no-writes' }
 }
 ```
@@ -221,7 +225,7 @@ valkey.register_function {
 Here is the same example, but in a format that can be pasted into the `valkey-cli`.
 
 ```
-FUNCTION LOAD "#!lua name=library\nvalkey.register_function{function_name=\"add\", callback=function(keys, args) return valkey.call('GET', keys[1])+args[1] end, flags={\"no-writes\"}}"
+FUNCTION LOAD "#!lua name=library\nserver.register_function{function_name=\"add\", callback=function(keys, args) return server.call('GET', keys[1])+args[1] end, flags={\"no-writes\"}}"
 ```
 
 Load the prior valkey function on the _valkey server_ before running the example below.
@@ -251,7 +255,7 @@ await client.set('key', '1');
 await client.library.add('key', 2); // 3
 ```
 
-#### [Lua Scripts](https://valkey.io/docs/manual/programmability/eval-intro/)
+#### [Lua Scripts](https://valkey.io/topics/eval-intro/)
 
 The following is an end-to-end example of the prior concept.
 
@@ -263,7 +267,7 @@ const client = createClient({
     add: defineScript({
       NUMBER_OF_KEYS: 1,
       SCRIPT:
-        'return valkey.call("GET", KEYS[1]) + ARGV[1];',
+        'return server.call("GET", KEYS[1]) + ARGV[1];',
       transformArguments(key: string, toAdd: number): Array<string> {
         return [key, toAdd.toString()];
       },
@@ -355,9 +359,11 @@ Node Valkey is supported with the following versions of Valkey:
 
 | Version | Supported          |
 |---------|--------------------|
-| 7.0.z   | :heavy_check_mark: |
+| 9.x     | :heavy_check_mark: |
+| 8.x     | :heavy_check_mark: |
+| 7.2.z   | :heavy_check_mark: |
 
-> Node Valkey should work with older versions of Valkey, but it is not fully tested and we cannot offer support.
+The test suite runs against Valkey 7.2, 8.1 and 9.1 (and `valkey/valkey-bundle` 9.1 for the module packages). Node Valkey should also work with Redis OSS 7.2 and older Valkey-compatible servers, but those are not tested.
 
 ## Contributing
 

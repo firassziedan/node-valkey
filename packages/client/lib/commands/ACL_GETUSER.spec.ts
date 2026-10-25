@@ -23,6 +23,10 @@ describe('ACL GETUSER', () => {
         assert.equal(typeof reply.keys, 'string');
         assert.equal(typeof reply.channels, 'string');
         assert.ok(Array.isArray(reply.selectors));
+
+        if (testUtils.isVersionGreaterThan([9])) {
+            assert.equal(typeof reply.databases, 'string');
+        }
         } else {
         assert.ok(Array.isArray(reply.keys));
 

@@ -33,5 +33,5 @@ describe('AGGREGATE WITHCURSOR', () => {
                 cursor: 0
             }
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

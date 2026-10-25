@@ -18,5 +18,5 @@ describe('CMS QUERY', () => {
             [0]
         );
 
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

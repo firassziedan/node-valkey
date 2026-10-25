@@ -32,7 +32,7 @@ describe('SUGGET', () => {
                 await client.ft.sugGet('key', 'prefix'),
                 null
             );
-        }, GLOBAL.SERVERS.OPEN);
+        }, GLOBAL.SERVERS.UNSUPPORTED);
 
         testUtils.testWithClient('with suggestions', async client => {
             await client.ft.sugAdd('key', 'string', 1);
@@ -41,6 +41,6 @@ describe('SUGGET', () => {
                 await client.ft.sugGet('key', 'string'),
                 ['string']
             );
-        }, GLOBAL.SERVERS.OPEN);
+        }, GLOBAL.SERVERS.UNSUPPORTED);
     });
 });

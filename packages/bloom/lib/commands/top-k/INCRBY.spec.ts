@@ -38,5 +38,5 @@ describe('TOPK INCRBY', () => {
             }),
             [null]
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

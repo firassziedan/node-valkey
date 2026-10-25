@@ -47,15 +47,15 @@ export interface ValkeyServerDocker {
 }
 
 // ".." cause it'll be in `./dist`
-const DOCKER_FODLER_PATH = path.join(__dirname, '../docker');
+const DOCKER_FOLDER_PATH = path.join(__dirname, '../docker');
 
 async function spawnValkeyServerDocker({ image, version }: ValkeyServerDockerConfig, serverArguments: Array<string>): Promise<ValkeyServerDocker> {
     const port = (await portIterator.next()).value,
         { stdout, stderr } = await execAsync(
             'docker run -d --network host $(' +
-                `docker build ${DOCKER_FODLER_PATH} -q ` +
+                `docker build ${DOCKER_FOLDER_PATH} -q ` +
                 `--build-arg IMAGE=${image}:${version} ` +
-                `--build-arg REDIS_ARGUMENTS="--save '' --port ${port.toString()} ${serverArguments.join(' ')}"` +
+                `--build-arg VALKEY_ARGUMENTS="--save '' --port ${port.toString()} ${serverArguments.join(' ')}"` +
             ')'
         );
 

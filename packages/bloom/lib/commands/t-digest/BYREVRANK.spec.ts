@@ -17,5 +17,5 @@ describe('TDIGEST.BYREVRANK', () => {
         ]);
 
         assert.deepEqual(reply, [NaN]);
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

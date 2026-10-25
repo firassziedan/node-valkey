@@ -36,5 +36,5 @@ describe('SYNUPDATE', () => {
             await client.ft.synUpdate('index', 'groupId', 'term'),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

@@ -392,9 +392,9 @@ export class PubSub {
         if (!listeners.strings.size) return;
 
         const channelString = pattern ? channel.toString() : keyString,
-            messageString = channelString === '__valkey__:invalidate' ?
-                // https://github.com/valkey/valkey/pull/7469
-                // https://github.com/valkey/valkey/issues/7463
+            messageString = channelString === '__redis__:invalidate' ?
+                // https://github.com/redis/redis/pull/7469
+                // https://github.com/redis/redis/issues/7463
                 (message === null ? null : (message as any as Array<Buffer>).map(x => x.toString())) as any :
                 message.toString();
         for (const listener of listeners.strings) {

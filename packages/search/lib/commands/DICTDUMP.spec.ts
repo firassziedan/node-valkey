@@ -17,5 +17,5 @@ describe('DICTDUMP', () => {
             await client.ft.dictDump('dictionary'),
             ['string']
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

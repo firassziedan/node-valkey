@@ -1,8 +1,8 @@
-// This example demonstrates how to use ValkeySearch to index and query data
+// This example demonstrates how to use valkey-search to index and query data
 // stored in Valkey hashes using vector similarity search.
 //
-// Inspired by ValkeySearch Python tests:
-// https://github.com/ValkeySearch/ValkeySearch/blob/06e36d48946ea08bd0d8b76394a4e82eeb919d78/tests/pytests/test_vecsim.py#L96
+// Inspired by the RediSearch Python tests:
+// https://github.com/RediSearch/RediSearch/blob/06e36d48946ea08bd0d8b76394a4e82eeb919d78/tests/pytests/test_vecsim.py#L96
 
 import { createClient, SchemaFieldTypes, VectorAlgorithms } from 'valkey';
 
@@ -12,7 +12,7 @@ await client.connect();
 
 // Create an index...
 try {
-  // Documentation: https://valkey.io/docs/stack/search/reference/vectors/
+  // Documentation: https://valkey.io/topics/search/ (vector search)
   await client.ft.create('idx:knn-example', {
     v: {
       type: SchemaFieldTypes.VECTOR,
@@ -29,7 +29,7 @@ try {
   if (e.message === 'Index already exists') {
     console.log('Index exists already, skipped creation.');
   } else {
-    // Something went wrong, perhaps ValkeySearch isn't installed...
+    // Something went wrong, perhaps valkey-search isn't loaded...
     console.error(e);
     process.exit(1);
   }
@@ -48,7 +48,7 @@ await Promise.all([
   client.hSet('nodevalkey:knn:d', { v: float32Buffer([0.1, 0.4]) }),
 ]);
 // Perform a K-Nearest Neighbors vector similarity search
-// Documentation: https://valkey.io/docs/stack/search/reference/vectors/#pure-knn-queries
+// Documentation: https://valkey.io/topics/search/ (vector search)
 const results = await client.ft.search('idx:knn-example', '*=>[KNN 4 @v $BLOB AS dist]', {
   PARAMS: {
     BLOB: float32Buffer([0.1, 0.1])

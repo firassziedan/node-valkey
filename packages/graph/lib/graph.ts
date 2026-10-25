@@ -9,7 +9,7 @@ interface GraphMetadata {
     propertyKeys: Array<string>;
 }
 
-// https://github.com/ValkeyGraph/ValkeyGraph/blob/master/src/resultset/formatters/resultset_formatter.h#L20
+// https://github.com/RedisGraph/RedisGraph/blob/master/src/resultset/formatters/resultset_formatter.h#L20
 enum GraphValueTypes {
     UNKNOWN = 0,
     NULL = 1,

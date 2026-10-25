@@ -33,13 +33,10 @@ describe('SEARCH_NOCONTENT', () => {
                 client.hSet('3', 'field', 'field3')
             ]);
 
-            assert.deepEqual(
-                await client.ft.searchNoContent('index', '*'),
-                {
-                    total: 3,
-                    documents: ['1','2','3']
-                }
-            );
+            const { total, documents } = await client.ft.searchNoContent('index', 'field1 | field2 | field3');
+            assert.equal(total, 3);
+            // the result order is not defined without SORTBY
+            assert.deepEqual(documents.sort(), ['1', '2', '3']);
         }, GLOBAL.SERVERS.OPEN);
     });
 });

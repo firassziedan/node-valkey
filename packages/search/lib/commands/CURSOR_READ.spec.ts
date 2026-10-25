@@ -41,5 +41,5 @@ describe('CURSOR READ', () => {
                 cursor: 0
             }
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

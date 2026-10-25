@@ -44,5 +44,5 @@ describe('CF RESERVE', () => {
             await client.cf.reserve('key', 4),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

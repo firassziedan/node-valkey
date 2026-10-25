@@ -1,7 +1,7 @@
 {
   "name": "node-valkey-examples",
   "version": "0.0.1",
-  "description": "node-valkey 4 example script",
+  "description": "node-valkey example scripts",
   "main": "index.js",
   "private": true,
   "type": "module",

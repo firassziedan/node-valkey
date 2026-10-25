@@ -18,5 +18,5 @@ describe('BF SCANDUMP', () => {
         assert.equal(typeof dump, 'object');
         assert.equal(typeof dump.iterator, 'number');
         assert.equal(typeof dump.chunk, 'string');
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

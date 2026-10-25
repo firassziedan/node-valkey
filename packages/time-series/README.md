@@ -1,16 +1,16 @@
 # valkey-time-series
 
-This package provides support for the [ValkeyTimeSeries](https://valkeytimeseries.io) module, which adds a time series data structure to Valkey. It extends the [Node Valkey client](https://github.com/firassziedan/node-valkey) to include functions for each of the ValkeyTimeSeries commands.
+This package provides support for the `TS.*` time series commands. It was forked from `@redis/time-series`, which targeted RedisTimeSeries, and extends the [Node Valkey client](https://github.com/firassziedan/node-valkey) to include functions for each of those commands.
 
-To use these extra commands, your Valkey server must have the ValkeyTimeSeries module installed.
+> **No released Valkey module provides the `TS.*` commands yet.** The the time series module project is still in development and ships no release or docker image, so this package cannot currently be used against a Valkey server (every command fails with `ERR unknown command`) and its integration tests are skipped. It is kept for API compatibility and for when a Valkey time series module ships.
 
 ## Usage
 
-For a complete example, see [`time-series.js`](https://github.com/firassziedan/node-valkey/blob/master/examples/time-series.js) in the Node Valkey examples folder.
+For a complete example, see [`time-series.js`](https://github.com/firassziedan/node-valkey/blob/main/examples/time-series.js) in the Node Valkey examples folder.
 
 ### Creating Time Series data structure in Valkey
 
-The [`TS.CREATE`](https://oss.valkey.com/valkeytimeseries/commands/#tscreate) command creates a new time series.
+The `TS.CREATE` command creates a new time series.
 
 Here, we'll create a new time series "`temperature`":
 
@@ -38,7 +38,7 @@ import { TimeSeriesDuplicatePolicies, TimeSeriesEncoding, TimeSeriesAggregationT
 
 ### Adding new value to a Time Series data structure in Valkey
 
-With ValkeyTimeSeries, we can add a single value to time series data structure using the [`TS.ADD`](https://valkey.io/commands/ts.add/) command and if we would like to add multiple values we can use the [`TS.MADD`](https://valkey.io/commands/ts.madd/) command.
+With the time series module, we can add a single value to time series data structure using the `TS.ADD` command and if we would like to add multiple values we can use the `TS.MADD` command.
 
 ```javascript
 
@@ -48,8 +48,7 @@ let value = Math.floor(Math.random() * 1000) + 1; // Random data point value
 
   while (num < 10000) {
     // Add a new value to the timeseries, providing our own timestamp:
-    // https://valkey.io/commands/ts.add/
-    await client.ts.add('temperature', currentTimestamp, value);
+      await client.ts.add('temperature', currentTimestamp, value);
     console.log(`Added timestamp ${currentTimestamp}, value ${value}.`);
 
     num += 1;
@@ -58,7 +57,6 @@ let value = Math.floor(Math.random() * 1000) + 1; // Random data point value
   }
 
   // Add multiple values to the timeseries in round trip to the server:
-  // https://valkey.io/commands/ts.madd/
   const response = await client.ts.mAdd([{
     key: 'temperature',
     timestamp: currentTimestamp + 60000,
@@ -74,12 +72,11 @@ let value = Math.floor(Math.random() * 1000) + 1; // Random data point value
 
 ### Retrieving Time Series data from Valkey
 
-With ValkeyTimeSeries, we can retrieve the time series data using the [`TS.RANGE`](https://valkey.io/commands/ts.range/) command by passing the criteria as follows:
+With the time series module, we can retrieve the time series data using the `TS.RANGE` command by passing the criteria as follows:
 
 ```javascript
 
 // Query the timeseries with TS.RANGE:
-  // https://valkey.io/commands/ts.range/
   const fromTimestamp = 1640995200000; // Jan 1 2022 00:00:00
   const toTimestamp = 1640995260000; // Jan 1 2022 00:01:00
   const rangeResponse = await client.ts.range('temperature', fromTimestamp, toTimestamp, {
@@ -106,13 +103,12 @@ With ValkeyTimeSeries, we can retrieve the time series data using the [`TS.RANGE
 
 ### Altering Time Series data Stored in Valkey
 
-ValkeyTimeSeries includes commands that can update values in a time series data structure.
+the time series module includes commands that can update values in a time series data structure.
 
-Using the [`TS.ALTER`](https://valkey.io/commands/ts.alter/) command, we can update time series retention like this:
+Using the `TS.ALTER` command, we can update time series retention like this:
 
 ```javascript
 
-  // https://valkey.io/commands/ts.alter/
   const alterResponse = await client.ts.alter('temperature', {
     RETENTION: 0 // Keep the entries forever
   });
@@ -121,14 +117,13 @@ Using the [`TS.ALTER`](https://valkey.io/commands/ts.alter/) command, we can upd
 
 ### Retrieving Information about the timeseries Stored in Valkey
 
-ValkeyTimeSeries also includes commands that can help to view the information on the state of a time series.
+the time series module also includes commands that can help to view the information on the state of a time series.
 
-Using the [`TS.INFO`](https://valkey.io/commands/ts.info/) command, we can view timeseries information like this:
+Using the `TS.INFO` command, we can view timeseries information like this:
 
 ```javascript
 
  // Get some information about the state of the timeseries.
-  // https://valkey.io/commands/ts.info/
   const tsInfo = await client.ts.info('temperature');
 
   // tsInfo looks like this:

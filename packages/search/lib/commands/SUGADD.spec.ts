@@ -31,5 +31,5 @@ describe('SUGADD', () => {
             await client.ft.sugAdd('key', 'string', 1),
             1
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

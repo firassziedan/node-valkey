@@ -21,5 +21,5 @@ describe('TDIGEST.INFO', () => {
         assert(typeof info.unmergedWeight, 'number');
         assert(typeof info.totalCompression, 'number');
         assert(typeof info.totalCompression, 'number');
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

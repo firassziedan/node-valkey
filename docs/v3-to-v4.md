@@ -1,5 +1,7 @@
 # v3 to v4 Migration Guide
 
+> This guide is inherited from node-redis and describes the differences between node-redis v3 and v4. node-valkey is based on node-redis v4, so it applies when you migrate a node-redis v3 codebase to node-valkey. If you are already on node-redis v4, only the package and type names change (`redis` -> `valkey`, `RedisClientType` -> `ValkeyClientType`, ...).
+
 Version 4 of Node Valkey is a major refactor. While we have tried to maintain backwards compatibility where possible, several interfaces have changed. Read this guide to understand the differences and how to implement version 4 in your application.
 
 ## All of the Breaking Changes

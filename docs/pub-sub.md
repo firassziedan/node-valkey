@@ -16,7 +16,7 @@ When working with a `ValkeyCluster`, this is handled automatically for you.
 
 ### `sharded-channel-moved` event
 
-`ValkeyClient` emits the `sharded-channel-moved` event when the ["cluster slot"](https://valkey.io/docs/reference/cluster-spec/#key-distribution-model) of a subscribed [Sharded Pub/Sub](https://valkey.io/docs/manual/pubsub/#sharded-pubsub) channel has been moved to another shard.
+`ValkeyClient` emits the `sharded-channel-moved` event when the ["cluster slot"](https://valkey.io/topics/cluster-spec/#key-distribution-model) of a subscribed [Sharded Pub/Sub](https://valkey.io/topics/pubsub/#sharded-pubsub) channel has been moved to another shard.
 
 The event listener signature is as follows:
 ```typescript

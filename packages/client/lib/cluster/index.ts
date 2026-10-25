@@ -257,7 +257,7 @@ export default class ValkeyCluster<
                     const address = err.message.substring(err.message.lastIndexOf(' ') + 1);
                     let redirectTo = await this.#slots.getMasterByAddress(address);
                     if (!redirectTo) {
-                        await this.#slots.valkeycover(client);
+                        await this.#slots.rediscover(client);
                         redirectTo = await this.#slots.getMasterByAddress(address);
                     }
 
@@ -269,7 +269,7 @@ export default class ValkeyCluster<
                     client = redirectTo;
                     continue;
                 } else if (err.message.startsWith('MOVED')) {
-                    await this.#slots.valkeycover(client);
+                    await this.#slots.rediscover(client);
                     client = await this.#slots.getClient(firstKey, isReadonly);
                     continue;
                 }
@@ -357,7 +357,7 @@ export default class ValkeyCluster<
                 }
 
                 if (err.message.startsWith('MOVED')) {
-                    await this.#slots.valkeycover(client);
+                    await this.#slots.rediscover(client);
                     client = await this.#slots.getShardedPubSubClient(firstChannel);
                     continue;
                 }

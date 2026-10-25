@@ -21,5 +21,5 @@ describe('CMS INFO', () => {
                 count: 0
             }
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

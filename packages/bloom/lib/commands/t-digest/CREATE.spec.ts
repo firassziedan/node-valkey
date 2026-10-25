@@ -26,5 +26,5 @@ describe('TDIGEST.CREATE', () => {
             await client.tDigest.create('key'),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

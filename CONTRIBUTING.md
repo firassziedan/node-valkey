@@ -30,12 +30,12 @@ We keep all project discussion inside GitHub issues. This ensures that valuable 
 
 You shouldn't feel bad for not contributing to open source. We want contributors like yourself to provide ideas, keep the ship shipping and to take some of the load from others. It is non-obligatory; we’re here to get things done in an enjoyable way. :trophy:
 
-We only ask that you follow the conduct guidelines set out in our [Code of Conduct](https://valkey.com/community/community-guidelines-code-of-conduct/) throughout your contribution journey.
+We only ask that you follow the conduct guidelines set out in our [Code of Conduct](https://github.com/valkey-io/valkey/blob/unstable/CODE_OF_CONDUCT.md) throughout your contribution journey.
 
 
 #### Special Thanks
 
-A huge thank you to the original author of Node Valkey, [Matthew Ranney](https://github.com/mranney).
+Node Valkey is a fork of [node-redis](https://github.com/redis/node-redis). A huge thank you to its maintainers and to its original author, [Matthew Ranney](https://github.com/mranney).
 
 ---
 
@@ -47,7 +47,9 @@ Node Valkey has a full test suite with coverage setup.
 
 To run the tests, run `npm install` to install dependencies, then run `npm run build:tests-tools && npm test`.
 
-Note that the test suite assumes that [`docker`](https://www.docker.com/) is installed in your environment.
+Note that the test suite assumes that [`docker`](https://www.docker.com/) is installed in your environment: the client tests start [`valkey/valkey`](https://hub.docker.com/r/valkey/valkey) containers and the module tests start [`valkey/valkey-bundle`](https://hub.docker.com/r/valkey/valkey-bundle) containers (which ship valkey-json, valkey-bloom and valkey-search). The image tags can be chosen with `--valkey-version` (any Valkey release from 7.2 on) and `--valkey-bundle-version` (9.0 or later: the search tests rely on `TEXT` fields and `FT.AGGREGATE`, which valkey-search gained in 1.1), e.g. `npm test -- -- --valkey-version=8.1 --valkey-bundle-version=9.1`.
+
+The `valkey-graph` and `valkey-time-series` packages have no Valkey server module to test against, so their integration tests are reported as skipped; only their argument/reply transformation tests run.
 
 ### Submitting Code for Review
 

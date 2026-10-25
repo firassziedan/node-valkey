@@ -32,5 +32,5 @@ describe('CMS MERGE', () => {
             await client.cms.merge('dest', ['src']),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

@@ -62,13 +62,15 @@ describe('HELLO', () => {
 
     testUtils.testWithClient('client.hello', async client => {
         const reply = await client.hello();
-        assert.equal(reply.server, 'valkey');
+        // Valkey 7.2 still reports `redis` here, 8.0 and up report `valkey`
+        assert.ok(reply.server === 'valkey' || reply.server === 'redis');
         assert.equal(typeof reply.version, 'string');
         assert.equal(reply.proto, 2);
         assert.equal(typeof reply.id, 'number');
         assert.equal(reply.mode, 'standalone');
         assert.equal(reply.role, 'master');
-        assert.deepEqual(reply.modules, []);
+        // Valkey 9 lists its built-in `lua` module here
+        assert.ok(Array.isArray(reply.modules));
     }, {
         ...GLOBAL.SERVERS.OPEN,
         minimumDockerVersion: [6, 2]

@@ -18,5 +18,5 @@ describe('CF INSERTNX', () => {
             await client.cf.insertNX('key', 'item'),
             [true]
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

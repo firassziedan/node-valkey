@@ -20,5 +20,5 @@ describe('SYNDUMP', () => {
             await client.ft.synDump('index'),
             []
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

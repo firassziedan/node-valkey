@@ -15,5 +15,5 @@ describe('SUGDEL', () => {
             await client.ft.sugDel('key', 'string'),
             false
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

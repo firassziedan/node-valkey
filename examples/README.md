@@ -2,35 +2,37 @@
 
 This folder contains example scripts showing how to use Node Valkey in different scenarios.
 
+Examples that use a module need a server with that module loaded: start one with `docker run -p 6379:6379 valkey/valkey-bundle:latest` (Valkey with valkey-json, valkey-bloom and valkey-search). A few examples inherited from node-redis use commands that no Valkey module provides; they are marked below and cannot run against a Valkey server.
+
 | File Name                                | Description                                                                                                                                          |
 |------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `blocking-list-pop.js`                   | Block until an element is pushed to a list.                                                                                                          |
-| `bloom-filter.js`                        | Space efficient set membership checks with a [Bloom Filter](https://en.wikipedia.org/wiki/Bloom_filter) using [ValkeyBloom](https://valkeybloom.io).   |
+| `bloom-filter.js`                        | Space efficient set membership checks with a [Bloom Filter](https://en.wikipedia.org/wiki/Bloom_filter) using [valkey-bloom](https://valkey.io/topics/bloomfilters/) (needs the `valkey/valkey-bundle` image). |
 | `check-connection-status.js`             | Check the client's connection status.                                                                                                                |
 | `command-with-modifiers.js`              | Define a script that allows to run a command with several modifiers.                                                                                 |
 | `connect-as-acl-user.js`                 | Connect to Valkey 6 using an ACL user.                                                                                                                |
 | `connect-to-cluster.js`                  | Connect to a Valkey cluster.                                                                                                                          |
-| `count-min-sketch.js`                    | Estimate the frequency of a given event using the [ValkeyBloom](https://valkeybloom.io) Count-Min Sketch.                                              |
-| `cuckoo-filter.js`                       | Space efficient set membership checks with a [Cuckoo Filter](https://en.wikipedia.org/wiki/Cuckoo_filter) using [ValkeyBloom](https://valkeybloom.io). |
+| `count-min-sketch.js`                    | Estimate the frequency of a given event with a Count-Min Sketch. **No Valkey module implements `CMS.*`**; kept for reference only.                   |
+| `cuckoo-filter.js`                       | Space efficient set membership checks with a [Cuckoo Filter](https://en.wikipedia.org/wiki/Cuckoo_filter). **No Valkey module implements `CF.*`**; kept for reference only. |
 | `dump-and-restore.js`                    | Demonstrates the use of the [`DUMP`](https://valkey.io/commands/dump/) and [`RESTORE`](https://valkey.io/commands/restore/) commands                   |
 | `get-server-time.js`                     | Get the time from the Valkey server.                                                                                                                  |
 | `hyperloglog.js`                         | Showing use of Hyperloglog commands [PFADD, PFCOUNT and PFMERGE](https://valkey.io/commands/?group=hyperloglog).                                      |
 | `lua-multi-incr.js`                      | Define a custom lua script that allows you to perform INCRBY on multiple keys.                                                                       |
-| `managing-json.js`                       | Store, retrieve and manipulate JSON data atomically with [ValkeyJSON](https://valkeyjson.io/).                                                         |
+| `managing-json.js`                       | Store, retrieve and manipulate JSON data atomically with [valkey-json](https://valkey.io/topics/valkey-json/) (needs the `valkey/valkey-bundle` image).  |
 | `pubsub-publisher.js`                    | Adds multiple messages on 2 different channels messages to Valkey.                                                                                    |
 | `pubsub-subscriber.js`                   | Reads messages from channels using `PSUBSCRIBE` command.                                                                                             |
-| `search-hashes.js`                       | Uses [ValkeySearch](https://valkeyearch.io) to index and search data in hashes.                                                                         |
-| `search-json.js`                         | Uses [ValkeySearch](https://valkeyearch.io/) and [ValkeyJSON](https://valkeyjson.io/) to index and search JSON data.                                      |
-| `search-knn.js`                          | Uses [ValkeySearch vector similarity]([https://valkeyearch.io/](https://valkey.io/docs/stack/search/reference/vectors/)) to index and run KNN queries.   |
+| `search-hashes.js`                       | Uses [valkey-search](https://valkey.io/topics/search/) to index and search data in hashes (needs the `valkey/valkey-bundle` image).                    |
+| `search-json.js`                         | Uses [valkey-search](https://valkey.io/topics/search/) and [valkey-json](https://valkey.io/topics/valkey-json/) to index and search JSON data (needs the `valkey/valkey-bundle` image). |
+| `search-knn.js`                          | Uses [valkey-search vector similarity](https://valkey.io/topics/search/) to index and run KNN queries (needs the `valkey/valkey-bundle` image).       |
 | `set-scan.js`                            | An example script that shows how to use the SSCAN iterator functionality.                                                                            |
 | `sorted-set.js`                          | Add members with scores to a Sorted Set and retrieve them using the ZSCAN iteractor functionality.                                                   |
 | `stream-producer.js`                     | Adds entries to a [Valkey Stream](https://valkey.io/topics/streams-intro) using the `XADD` command.                                                    |
 | `stream-consumer.js`                     | Reads entries from a [Valkey Stream](https://valkey.io/topics/streams-intro) using the blocking `XREAD` command.                                       |
-| `time-series.js`                         | Create, populate and query timeseries data with [Valkey Timeseries](https://valkeytimeseries.io).                                                      |
-| `topk.js`                                | Use the [ValkeyBloom](https://valkeybloom.io) TopK to track the most frequently seen items.                                                            |
+| `time-series.js`                         | Create, populate and query time series data. **No released Valkey module implements `TS.*`**; kept for reference only.                              |
+| `topk.js`                                | Track the most frequently seen items with Top-K. **No Valkey module implements `TOPK.*`**; kept for reference only.                                   |
 | `stream-consumer-group.js`               | Reads entries from a [Valkey Stream](https://valkey.io/topics/streams-intro) as part of a consumer group using the blocking `XREADGROUP` command.      |
 | `transaction-with-arbitrary-commands.js` | Mix and match supported commands with arbitrary command strings in a Valkey transaction.                                                              |
-| `transaction-with-watch.js`              | An Example of [Valkey transaction](https://valkey.io/docs/manual/transactions) with `WATCH` command on isolated connection with optimistic locking.    |
+| `transaction-with-watch.js`              | An Example of [Valkey transaction](https://valkey.io/topics/transactions/) with `WATCH` command on isolated connection with optimistic locking.    |
 
 ## Contributing
 

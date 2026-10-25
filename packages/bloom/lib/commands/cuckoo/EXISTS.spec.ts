@@ -15,5 +15,5 @@ describe('CF EXISTS', () => {
             await client.cf.exists('key', 'item'),
             false
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

@@ -17,5 +17,5 @@ describe('TDIGEST.RANK', () => {
         ]);
 
         assert.deepEqual(reply, [-2]);
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

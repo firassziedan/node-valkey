@@ -17,5 +17,5 @@ describe('TOPK LIST', () => {
             await client.topK.list('key'),
             []
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

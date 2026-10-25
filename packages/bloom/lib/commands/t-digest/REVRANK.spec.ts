@@ -17,5 +17,5 @@ describe('TDIGEST.REVRANK', () => {
         ]);
 
         assert.deepEqual(reply, [-2]);
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

@@ -9,8 +9,8 @@ const client = createClient({
       NUMBER_OF_KEYS: 2,
       SCRIPT:
         'return {' +
-        'valkey.pcall("INCRBY", KEYS[1], ARGV[1]),' +
-        'valkey.pcall("INCRBY", KEYS[2], ARGV[1])' +
+        'server.pcall("INCRBY", KEYS[1], ARGV[1]),' +
+        'server.pcall("INCRBY", KEYS[2], ARGV[1])' +
         '}',
       transformArguments(key1, key2, increment) {
         return [key1, key2, increment.toString()];

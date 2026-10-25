@@ -17,5 +17,5 @@ describe('TOPK COUNT', () => {
             await client.topK.count('key', 'item'),
             [0]
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

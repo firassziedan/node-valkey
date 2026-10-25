@@ -1,5 +1,7 @@
 // This example demonstrates the use of the Count-Min Sketch
-// in the ValkeyBloom module (https://valkey.io/docs/stack/bloom/)
+// in the RedisBloom module. NOTE: valkey-bloom (https://valkey.io/topics/bloomfilters/) only implements
+// Bloom filters (BF.*); no Valkey module provides the Count-Min Sketch commands, so this example cannot run
+// against a stock Valkey server.
 
 import { createClient } from 'valkey';
 

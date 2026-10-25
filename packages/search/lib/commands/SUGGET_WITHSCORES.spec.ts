@@ -16,7 +16,7 @@ describe('SUGGET WITHSCORES', () => {
                 await client.ft.sugGetWithScores('key', 'prefix'),
                 null
             );
-        }, GLOBAL.SERVERS.OPEN);
+        }, GLOBAL.SERVERS.UNSUPPORTED);
 
         testUtils.testWithClient('with suggestions', async client => {
             await client.ft.sugAdd('key', 'string', 1);
@@ -28,6 +28,6 @@ describe('SUGGET WITHSCORES', () => {
                     score: 2147483648
                 }]
             );
-        }, GLOBAL.SERVERS.OPEN);
+        }, GLOBAL.SERVERS.UNSUPPORTED);
     });
 });

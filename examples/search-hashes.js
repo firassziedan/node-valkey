@@ -42,7 +42,7 @@ await Promise.all([
 
 // Perform a search query, find all the dogs... sort by age, descending.
 // Documentation: https://valkey.io/commands/ft.search/
-// Query syntax: https://valkey.io/docs/stack/search/reference/query_syntax/
+// Query syntax: https://valkey.io/topics/search/
 const results = await client.ft.search(
   'idx:animals',
   '@species:{dog}',

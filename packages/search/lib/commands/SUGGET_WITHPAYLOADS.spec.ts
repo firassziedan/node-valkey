@@ -16,7 +16,7 @@ describe('SUGGET WITHPAYLOADS', () => {
                 await client.ft.sugGetWithPayloads('key', 'prefix'),
                 null
             );
-        }, GLOBAL.SERVERS.OPEN);
+        }, GLOBAL.SERVERS.UNSUPPORTED);
 
         testUtils.testWithClient('with suggestions', async client => {
             await client.ft.sugAdd('key', 'string', 1, { PAYLOAD: 'payload' });
@@ -28,6 +28,6 @@ describe('SUGGET WITHPAYLOADS', () => {
                     payload: 'payload'
                 }]
             );
-        }, GLOBAL.SERVERS.OPEN);
+        }, GLOBAL.SERVERS.UNSUPPORTED);
     });
 });

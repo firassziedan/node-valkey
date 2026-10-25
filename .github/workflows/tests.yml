@@ -15,24 +15,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['18', '20', '21']
+        node-version: ['18', '20', '22']
+        valkey-version: ['7.2', '8.1', '9.1']
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Update npm
-        run: npm i -g npm
-        if: ${{ matrix.node-version <= 14 }}
       - name: Install Packages
         run: npm ci
       - name: Build tests tools
         run: npm run build:tests-tools
       - name: Run Tests
-        run: npm run test -- -- --forbid-only
+        run: npm run test -- -- --forbid-only --valkey-version=${{ matrix.valkey-version }} --valkey-bundle-version=9.1
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:

@@ -21,5 +21,5 @@ describe('CONFIG GET', () => {
                 }
             })
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

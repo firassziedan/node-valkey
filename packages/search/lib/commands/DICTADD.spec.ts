@@ -24,5 +24,5 @@ describe('DICTADD', () => {
             await client.ft.dictAdd('dictionary', 'term'),
             1
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

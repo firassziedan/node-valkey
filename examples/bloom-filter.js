@@ -1,5 +1,5 @@
 // This example demonstrates the use of the Bloom Filter
-// in the ValkeyBloom module (https://valkey.io/docs/stack/bloom/)
+// in the valkey-bloom module (https://valkey.io/topics/bloomfilters/)
 
 import { createClient } from 'valkey';
 

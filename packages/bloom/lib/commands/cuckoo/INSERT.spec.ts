@@ -18,5 +18,5 @@ describe('CF INSERT', () => {
             await client.cf.insert('key', 'item'),
             [true]
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

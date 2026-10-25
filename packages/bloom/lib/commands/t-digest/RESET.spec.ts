@@ -17,5 +17,5 @@ describe('TDIGEST.RESET', () => {
         ]);
 
         assert.equal(reply, 'OK');
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

@@ -27,5 +27,5 @@ describe('CF LOADCHUNK', () => {
             await client.cf.loadChunk('destination', iterator, chunk),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

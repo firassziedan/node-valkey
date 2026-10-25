@@ -17,5 +17,5 @@ describe('TOPK QUERY', () => {
             await client.topK.query('key', 'item'),
             [0]
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

@@ -25,7 +25,7 @@ export interface ValkeyClientOptions<
 > extends ValkeyExtensions<M, F, S> {
     /**
      * `valkey[s]://[[username][:password]@][host][:port][/db-number]`
-     * See [`valkey`](https://www.iana.org/assignments/uri-schemes/prov/valkey) and [`valkeys`](https://www.iana.org/assignments/uri-schemes/prov/valkeys) IANA registration for more details
+     * The `redis://` and `rediss://` schemes are accepted as well, see the [`redis`](https://www.iana.org/assignments/uri-schemes/prov/redis) and [`rediss`](https://www.iana.org/assignments/uri-schemes/prov/rediss) IANA registrations for more details
      */
     url?: string;
     /**
@@ -158,7 +158,9 @@ export default class ValkeyClient<
     }
 
     static parseURL(url: string): ValkeyClientOptions {
-        // https://www.iana.org/assignments/uri-schemes/prov/valkey
+        // Both `valkey[s]://` and the IANA-registered `redis[s]://` schemes are accepted
+        // (https://www.iana.org/assignments/uri-schemes/prov/redis): managed Valkey services and
+        // existing configuration still hand out `redis://` connection strings.
         const { hostname, port, protocol, username, password, pathname } = new URL(url),
             parsed: ValkeyClientOptions = {
                 socket: {
@@ -166,9 +168,9 @@ export default class ValkeyClient<
                 }
             };
 
-        if (protocol === 'valkeys:') {
+        if (protocol === 'valkeys:' || protocol === 'rediss:') {
             (parsed.socket as ValkeyTlsSocketOptions).tls = true;
-        } else if (protocol !== 'valkey:') {
+        } else if (protocol !== 'valkey:' && protocol !== 'redis:') {
             throw new TypeError('Invalid protocol');
         }
 

@@ -24,5 +24,5 @@ describe('DICTDEL', () => {
             await client.ft.dictDel('dictionary', 'term'),
             0
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

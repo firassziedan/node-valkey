@@ -1,7 +1,7 @@
-// This example demonstrates how to use ValkeySearch and ValkeyJSON together.
-// Requires both the ValkeySearch and ValkeyJSON modules:
-// https://valkey.io/docs/stack/search/
-// https://valkey.io/docs/stack/json/
+// This example demonstrates how to use valkey-search and valkey-json together.
+// Requires both modules (both ship in the valkey/valkey-bundle docker image):
+// https://valkey.io/topics/search/
+// https://valkey.io/topics/valkey-json/
 
 import { createClient, SchemaFieldTypes, AggregateGroupByReducers, AggregateSteps } from 'valkey';
 
@@ -87,7 +87,7 @@ console.log(
 
 // Find a user by email - note we need to escape . and @ characters
 // in the email address.  This applies for other punctuation too.
-// https://valkey.io/docs/stack/search/reference/tags/#including-punctuation-in-tags
+// https://valkey.io/topics/search/ (TAG fields)
 console.log('Users with email "bob@somewhere.gov":');
 const emailAddress = 'bob@somewhere.gov'.replace(/[.@\\]/g, '\\$&');
 console.log(
@@ -114,19 +114,27 @@ console.log(
 
 // Some aggregrations, what's the average age and total number of coins...
 // https://valkey.io/commands/ft.aggregate/
+// valkey-search does not accept the match-all query `*` nor `GROUPBY 0`, and fields have to be
+// LOADed before they can be reduced, so a constant is APPLYed and used as the single group key.
 console.log('Aggregation Demo:');
 console.log(
   JSON.stringify(
-    await client.ft.aggregate('idx:users', '*', {
+    await client.ft.aggregate('idx:users', '@age:[-inf +inf]', {
+      LOAD: ['@age', '@coins'],
       STEPS: [{
+        type: AggregateSteps.APPLY,
+        expression: '1',
+        AS: 'all'
+      }, {
         type: AggregateSteps.GROUPBY,
+        properties: '@all',
         REDUCE: [{
           type: AggregateGroupByReducers.AVG,
-          property: 'age',
+          property: '@age',
           AS: 'averageAge'
         }, {
           type: AggregateGroupByReducers.SUM,
-          property: 'coins',
+          property: '@coins',
           AS: 'totalCoins'
         }]
       }]
@@ -139,6 +147,7 @@ console.log(
 //   "total": 1,
 //   "results": [
 //     {
+//       "all": "1",
 //       "averageAge": "27.5",
 //       "totalCoins": "115"
 //     }

@@ -1,12 +1,16 @@
 # valkey-json
 
-This package provides support for the [ValkeyJSON](https://valkey.io/docs/stack/json/) module, which adds JSON as a native data type to Valkey.  It extends the [Node Valkey client](https://github.com/firassziedan/node-valkey) to include functions for each of the ValkeyJSON commands.
+This package provides support for the [valkey-json](https://valkey.io/topics/valkey-json/) module, which adds JSON as a native data type to Valkey.  It extends the [Node Valkey client](https://github.com/firassziedan/node-valkey) to include functions for each of the `JSON.*` commands.
 
-To use these extra commands, your Valkey server must have the ValkeyJSON module installed.
+To use these extra commands, your Valkey server must have the valkey-json module loaded. The easiest way to get it is the [`valkey/valkey-bundle`](https://hub.docker.com/r/valkey/valkey-bundle) docker image (Valkey 8.1 and later).
+
+## Valkey compatibility
+
+Every command of this package is implemented by valkey-json except `JSON.MERGE` (`client.json.merge()`), which fails with `ERR unknown command` on a Valkey server.
 
 ## Usage
 
-For a complete example, see [`managing-json.js`](https://github.com/firassziedan/node-valkey/blob/master/examples/managing-json.js) in the Node Valkey examples folder.
+For a complete example, see [`managing-json.js`](https://github.com/firassziedan/node-valkey/blob/main/examples/managing-json.js) in the Node Valkey examples folder.
 
 ### Storing JSON Documents in Valkey
 
@@ -37,11 +41,11 @@ await client.json.set('nodevalkey:jsondata', '$', {
 });
 ```
 
-For more information about ValkeyJSON's path syntax, [check out the documentation](https://valkey.io/docs/stack/json/path/).
+For more information about valkey-json's path syntax, [check out the documentation](https://valkey.io/topics/valkey-json/).
 
 ### Retrieving JSON Documents from Valkey
 
-With ValkeyJSON, we can retrieve all or part(s) of a JSON document using the [`JSON.GET`](https://valkey.io/commands/json.get/) command and one or more JSON Paths.  Let's get the name and age of one of the pets:
+With valkey-json, we can retrieve all or part(s) of a JSON document using the [`JSON.GET`](https://valkey.io/commands/json.get/) command and one or more JSON Paths.  Let's get the name and age of one of the pets:
 
 ```javascript
 const results = await client.json.get('nodevalkey:jsondata', {
@@ -60,7 +64,7 @@ const results = await client.json.get('nodevalkey:jsondata', {
 
 ### Performing Atomic Updates on JSON Documents Stored in Valkey
 
-ValkeyJSON includes commands that can atomically update values in a JSON document, in place in Valkey without having to first retrieve the entire document.
+valkey-json includes commands that can atomically update values in a JSON document, in place in Valkey without having to first retrieve the entire document.
 
 Using the [`JSON.NUMINCRBY`](https://valkey.io/commands/json.numincrby/) command, we can update the age of one of the pets like this:
 

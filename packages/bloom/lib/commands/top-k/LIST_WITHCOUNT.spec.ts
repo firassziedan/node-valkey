@@ -26,5 +26,5 @@ describe('TOPK LIST WITHCOUNT', () => {
                 count: 1
             }]
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

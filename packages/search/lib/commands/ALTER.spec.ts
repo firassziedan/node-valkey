@@ -33,5 +33,5 @@ describe('ALTER', () => {
             }),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

@@ -18,5 +18,5 @@ describe('TOPK ADD', () => {
             [null]
         );
 
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

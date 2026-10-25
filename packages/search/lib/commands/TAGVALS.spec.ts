@@ -20,5 +20,5 @@ describe('TAGVALS', () => {
             await client.ft.tagVals('index', 'field'),
             []
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

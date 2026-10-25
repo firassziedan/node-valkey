@@ -3,9 +3,9 @@ import { SinonSpy } from 'sinon';
 import { promiseTimeout } from './utils';
 
 const utils = new TestUtils({
-  dockerImageName: 'valkey',
+  dockerImageName: 'valkey/valkey',
   dockerImageVersionArgument: 'valkey-version',
-  defaultDockerVersion: '7.2'
+  defaultDockerVersion: '9.1'
 });
 
 export default utils;

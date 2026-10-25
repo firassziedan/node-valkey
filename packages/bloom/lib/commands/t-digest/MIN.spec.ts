@@ -17,5 +17,5 @@ describe('TDIGEST.MIN', () => {
         ]);
 
         assert.equal(reply, NaN);
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

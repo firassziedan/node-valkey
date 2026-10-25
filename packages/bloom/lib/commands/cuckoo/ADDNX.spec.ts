@@ -17,5 +17,5 @@ describe('CF ADDNX', () => {
             await client.cf.addNX('key', 'item'),
             true
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

@@ -76,5 +76,5 @@ describe('SPELLCHECK', () => {
                 }]
             }]
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

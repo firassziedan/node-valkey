@@ -37,5 +37,5 @@ describe('PROFILE SEARCH', () => {
         assert.ok(typeof res.profile.iteratorsProfile.counter === 'number');
         assert.ok(typeof res.profile.parsingTime === 'string');
         assert.ok(res.results.total == 1);
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

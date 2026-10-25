@@ -20,5 +20,5 @@ describe('TDIGEST.QUANTILE', () => {
             reply,
             [NaN]
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

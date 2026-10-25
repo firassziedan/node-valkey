@@ -1,5 +1,6 @@
 // Add data to a Valkey TimeSeries and query it.
-// Requires the ValkeyTimeSeries module: https://valkey.io/docs/stack/timeseries/
+// Requires a server with a TS.* (time series) module. NOTE: no released Valkey module provides these
+// commands yet, so this example cannot run against a stock Valkey server.
 
 import { createClient } from 'valkey';
 import { TimeSeriesDuplicatePolicies, TimeSeriesEncoding, TimeSeriesAggregationType } from 'valkey-time-series';
@@ -11,7 +12,6 @@ await client.del('mytimeseries');
 
 try {
   // Create a timeseries
-  // https://valkey.io/commands/ts.create/
   const created = await client.ts.create('mytimeseries', {
     RETENTION: 86400000, // 1 day in milliseconds
     ENCODING: TimeSeriesEncoding.UNCOMPRESSED, // No compression
@@ -31,7 +31,6 @@ try {
 
   while (num < 10000) {
     // Add a new value to the timeseries, providing our own timestamp:
-    // https://valkey.io/commands/ts.add/
     await client.ts.add('mytimeseries', currentTimestamp, value);
     console.log(`Added timestamp ${currentTimestamp}, value ${value}.`);
 
@@ -41,7 +40,6 @@ try {
   }
 
   // Add multiple values to the timeseries in round trip to the server:
-  // https://valkey.io/commands/ts.madd/
   const response = await client.ts.mAdd([{
     key: 'mytimeseries',
     timestamp: currentTimestamp + 60000,
@@ -58,7 +56,6 @@ try {
   }
 
   // Update timeseries retention with TS.ALTER:
-  // https://valkey.io/commands/ts.alter/
   const alterResponse = await client.ts.alter('mytimeseries', {
     RETENTION: 0 // Keep the entries forever
   });
@@ -68,7 +65,6 @@ try {
   }
 
   // Query the timeseries with TS.RANGE:
-  // https://valkey.io/commands/ts.range/
   const fromTimestamp = 1640995200000; // Jan 1 2022 00:00:00
   const toTimestamp = 1640995260000; // Jan 1 2022 00:01:00
   const rangeResponse = await client.ts.range('mytimeseries', fromTimestamp, toTimestamp, {
@@ -94,7 +90,6 @@ try {
   console.log(rangeResponse);
 
   // Get some information about the state of the timeseries.
-  // https://valkey.io/commands/ts.info/
   const tsInfo = await client.ts.info('mytimeseries');
 
   // tsInfo looks like this:

@@ -2,7 +2,7 @@
 // After connecting to the cluster the code sets and get a value.
 
 // To setup this cluster you can follow the guide here:
-// https://valkey.io/docs/manual/scaling/
+// https://valkey.io/topics/cluster-tutorial/
 // In this guide the ports which are being used are 7000 - 7005
 
 

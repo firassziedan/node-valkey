@@ -24,7 +24,7 @@ export const MATH_FUNCTION = {
     name: 'math',
     engine: 'LUA',
     code: `#!LUA name=math
-        valkey.register_function{
+        server.register_function{
             function_name = "square",
             callback = function(keys, args) return args[1] * args[1] end,
             flags = { "no-writes" }
@@ -70,6 +70,37 @@ describe('Client', () => {
         it('valkeys://user:secret@localhost:6379/0', () => {
             assert.deepEqual(
                 ValkeyClient.parseURL('valkeys://user:secret@localhost:6379/0'),
+                {
+                    socket: {
+                        host: 'localhost',
+                        port: 6379,
+                        tls: true
+                    },
+                    username: 'user',
+                    password: 'secret',
+                    database: 0
+                }
+            );
+        });
+
+        it('redis://user:secret@localhost:6379/0', () => {
+            assert.deepEqual(
+                ValkeyClient.parseURL('redis://user:secret@localhost:6379/0'),
+                {
+                    socket: {
+                        host: 'localhost',
+                        port: 6379
+                    },
+                    username: 'user',
+                    password: 'secret',
+                    database: 0
+                }
+            );
+        });
+
+        it('rediss://user:secret@localhost:6379/0', () => {
+            assert.deepEqual(
+                ValkeyClient.parseURL('rediss://user:secret@localhost:6379/0'),
                 {
                     socket: {
                         host: 'localhost',

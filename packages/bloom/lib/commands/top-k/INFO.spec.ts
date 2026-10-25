@@ -19,5 +19,5 @@ describe('TOPK INFO', () => {
         assert.equal(typeof info.width, 'number');
         assert.equal(typeof info.depth, 'number');
         assert.equal(typeof info.decay, 'number');
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

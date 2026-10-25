@@ -15,5 +15,5 @@ describe('CMS INITBYPROB', () => {
             await client.cms.initByProb('key', 0.001, 0.01),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

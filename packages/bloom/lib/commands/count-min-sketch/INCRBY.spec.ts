@@ -37,5 +37,5 @@ describe('CMS INCRBY', () => {
             }),
             [1]
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

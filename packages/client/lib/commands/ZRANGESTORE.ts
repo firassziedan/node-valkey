@@ -55,7 +55,7 @@ export function transformArguments(
 
 export function transformReply(reply: number): number {
     if (typeof reply !== 'number') {
-        throw new TypeError(`Upgrade to Valkey 6.2.5 and up (https://github.com/valkey/valkey/pull/9089)`);
+        throw new TypeError(`Upgrade to Valkey 7.2 / Redis 6.2.5 and up (https://github.com/redis/redis/pull/9089)`);
     }
 
     return reply;

@@ -15,5 +15,5 @@ describe('CF COUNT', () => {
             await client.cf.count('key', 'item'),
             0
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

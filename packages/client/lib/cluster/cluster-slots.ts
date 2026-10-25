@@ -366,15 +366,15 @@ export default class ValkeyClusterSlots<
         return node.client ?? this.#createNodeClient(node);
     }
 
-    #runningValkeycoverPromise?: Promise<void>;
+    #runningRediscoverPromise?: Promise<void>;
 
-    async valkeycover(startWith: ValkeyClientType<M, F, S>): Promise<void> {
-        this.#runningValkeycoverPromise ??= this.#valkeycover(startWith)
-            .finally(() => this.#runningValkeycoverPromise = undefined);
-        return this.#runningValkeycoverPromise;
+    async rediscover(startWith: ValkeyClientType<M, F, S>): Promise<void> {
+        this.#runningRediscoverPromise ??= this.#rediscover(startWith)
+            .finally(() => this.#runningRediscoverPromise = undefined);
+        return this.#runningRediscoverPromise;
     }
 
-    async #valkeycover(startWith: ValkeyClientType<M, F, S>): Promise<void> {
+    async #rediscover(startWith: ValkeyClientType<M, F, S>): Promise<void> {
         if (await this.#discover(startWith.options)) return;
 
         return this.#discoverWithRootNodes();
@@ -578,7 +578,7 @@ export default class ValkeyClusterSlots<
             .then(client => {
                 client.on('server-sunsubscribe', async (channel, listeners) => {
                     try {
-                        await this.valkeycover(client);
+                        await this.rediscover(client);
                         const redirectTo = await this.getShardedPubSubClient(channel);
                         redirectTo.extendPubSubChannelListeners(
                             PubSubType.SHARDED,

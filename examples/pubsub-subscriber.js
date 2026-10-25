@@ -1,6 +1,6 @@
 // A sample subscriber showing how the subscribe method and pSubscribe method work.
 // https://valkey.io/commands/subscribe/
-// https://valkey.io/commands/pSubscribe/
+// https://valkey.io/commands/psubscribe/
 // This consumes messages published by pubsub-publisher.js
 
 import { createClient} from 'valkey';

@@ -17,5 +17,5 @@ describe('MERGE', () => {
             await client.json.merge('key', '$', 'json'),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

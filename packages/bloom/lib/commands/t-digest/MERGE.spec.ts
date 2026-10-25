@@ -46,5 +46,5 @@ describe('TDIGEST.MERGE', () => {
         ]);
 
         assert.equal(reply, 'OK');
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

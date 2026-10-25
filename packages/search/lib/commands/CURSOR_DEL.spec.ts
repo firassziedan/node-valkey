@@ -29,5 +29,5 @@ describe('CURSOR DEL', () => {
             await client.ft.cursorDel('idx', cursor),
             'OK'
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });

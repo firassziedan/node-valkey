@@ -16,7 +16,7 @@ If `socket.write()` returns `false`—meaning that ["all or part of the data was
 
 ## `ValkeyClientType`
 
-Valkey has support for [modules](https://valkey.io/modules) and running [Lua scripts](../README.md#lua-scripts) within the Valkey context. To take advantage of typing within these scenarios, `ValkeyClient` and `ValkeyCluster` should be used with [typeof](https://www.typescriptlang.org/docs/handbook/2/typeof-types.html), rather than the base types `ValkeyClientType` and `ValkeyClusterType`.
+Valkey has support for [modules](https://valkey.io/topics/modules-intro/) and running [Lua scripts](../README.md#lua-scripts) within the Valkey context. To take advantage of typing within these scenarios, `ValkeyClient` and `ValkeyCluster` should be used with [typeof](https://www.typescriptlang.org/docs/handbook/2/typeof-types.html), rather than the base types `ValkeyClientType` and `ValkeyClusterType`.
 
 ```typescript
 import { createClient } from 'valkey-client';

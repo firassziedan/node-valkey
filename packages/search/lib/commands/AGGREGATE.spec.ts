@@ -472,38 +472,33 @@ describe('AGGREGATE', () => {
             client.hSet('2', 'field', '2')
         ]);
 
-        assert.deepEqual(
-            await client.ft.aggregate('index', '*', {
-                STEPS: [{
-                    type: AggregateSteps.GROUPBY,
-                    REDUCE: [{
-                        type: AggregateGroupByReducers.SUM,
-                        property: '@field',
-                        AS: 'sum'
-                    }, {
-                        type: AggregateGroupByReducers.AVG,
-                        property: '@field',
-                        AS: 'avg'
-                    }]
+        // valkey-search needs the grouped/reduced fields to be LOADed and GROUPBY requires at least one property
+        const { total, results } = await client.ft.aggregate('index', '@field:[-inf +inf]', {
+            LOAD: '@field',
+            STEPS: [{
+                type: AggregateSteps.GROUPBY,
+                properties: '@field',
+                REDUCE: [{
+                    type: AggregateGroupByReducers.SUM,
+                    property: '@field',
+                    AS: 'sum'
+                }, {
+                    type: AggregateGroupByReducers.AVG,
+                    property: '@field',
+                    AS: 'avg'
                 }]
-            }),
-            {
-                total: 1,
-                results: [
-                    Object.create(null, {
-                        sum: {
-                            value: '3',
-                            configurable: true,
-                            enumerable: true
-                        },
-                        avg: {
-                            value: '1.5',
-                            configurable: true,
-                            enumerable: true
-                        }
-                    })
-                ]
-            }
+            }]
+        });
+
+        assert.equal(total, 2);
+        assert.deepEqual(
+            results
+                .map(result => ({ ...result }))
+                .sort((a, b) => Number(a.field) - Number(b.field)),
+            [
+                { field: '1', sum: '1', avg: '1' },
+                { field: '2', sum: '2', avg: '2' }
+            ]
         );
     }, GLOBAL.SERVERS.OPEN);
 });

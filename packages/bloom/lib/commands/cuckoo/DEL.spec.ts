@@ -17,5 +17,5 @@ describe('CF DEL', () => {
             await client.cf.del('key', 'item'),
             false
         );
-    }, GLOBAL.SERVERS.OPEN);
+    }, GLOBAL.SERVERS.UNSUPPORTED);
 });
